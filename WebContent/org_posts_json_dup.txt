@@ -1,0 +1,108 @@
+{
+   "organizations": [
+    {
+      "org_id": 1,
+      "org_name": "Sub Inspector",
+      "status": true,
+	      "posts": [
+	    {
+	      "post_id": 101,
+	      "post_name": "SI Post-1",
+	      "notification_number": "XXXXXXXX DD/YYYY Dated DD-MM-YYYY",
+	      "post_start_date":"01-02-2016",
+	      "post_end_date":"29-02-2016 at 17:00 hrs",
+	      "org_id":1,
+	      "post_status":true
+	    },
+	    {
+	      "post_id": 102,
+	      "post_name": "SI Post-2",
+	      "notification_number": "XXXXXXXX DD/YYYY Dated DD-MM-YYYY",
+	      "post_start_date":"01-02-2016",
+	      "post_end_date":"29-02-2016 at 17:00 hrs",
+	      "org_id":1,
+	      "post_status":true
+	    }
+	   ]
+    },
+    
+    {
+      "org_id": 2,
+      "org_name": "Assistant Sub Inspector",
+      "status": true,
+	      "posts": [
+	    {
+	      "post_id": 201,
+	      "post_name": "ASI Post-1",
+	      "notification_number": "XXXXXXXX DD/YYYY Dated DD-MM-YYYY",
+	      "post_start_date":"01-02-2016",
+	      "post_end_date":"29-02-2016 at 17:00 hrs",
+	      "org_id":2,
+	      "post_status":true
+	    },
+	    {
+	      "post_id": 202,
+	      "post_name": "ASI Post-2",
+	      "notification_number": "XXXXXXXX DD/YYYY Dated DD-MM-YYYY",
+	      "post_start_date":"01-02-2016",
+	      "post_end_date":"29-02-2016 at 17:00 hrs",
+	      "org_id":2,
+	      "post_status":true
+	    }
+	   ]
+    },
+    
+    {
+      "org_id": 3,
+      "org_name": "Head Constable",
+      "status": true,
+	      "posts": [
+	    {
+	      "post_id": 301,
+	      "post_name": "HC Post-1",
+	      "notification_number": "XXXXXXXX DD/YYYY Dated DD-MM-YYYY",
+	      "post_start_date":"01-02-2016",
+	      "post_end_date":"29-02-2016 at 17:00 hrs",
+	      "org_id":3,
+	      "post_status":true
+	    },
+	    {
+	      "post_id": 302,
+	      "post_name": "HC Post-2",
+	      "notification_number": "XXXXXXXX DD/YYYY Dated DD-MM-YYYY",
+	      "post_start_date":"01-02-2016",
+	      "post_end_date":"29-02-2016 at 17:00 hrs",
+	      "org_id":3,
+	      "post_status":true
+	    }
+	   ]
+    },
+    
+    {
+      "org_id": 4,
+      "org_name": "Constable",
+      "status": true,
+	      "posts": [
+	    {
+	      "post_id": 401,
+	      "post_name": "Cons Post-1",
+	      "notification_number": "XXXXXXXX DD/YYYY Dated DD-MM-YYYY",
+	      "post_start_date":"01-02-2016",
+	      "post_end_date":"29-02-2016 at 17:00 hrs",
+	      "org_id":4,
+	      "post_status":true
+	    },
+	    {
+	      "post_id": 402,
+	      "post_name": "Cons Post-2",
+	      "notification_number": "XXXXXXXX DD/YYYY Dated DD-MM-YYYY",
+	      "post_start_date":"01-02-2016",
+	      "post_end_date":"29-02-2016 at 17:00 hrs",
+	      "org_id":4,
+	      "post_status":true
+	    }
+	   ]
+    }
+   
+  ]
+}

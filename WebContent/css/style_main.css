@@ -1,0 +1,120 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins');
+
+body{
+	font-family: 'Poppins', sans-serif;
+}
+.navHeader{
+	text-transform: uppercase;
+}
+.navHeader h4{
+	font-weight: bold;
+    letter-spacing: 1px;
+    word-spacing: 3px;
+	margin-bottom: 4px;
+	margin-top: 0;
+}
+.navHeader span {
+    font-weight: bold;
+    font-size: 12px;
+    letter-spacing: 1px;
+}
+.navHeader img{
+	width: 114px;
+    height: 130px;
+}
+.divider{
+	border-top: solid 2px #163049;
+    border-bottom: solid 2px #163049;
+    min-height: 40px;
+    margin: 10px 0 40px;
+}
+.contentList{
+	position: relative;
+	margin-bottom: 30px;
+}
+.blockHeader{
+	background: #3c506b;
+    color: #fff;
+   /*  text-align: center; */
+    padding: 5px 25px;
+    border-radius: 0 30px 30px 0;
+	position: relative;
+    z-index: 9999;
+    box-shadow: 0 8px 6px -6px black;
+	text-transform: uppercase;
+}
+.blockHeader:before {
+	content: '';
+    display: block;
+    position: absolute;
+    left: 5px;
+    top: 39px;
+    bottom: 100%;
+    width: 0;
+    height: 0;
+    border-bottom: 10px solid transparent;
+    border-top: 15px solid #3c4f6a;
+    border-left: 15px solid transparent;
+    border-right: 14px solid transparent;
+    transform: rotate(-135deg);
+}
+.blockSection {
+    background: #f1f1f1;
+    margin: 0px 40px 10px 21px;
+    padding: 40px 0 10px;
+	overflow: hidden;
+	box-shadow: 0 8px 6px -8px black;
+}
+.blockSection .btn-primary{
+	background: #39516d;
+	border-color: #39516d;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+	font-size: 12px;
+    text-transform: uppercase;
+}
+.blockSection .btn-primary:hover{
+	opacity: 0.7;
+}
+.blockSection p{
+	font-weight: bold;
+	font-size: 13px;
+}
+.magenta .blockHeader,
+.magenta .blockSection .btn-primary{
+	background: #e13a58;
+	border-color: #e13a58;
+}
+.magenta .blockHeader:before {
+	border-top: 15px solid #e13a58;
+}
+hr{
+	border-color: #3c506b;
+}
+.notifications{
+	margin-bottom: 40px;	
+}
+.notifications .panelHeader {
+    text-transform: uppercase;
+    background: #0b395d;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px 5px 0 0;
+	font-size: 18px;
+}
+.notifications .panelBody{
+    background: #f3f0df;
+    padding: 20px 0;
+	border-radius: 0 0 5px 5px;
+}
+.notifications ul li{
+	font-size: 15px;
+	padding-bottom: 6px;
+}
+
+.span_head{
+	    padding-left: 50px;
+    font-size: 20px;
+    color: red;
+    font-weight: bold;
+}

@@ -1,0 +1,40 @@
+{
+   "organizations": [
+    {
+      "org_id": 1,
+      "org_name": "RECRUITMENT FOR THE POSTS OF
+ASSISTANT SUB-INSPECTOR (STENO) AND
+HEAD CONSTABLE (MINISTERIAL) CADRE - 2017
+FROM MALE AND FEMALE CITIZENS OF INDIA",
+      "status": true,
+	      "posts": [
+	    {
+	      "post_id": 101,
+	      "post_name": "ASI (STENOGRAPHER)",
+	      "notification_number": "XXXXXXXX DD/YYYY Dated DD-MM-YYYY",
+	      "post_start_date":"01-02-2016",
+	      "post_end_date":"29-02-2016 at 17:00 hrs",
+	      "org_id":1,
+	      "max_age":25,
+	      "post_status":true,
+	      "age_caluclate_date":"29-02-2016"
+	    },
+	    {
+	      "post_id": 102,
+	      "post_name": "HC (MINISTERIAL)",
+	      "notification_number": "XXXXXXXX DD/YYYY Dated DD-MM-YYYY",
+	      "post_start_date":"01-02-2016",
+	      "post_end_date":"29-02-2016 at 17:00 hrs",
+	      "org_id":1,
+	      "max_age":25,
+	      "post_status":true,
+	      "age_caluclate_date":"29-02-2016"
+	    }
+	   ]
+    }
+    
+    
+   
+   
+  ]
+}

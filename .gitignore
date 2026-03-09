@@ -1,0 +1,26 @@
+# Compiled Java files
+*.class
+
+# Build folders
+build/
+target/
+out/
+
+# Eclipse files
+.settings/
+.project
+.classpath
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+AwsCredentials.properties
+build/
+*.class
+.settings/
+.project
+.classpath
