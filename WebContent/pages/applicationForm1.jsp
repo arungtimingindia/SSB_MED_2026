@@ -16,6 +16,28 @@
 .nursing {
 display:none
 }
+.hc_lab_asst {
+	display:none
+}
+.hc_lab_asst_work {
+	display:none
+}
+
+.hc_physio_asst {
+	display:none
+}
+.hc_physio_asst_work {
+	display:none
+}
+
+.ct_nursing_asst {
+	display:none
+}
+.ct_nursing_asst_work {
+	display:none
+}
+
+
 .hospital {
 display:none
 }
@@ -303,6 +325,12 @@ function trim1(a){return a;}
 	var emp_ssb = $("input[name=employee_ssb]:checked").length;
 	//var govt_service = $("input[name=govt_service]:checked").length;   
 	var nursing_council = $("input[name=nursing_council]:checked").length;
+	var hc_lab_asst_cert = $("input[name=hc_lab_asst_cert]:checked").length;
+	var hc_lab_asst_exp = $("input[name=hc_lab_asst_exp]:checked").length;
+	var hc_physio_asst_cert = $("input[name=hc_physio_asst_cert]:checked").length;
+	var hc_physio_asst_exp = $("input[name=hc_physio_asst_exp]:checked").length;
+	var ct_nursing_asst_cert = $("input[name=ct_nursing_asst_cert]:checked").length;
+	var ct_nursing_asst_exp = $("input[name=ct_nursing_asst_exp]:checked").length;
 	var hospital_experience = $("input[name=hospital_experience]:checked").length;
 	var tradesmen_certificate = $("input[name=tradesmen_certificate]:checked").length;
 	var autocad_certificate = $("input[name=autocad_certificate]:checked").length;
@@ -326,10 +354,10 @@ function trim1(a){return a;}
 	// 	return false;
 	// } 
 	 
-	 if((post_applied=="1" || post_applied=="4") && nation=="Others"){
-			alert("Nationality should be Indian for the selected Post");
-			return false;
-		} 
+	//  if((post_applied=="1" || post_applied=="4") && nation=="Others"){
+	// 		alert("Nationality should be Indian for the selected Post");
+	// 		return false;
+	// 	} 
 	 
 	if(m==""){
 		$("#firstNameErrorMessage").show();
@@ -505,66 +533,89 @@ function trim1(a){return a;}
         $("#govt_emp_ErrorMessage").show();
 		l=true;
     }  */
-    
-    if(post_applied=="4"){
-    	 var statusNursing = $("input:radio[name=nursing_council]:checked").val();
-    		// var hospital_experienceStatus = $("input:radio[name=hospital_experience]:checked").val();
-    		
-    		
-    			
-    if (nursing_council < 1){
-        $("#nursing_council_ErrorMessage").show();
+
+	if(post_applied == "1"){
+		 var status_hc_lab_asst_cert = $("input:radio[name=hc_lab_asst_cert]:checked").val();
+
+		 if(hc_lab_asst_cert < 1) {
+			$("#hc_lab_asst_cert_ErrorMessage").show();
 		l=true;
-    } 
-    // if (hospital_experience < 1){
-    //     $("#hospital_experience_ErrorMessage").show();
-	// 	l=true;
-    // } 
-    
-    if(statusNursing=="false"){
-		alert("Must be registered with Central or State Nursing Council.");
+		 }
+
+		 if(status_hc_lab_asst_cert=="false"){
+		alert("Should have Certificate course of a duration of minimum one year in Laboratory Assistant Course from a recognized institution. ");
 		return false;
 	}
-	// if(hospital_experienceStatus=="false"){
-	// 	alert("You should have Two years Experience in a recognised Hospital to apply for this post.");
-	// 	return false;
-	// }
+
+		 var status_hc_lab_asst_exp = $("input:radio[name=hc_lab_asst_exp]:checked").val();
+
+		 if(hc_lab_asst_exp < 1) {
+			$("#hc_lab_asst_exp_ErrorMessage").show();
+		l=true;
+		 }
+
+		 if(status_hc_lab_asst_exp=="false"){
+		alert("Should have Working experience of duration of minimum One year as Lab Assistant in Laboratory Diagnostic Centre or hospital or institution lab recognized by the Central Government or State Government");
+		return false;
+	}
+	} 
+	if(post_applied == "3"){
+		 var status_hc_physio_asst_cert = $("input:radio[name=hc_physio_asst_cert]:checked").val();
+
+		 if(hc_physio_asst_cert < 1) {
+			$("#hc_physio_asst_cert_ErrorMessage").show();
+		l=true;
+		 }
+
+		 if(status_hc_physio_asst_cert=="false"){
+		alert("Should have Certificate course of  duration of  minimum one year in Physiotherapy from a recognized institute . ");
+		return false;
+	}
+
 	
+		 var status_hc_physio_asst_exp = $("input:radio[name=hc_physio_asst_exp]:checked").val();
+
+		 if(hc_physio_asst_exp < 1) {
+			$("#hc_physio_asst_exp_ErrorMessage").show();
+		l=true;
+		 }
+
+		 if(status_hc_physio_asst_exp=="false"){
+		alert("Should have Experience of duration of minimum one year as Physiotherapy Assistant from a Physiotherapy Centre or minimum hundred bedded hospital or institute recognised by the Central Government or State Government. ");
+		return false;
+	}
+
+		 
+	}
+ 
+    
+    if(post_applied=="4"){
+      var status_ct_nursing_asst_cert = $("input:radio[name=ct_nursing_asst_cert]:checked").val();
+
+		 if(ct_nursing_asst_cert < 1) {
+			$("#ct_nursing_asst_cert_ErrorMessage").show();
+		l=true;
+		 }
+
+		 if(status_ct_nursing_asst_cert=="false"){
+		alert("Should have First Aid certificate course from St. John’s Ambulance Organization or Red Cross Society of India ");
+		return false;
+	}
+
+	 var status_ct_nursing_asst_exp = $("input:radio[name=ct_nursing_asst_exp]:checked").val();
+
+		 if(ct_nursing_asst_exp < 1) {
+			$("#ct_nursing_asst_exp_ErrorMessage").show();
+		l=true;
+		 }
+
+		 if(status_ct_nursing_asst_exp=="false"){
+		alert("Should have Experience of duration of minimum one year as Nursing Assistant in a minimum fifty bedded Hospital or Institution recognised by the Central Government or State Governments. ");
+		return false;
+	  
 	
     }
-   
-    
-    if(post_applied=="2"){
-    	var tradesmen_certificateStatus = $("input:radio[name=tradesmen_certificate]:checked").val();
-		var autocad_certificateStatus = $("input:radio[name=autocad_certificate]:checked").val();
-		
-		
-        if (tradesmen_certificate < 1){
-            $("#tradesmen_certificate_ErrorMessage").show();
-    		l=true;
-        } 
-        if (autocad_certificate < 1){
-            $("#autocad_certificate_ErrorMessage").show();
-    		l=true;
-        } 
-        if (draughtsmanship_exp < 1){
-            $("#draughtsmanship_exp_ErrorMessage").show();
-    		l=true;
-        } 
-        
-        if(tradesmen_certificateStatus=="false"){
-			alert("Should have Two years National Tradesmen certificate.");
-			return false;
-		}
-		if(autocad_certificateStatus=="false"){
-			alert("Should have one year certificate course or one year experience in AUTOCAD.");
-			return false;
-		}
-    }
-   
-   
-    
-   
+} 
     
     
 	if(l==true){
@@ -762,6 +813,54 @@ $("#employee_ssb").change(function(){
 		}
 });
  */
+$("#hc_lab_asst_cert").change(function(){
+	var hc_lab_asst_cert = $("input[name=hc_lab_asst_cert]:checked").length;
+	if(hc_lab_asst_cert==1)
+		{
+		$("#hc_lab_asst_cert_ErrorMessage").hide();
+		}
+});
+$("#hc_lab_asst_exp").change(function(){
+	var hc_lab_asst_exp = $("input[name=hc_lab_asst_exp]:checked").length;
+	if(hc_lab_asst_exp==1)
+		{
+		$("#hc_lab_asst_exp_ErrorMessage").hide();
+		}
+});
+
+$("#hc_physio_asst_cert").change(function(){
+	var hc_physio_asst_cert = $("input[name=hc_physio_asst_cert]:checked").length;
+	if(hc_physio_asst_cert==1)
+		{
+		$("#hc_physio_asst_cert_ErrorMessage").hide();
+		}
+});
+
+$("#hc_physio_asst_exp").change(function(){
+	var hc_physio_asst_exp = $("input[name=hc_physio_asst_exp]:checked").length;
+	if(hc_physio_asst_exp==1)
+		{
+		$("#hc_physio_asst_exp_ErrorMessage").hide();
+		}
+});
+
+
+$("#ct_nursing_asst_cert").change(function(){
+	var ct_nursing_asst_cert = $("input[name=ct_nursing_asst_cert]:checked").length;
+	if(ct_nursing_asst_cert==1)
+		{
+		$("#ct_nursing_asst_cert_ErrorMessage").hide();
+		}
+});
+
+$("#ct_nursing_asst_exp").change(function(){
+	var ct_nursing_asst_exp = $("input[name=ct_nursing_asst_exp]:checked").length;
+	if(ct_nursing_asst_exp==1)
+		{
+		$("#ct_nursing_asst_exp_ErrorMessage").hide();
+		}
+});
+
 $("#nursing_council").change(function(){
 	var nursing_council = $("input[name=nursing_council]:checked").length;
 	if(nursing_council==1)
@@ -1192,7 +1291,7 @@ $("#other_reason").keyup(function(){
 			$( "#post_selected_name" ).val(post_applied_value);
 			
 			$('#post_selected_name_declaration').text(post_applied_value);
-			max_age="30";
+			max_age="27";
 			min_age="18";
 			$('#gender_select').show();
 			$('#gender_label').hide();
@@ -1209,113 +1308,93 @@ $("#other_reason").keyup(function(){
 			
 			if(post_applied=="1"){
 				 min_age="18";
-				max_age="30"; 
-				$("#male").css("display","block");
-				$('#nursing').addClass('nursing');
-				$('#hospital').addClass('hospital');
-				
-				$('#tradesmen').addClass('tradesmen');
-				$('#autocad').addClass('autocad');
-				$('#draughtsmanship').addClass('draughtsmanship');
-				
-				$('input[name="nursing_council"]:checked').each(function() {
-				    $(this).prop('checked', false);
-				});
-				
-				$('input[name="hospital_experience"]:checked').each(function() {
-				    $(this).prop('checked', false);
-				});
-				
-				$('input[name="tradesmen_certificate"]:checked').each(function() {
-				    $(this).prop('checked', false);
-				});
-				
-				$('input[name="autocad_certificate"]:checked').each(function() {
-				    $(this).prop('checked', false);
-				});
-				
-				$('input[name="draughtsmanship_exp"]:checked').each(function() {
-				    $(this).prop('checked', false);
-				});
+				max_age="27"; 
+				//  alert(1.1)
+				$('#hc_lab_asst').removeClass('hc_lab_asst'); 
+				$('#hc_lab_asst_work').removeClass('hc_lab_asst_work'); 
+				$('#hc_physio_asst').addClass('hc_physio_asst'); 
+				$('#hc_physio_asst_work').addClass('hc_physio_asst_work'); 
+				$('#ct_nursing_asst').addClass('ct_nursing_asst'); 
+				$('#ct_nursing_asst_work').addClass('ct_nursing_asst_work'); 
 
-
-			}else if(post_applied=="2"){
-				 max_age="30";
-				min_age="18";
-				$("#male").css("display","block");
-				$('#nursing').addClass('nursing');
-				$('#hospital').addClass('hospital');
-				
-				$('#tradesmen').removeClass('tradesmen');
-				$('#autocad').removeClass('autocad');  
-				$('#draughtsmanship').removeClass('draughtsmanship');
-				
-				$('input[name="nursing_council"]:checked').each(function() {
+				$('input[name="hc_physio_asst_cert"]:checked').each(function() {
 				    $(this).prop('checked', false);
 				});
-				
-				$('input[name="hospital_experience"]:checked').each(function() {
+				$('input[name="hc_physio_asst_exp"]:checked').each(function() {
+				    $(this).prop('checked', false);
+				}); 
+
+				$('input[name="ct_nursing_asst_cert"]:checked').each(function() {
 				    $(this).prop('checked', false);
 				});
+				// alert(1.2)
+				$('input[name="ct_nursing_asst_exp"]:checked').each(function() {
+				    $(this).prop('checked', false);
+				}); 
 
-	     	 }
+			}
+			 
 			else if(post_applied=="3"){
-				 max_age="30";
+				 max_age="27";
 					min_age="18";
-					$("#male").css("display","block");
-					$('#nursing').addClass('nursing');
-					$('#hospital').addClass('hospital');
+// alert(2.1)
+					$('#hc_lab_asst').addClass('hc_lab_asst'); 
+				$('#hc_lab_asst_work').addClass('hc_lab_asst_work');
+
+					$('#hc_physio_asst').removeClass('hc_physio_asst'); 
+				$('#hc_physio_asst_work').removeClass('hc_physio_asst_work'); 
+
+				$('#ct_nursing_asst').addClass('ct_nursing_asst'); 
+					$('#ct_nursing_asst_work').addClass('ct_nursing_asst_work'); 
+				 
 					
-					$('#tradesmen').addClass('tradesmen');
-					$('#autocad').addClass('autocad');
-					$('#draughtsmanship').addClass('draughtsmanship');
-					
-					
-					$('input[name="nursing_council"]:checked').each(function() {
-					    $(this).prop('checked', false);
-					});
-					
-					$('input[name="hospital_experience"]:checked').each(function() {
-					    $(this).prop('checked', false);
-					});
-					
-					$('input[name="tradesmen_certificate"]:checked').each(function() {
-					    $(this).prop('checked', false);
-					});
-					
-					$('input[name="autocad_certificate"]:checked').each(function() {
-					    $(this).prop('checked', false);
-					});
-					
-					$('input[name="draughtsmanship_exp"]:checked').each(function() {
-					    $(this).prop('checked', false);
-					});
+					$('input[name="hc_lab_asst_cert"]:checked').each(function() {
+				    $(this).prop('checked', false);
+				});
+				$('input[name="hc_lab_asst_exp"]:checked').each(function() {
+				    $(this).prop('checked', false);
+				});
+
+				$('input[name="ct_nursing_asst_cert"]:checked').each(function() {
+				    $(this).prop('checked', false);
+				});
+
+				$('input[name="ct_nursing_asst_exp"]:checked').each(function() {
+				    $(this).prop('checked', false);
+				}); 
+				// alert(2.2)
+				
 
 
 			}
 			else if(post_applied=="4"){
-				 max_age="30";
-					// min_age="21";
-					min_age="18";
-					// $("#male").css("display","none");
-					$('#nursing').removeClass('nursing');
-					$('#hospital').removeClass('hospital');
+				 max_age="27"; 
+					min_age="18"; 
+					// alert(3.1)
+
+				$('#hc_lab_asst').addClass('hc_lab_asst'); 
+				$('#hc_lab_asst_work').addClass('hc_lab_asst_work');
+				   
+					$('#hc_physio_asst').addClass('hc_physio_asst'); 
+				$('#hc_physio_asst_work').addClass('hc_physio_asst_work');  
+
+				$('#ct_nursing_asst').removeClass('ct_nursing_asst'); 
+				$('#ct_nursing_asst_work').removeClass('ct_nursing_asst_work');  
 					
-					$('#tradesmen').addClass('tradesmen');
-					$('#autocad').addClass('autocad');
-					$('#draughtsmanship').addClass('draughtsmanship');
-					
-					$('input[name="tradesmen_certificate"]:checked').each(function() {
-					    $(this).prop('checked', false);
-					});
-					
-					$('input[name="autocad_certificate"]:checked').each(function() {
-					    $(this).prop('checked', false);
-					});
-					
-					$('input[name="draughtsmanship_exp"]:checked').each(function() {
-					    $(this).prop('checked', false);
-					});
+				$('input[name="hc_lab_asst_cert"]:checked').each(function() {
+					$(this).prop('checked', false);
+				});
+				$('input[name="hc_lab_asst_exp"]:checked').each(function() {
+				    $(this).prop('checked', false);
+				}); 
+
+				$('input[name="hc_physio_asst_cert"]:checked').each(function() {
+				    $(this).prop('checked', false);
+				});
+				$('input[name="hc_physio_asst_exp"]:checked').each(function() {
+				    $(this).prop('checked', false);
+				}); 
+				// alert(3.2)
 					
 			}
 			
@@ -1519,23 +1598,23 @@ function communityText(){
 	
    if(post_applied=="1"){
 		$('#postCert').show();
-	    $('#postCert').html("<b>Bachelor’s Degree </b> in Civil Engineering from a recognised University or Institute.");
+	    $('#postCert').html("(i) 12th class pass with Biology as a subject from a recognized Board, <br/> (ii) Certificate course of a duration of minimum one year in Laboratory Assistant Course from a recognized institution, and <br/>(iii) Working experience of duration of minimum One year as Lab Assistant in Laboratory Diagnostic Centre or hospital or institution lab recognized by the Central Government or State Government. ");
 	}
 	
-	if(post_applied=="2"){
-		$('#postCert').show();
-	    $('#postCert').html("<b>(a) Essential:- </b> (i) Matriculation pass or equivalent from a recognised Board. <br/> (ii) Two years National Tradesmen certificate issued by a recognised Industrial Training Institute or equivalent recognised institution; and <br/> (iii) One year certificate course or one year experience in AUTOCAD from a Government Institution or a recognised institution. <br/> <b>(b) Desirable:- </b> One year experience in Draughtsmanship from a recognised Architect Consultancy Firm of Category ‘B’ and ‘C’.");
-	}
+	// if(post_applied=="2"){
+	// 	$('#postCert').show();
+	//     $('#postCert').html("(i) 12th class pass from a recognized Board. <br/> (ii)  Certificate course of  duration of  minimum one year in Physiotherapy from a recognized institute, and <br/>(iii) Experience of duration of minimum one year as Physiotherapy Assistant from a Physiotherapy Centre or minimum hundred bedded hospital or institute recognised by the Central Government or State Government. ");
+	// }
 	
 	if(post_applied=="3"){
 		$('#postCert').show();
-	    $('#postCert').html("<b>Bachelor’s Degree </b> in Electronics and Communication or Computer Science or Information Technology Engineering or Science with Physics, Chemistry and Mathematics from a recognised University or Institution.");
+	     $('#postCert').html("(i) 12th class pass from a recognized Board. <br/> (ii)  Certificate course of  duration of  minimum one year in Physiotherapy from a recognized institute, and <br/>(iii) Experience of duration of minimum one year as Physiotherapy Assistant from a Physiotherapy Centre or minimum hundred bedded hospital or institute recognised by the Central Government or State Government. ");
 	}
 	
 	if(post_applied=="4"){
 		$('#postCert').show();
 	    $('#postCert')
-		.html("(a) Should have passed 10+2 from a recognized University or Board or Institution. <br />(b) (i) for candidates qualified before 2008 - Should have three years Diploma in General Nursing and Midwifery from an institution recognised by the Central nursing council or State nursing council.  <br/> &nbsp;&nbsp;&nbsp; (ii) for candidates qualified after 2008 but before 2015-16 - Should have three and half years Diploma in General Nursing and Midwifery from an institution recognised by the Central nursing council or State nursing council . <br/> &nbsp;&nbsp;&nbsp; (iii) for candidates qualified after 2015-16 - Should have three years Diploma in General Nursing and Midwifery with internship from an institution recognised by the Central nursing council or State nursing council.<br />(c) Must be Registered with Central nursing council or State nursing council as a General Nurse and Mid-wife.  ");
+		.html("(i) 10th class pass from a recognized Board,  <br/> (ii)  First Aid certificate course from St. John’s Ambulance Organization or Red Cross Society of India, and <br/>(iii) Experience of duration of minimum one year as Nursing Assistant in a minimum fifty bedded Hospital or Institution recognised by the Central Government or State Governments. ");
 	}
 	// (i) Should have passed 10+2 in Science or equivalent from a recognized University or Board or Institution. <br />(ii) Should have three years Diploma in General nursing from an Institution recognized by the State or Central Government.<br />(iii) Must be registered with Central or State Nursing Council.<br />(iv) Two years Experience in a recognised Hospital  <br/><br/><br/> 
 	
@@ -1809,13 +1888,11 @@ function firstPagevalidation(){
 							}
 						}
 						else{
-						 if(edu3==false && post_applied=="4"){
+						 if(post_applied=="1" || post_applied=="3" ){
 								alert("Please enter 10+2 details  ");
 								return false;
-						 }
-						  if(edu3==false && (post_applied=="1" || post_applied=="3")){
-							 interStatus = true;
-						 }
+						 } 
+						  
 						}
 						 
 						 
@@ -1846,25 +1923,15 @@ function firstPagevalidation(){
 									alert(`Graduation Certificate Issued Date / Passing Year & Date should be less than or equal to ${maxDateValue} `); // 18-06-2023
 									return false;
 								}
-								if(post_applied=="1" && stream3!="civil_Engineering"){
-									edug4 = true;
-								
-								}
+								 
 								
 								if(parseFloat(edm3,10)>100 || parseFloat(edm3,10)<=0){
 									alert("Please select valid aggregate percentage of marks for Graduation Certificate");
 									return false;
 								}
 							}
-							else{
-								if(post_applied=="3" || post_applied=="1") {
-									alert("Graduation details should not be empty for selected post");
-									return false;
-									}
-								if(post_applied=="1"){
-									edug3 = true;
-								}
-							}
+
+							 
 							
 							    var ep4=document.applicationForm.exam_passed_4.value;
 								var stream4=document.applicationForm.stream_4.value;
@@ -1877,7 +1944,7 @@ function firstPagevalidation(){
 								var edu4=false;
 								if(ep4!="" && ey4!="" && es4!="" && em4!="" && uni4!="" && stream4!="" && edm4!="" && eyear4!=""){
 									if(!dateDiff(dob,em4)){
-										alert("Date Of Issuedd should be Greater than Date of birth for Post Graduation Certificate");
+										alert("Date Of Issued should be Greater than Date of birth for Post Graduation Certificate");
 										return false;
 									}
 									
@@ -1929,52 +1996,17 @@ function firstPagevalidation(){
 											alert("Please select valid aggregate percentage of marks for Diploma Certificate");
 											return false;
 										}
-									}
-									else{
-										if(post_applied=="4") {
-											alert("Diploma details should not be empty for selected post");
-											return false;
-											}
-										 
-										// if(edug4==true && post_applied=="1"){
-										// 	alert("You should have Civil engineering as your subject in Graduation.And make sure Graduation fields filled completely");
-										// 	return false;
-										// }
-										if( (post_applied=="1" || post_applied=="3") && interStatus==true){
-											alert("Please enter either 10+2 or Diploma details");
-											return false;
-										}
-									}
-									if(post_applied=="4"){
-										var inter = $("#stream_plus2").val();   
-										var diploma = $("#stream_5").val(); 
-									if(diploma!="general_nursing_and_midwifery" && diploma!="general_nursing_and_midwifery_with_internship"){
-									alert("You should have General nursing and wifery or General nursing and midwifery with Internship  as your subject in Diploma");
-									return false;
-									}
-									}
-
+									}  
 
 									if(post_applied=="1"){
-										var degree = $("#stream_3").val();   
-										var diploma = $("#stream_5").val();
-										if(degree=="civil_Engineering" ){}  
+										var inter = $("#stream_plus2").val();   
+										 
+										if(inter=="Biology" ){}  
 										else{
-											alert("You should have Civil Engineering as your subject in Graduation ");
+											alert("You should have Biology as your subject in 12th class ");
 											return false;
 										}
-									}
-
-									if(post_applied=="3"){
-										var degree = $("#stream_3").val();   
-										
-										if(degree=="Electronics_and_Communication" || degree=="Computer_Science" ||  degree=="Information_Technology_Engineering" 
-												|| degree=="Science(Physics,Chemistry and Mathematics)"){}
-										else{
-											alert("You should have Electronics and Communication or Computer Science or Information Technology Engineering or Science with Physics, Chemistry and Mathematics as your subject in Graduation. ");
-											return false;
-										}
-									}
+									} 
 
 		
 		return true;
@@ -2878,7 +2910,7 @@ function getAgeOfTwoDates(date1,date2) {
 			var post_applied_value = $("#post_applied option:selected").html();
 			$( "#post_selected_name" ).val(post_applied_value);
 			$('#post_selected_name_declaration').text(post_applied_value);
-			max_age="30";
+			max_age="27";
 			min_age="18";
 			$('#gender_select').show();
 			$('#gender_label').hide();
@@ -2892,22 +2924,21 @@ function getAgeOfTwoDates(date1,date2) {
 			$('#post_selected_id').text(post_applied_value);
 			if(post_applied==""){
 			 min_age="18";
-				max_age="30";
+				max_age="27";
 			}else{
 				if(post_applied=="1"){
 					 min_age="18";
-					max_age="30"; 
+					max_age="27"; 
 				}else if(post_applied=="2"){
-					 max_age="30";
+					 max_age="27";
 					min_age="18";
 		     	 }
 				else if(post_applied=="3"){
-					 max_age="30";
+					 max_age="27";
 						min_age="18";
 				}
 				else if(post_applied=="4"){
-					 max_age="30";
-						// min_age="21";
+					 max_age="27";
 						min_age="18";
 				}
 				
@@ -3067,7 +3098,7 @@ function getAgeOfTwoDates(date1,date2) {
 													<input type=hidden name=requestFrom value="apllicationform" />
 													<input type=hidden name=age id=age value="0" />
 													<input type=hidden name="post_selected_name" id="post_selected_name" value="Head Constable (Ministerial)" />
-													<input type=hidden name=max_age id=max_age value="30" />
+													<input type=hidden name=max_age id=max_age value="27" />
 													<input type=hidden name=min_age id=min_age value="18" />
 													<input type=hidden name=min_qual id=min_qual value="" />
 													<input type=hidden name=min_qual1 id=min_qual1 value="" />
@@ -3101,10 +3132,10 @@ function getAgeOfTwoDates(date1,date2) {
 																
 																<select class="drop1 pageRequired" name="post_applied" id="post_applied">
 																  <option value="" selected>Select Post</option>
-																   <option value="1">Sub Inspector (Pioneer)</option>
+																   <option value="1">Head Constable (Laboratory Assistant)</option>
 																   <!-- <option value="2">Sub Inspector (Draughtsman)</option> -->
-																   <option value="3">Sub Inspector (Communication)  </option>
-																   <option value="4">Sub Inspector (Staff Nurse)</option>
+																   <option value="3">Head Constable (Physiotherapy Assistant)</option>
+																   <option value="4">Constable (Nursing Assistant cum Medic) </option>
 																
 																</select>
 															</td>
@@ -3657,8 +3688,88 @@ function getAgeOfTwoDates(date1,date2) {
 																	</table>
 													</div>
 												</td></tr> -->
-												
-												<tr id="nursing" class="nursing">
+												<!-- hc-lab asst -->
+												<tr id="hc_lab_asst" class="hc_lab_asst">
+													<td  align="left" valign="middle"><label style="font-weight:bold;">Whether have Certificate course of a duration of minimum one year in Laboratory Assistant Course from a recognized institution :<span style="color: red">*</span>  </label></td>
+													<td  align="left" valign="middle" id="hc_lab_asst_cert">
+														 <label> <input type="radio" name="hc_lab_asst_cert" id="hc_lab_asst_cert_id" value="true"  /> Yes </label> 
+														 <label> <input type="radio" name="hc_lab_asst_cert" id="hc_lab_asst_cert_id" value="false" /> No </label>
+													 </td>
+													<td  align="left" valign="middle">
+													  <div class="rightsideErrorClassR">
+															<div id="hc_lab_asst_cert_ErrorMessage" class="error" style="display: none;">Please Select Yes / No</div>
+														</div>
+													</td>
+												</tr>
+												<tr id="hc_lab_asst_work" class="hc_lab_asst_work">
+													<td  align="left" valign="middle"><label style="font-weight:bold;">Whether have Working experience of duration of minimum One year as Lab Assistant in Laboratory Diagnostic Centre or hospital or institution lab recognized by the Central Government or State Government <span style="color: red">*</span>  </label></td>
+													<td  align="left" valign="middle" id="hc_lab_asst_exp">
+														 <label> <input type="radio" name="hc_lab_asst_exp" id="hc_lab_asst_exp_id" value="true"  /> Yes </label> 
+														 <label> <input type="radio" name="hc_lab_asst_exp" id="hc_lab_asst_exp_id" value="false" /> No </label>
+													 </td>
+													<td  align="left" valign="middle">
+													  <div class="rightsideErrorClassR">
+															<div id="hc_lab_asst_exp_ErrorMessage" class="error" style="display: none;">Please Select Yes / No</div>
+														</div>
+													</td>
+												</tr>
+
+												<!-- hc-physio asst -->
+												<tr id="hc_physio_asst" class="hc_physio_asst">
+													<td  align="left" valign="middle"><label style="font-weight:bold;">Whether have  Certificate course of duration of minimum one year in Physiotherapy from a recognized institute <span style="color: red">*</span>  </label></td>
+													<td  align="left" valign="middle" id="hc_physio_asst_cert">
+														 <label> <input type="radio" name="hc_physio_asst_cert" id="hc_physio_asst_cert_id" value="true"  /> Yes </label> 
+														 <label> <input type="radio" name="hc_physio_asst_cert" id="hc_physio_asst_cert_id" value="false" /> No </label>
+													 </td>
+													<td  align="left" valign="middle">
+													  <div class="rightsideErrorClassR">
+															<div id="hc_physio_asst_cert_ErrorMessage" class="error" style="display: none;">Please Select Yes / No</div>
+														</div>
+													</td>
+												</tr>
+
+												<tr id="hc_physio_asst_work" class="hc_physio_asst_work">
+													<td  align="left" valign="middle"><label style="font-weight:bold;">Whether have Experience of duration of minimum one year as Physiotherapy Assistant from a Physiotherapy Centre or minimum hundred bedded hospital or institute recognised by the Central Government or State Government <span style="color: red">*</span>  </label></td>
+													<td  align="left" valign="middle" id="hc_physio_asst_exp">
+														 <label> <input type="radio" name="hc_physio_asst_exp" id="hc_physio_asst_exp_id" value="true"  /> Yes </label> 
+														 <label> <input type="radio" name="hc_physio_asst_exp" id="hc_physio_asst_exp_id" value="false" /> No </label>
+													 </td>
+													<td  align="left" valign="middle">
+													  <div class="rightsideErrorClassR">
+															<div id="hc_physio_asst_exp_ErrorMessage" class="error" style="display: none;">Please Select Yes / No</div>
+														</div>
+													</td>
+												</tr>
+
+												<!-- ct-nursing asst -->
+												<tr id="ct_nursing_asst" class="ct_nursing_asst">
+													<td  align="left" valign="middle"><label style="font-weight:bold;">Whether have  First Aid certificate course from St. John’s Ambulance Organization or Red Cross Society of India <span style="color: red">*</span>  </label></td>
+													<td  align="left" valign="middle" id="ct_nursing_asst_cert">
+														 <label> <input type="radio" name="ct_nursing_asst_cert" id="ct_nursing_asst_cert_id" value="true"  /> Yes </label> 
+														 <label> <input type="radio" name="ct_nursing_asst_cert" id="ct_nursing_asst_cert_id" value="false" /> No </label>
+													 </td>
+													<td  align="left" valign="middle">
+													  <div class="rightsideErrorClassR">
+															<div id="ct_nursing_asst_cert_ErrorMessage" class="error" style="display: none;">Please Select Yes / No</div>
+														</div>
+													</td>
+												</tr>
+
+												<tr id="ct_nursing_asst_work" class="ct_nursing_asst_work">
+													<td  align="left" valign="middle"><label style="font-weight:bold;">Whether have Experience of duration of minimum one year as Nursing Assistant in a minimum fifty bedded Hospital or Institution recognised by the Central Government or State Governments. <span style="color: red">*</span>  </label></td>
+													<td  align="left" valign="middle" id="ct_nursing_asst_exp">
+														 <label> <input type="radio" name="ct_nursing_asst_exp" id="ct_nursing_asst_exp_id" value="true"  /> Yes </label> 
+														 <label> <input type="radio" name="ct_nursing_asst_exp" id="ct_nursing_asst_exp_id" value="false" /> No </label>
+													 </td>
+													<td  align="left" valign="middle">
+													  <div class="rightsideErrorClassR">
+															<div id="ct_nursing_asst_exp_ErrorMessage" class="error" style="display: none;">Please Select Yes / No</div>
+														</div>
+													</td>
+												</tr>
+
+
+												<!-- <tr id="nursing" class="nursing">
 													<td  align="left" valign="middle"><label style="font-weight:bold;">Whether Registered with Central nursing council or State nursing council as a General Nurse and Mid-wife :<span style="color: red">*</span>  </label></td>
 													<td  align="left" valign="middle" id="nursing_council">
 														 <label> <input type="radio" name="nursing_council" id="nursing_council_id" value="true"  /> Yes </label> 
@@ -3669,7 +3780,7 @@ function getAgeOfTwoDates(date1,date2) {
 															<div id="nursing_council_ErrorMessage" class="error" style="display: none;">Please Select Yes / No</div>
 														</div>
 													</td>
-												</tr>
+												</tr> -->
 												
 												<!-- <tr id="hospital" class="hospital">
 													<td  align="left" valign="middle"><label style="font-weight:bold;">Whether has Two years Experience in a recognised Hospital :<span style="color: red">*</span>  </label></td>
@@ -3879,7 +3990,7 @@ function getAgeOfTwoDates(date1,date2) {
 <td align="center" valign="middle" class="border1">
      <select  class="drop1 pageRequired" name="stream_plus2" id="stream_plus2" style="width: 60%;padding-left: 2%;">
   <option value="" Selected>Select</option> 
-  <option value="Science">Science or equivalent</option>
+  <option value="Biology">Biology</option>
   <option value="others">Any other</option>
    </select>
 	</td>

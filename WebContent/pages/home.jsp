@@ -42,11 +42,11 @@
 							<div class="text-center">
 								<p>
 									Start Date : 
-									<span>20-05-2023</span>
+									<span>18-03-2026</span>
 								</p>
 								<p>
 									End Date:
-									<span style="color:red; font-size:20px;" >18-06-2023</span>
+									<span style="color:red; font-size:20px;" >11-04-2026</span>
 								</p>
 								<!-- <p>
 									End Date:
