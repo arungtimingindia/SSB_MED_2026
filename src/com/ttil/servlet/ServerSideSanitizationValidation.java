@@ -244,8 +244,8 @@ public class ServerSideSanitizationValidation {
 				messageOb.add("Please Provide Valid input in Pincode.");
 			}
 
-			boolean pwd_status = ESAPI.validator().isValidInput("ServerSideTest",
-					applicationFormBean.getPassword(), CharsNumbersAndSpecialChars, 6, false);
+			boolean pwd_status = ESAPI.validator().isValidInput("ServerSideTest", applicationFormBean.getPassword(),
+					CharsNumbersAndSpecialChars, 6, false);
 			if (!pwd_status) {
 				messageOb.add("Please Provide Valid input in Password (6 Characters only).");
 			}
@@ -325,8 +325,8 @@ public class ServerSideSanitizationValidation {
 								"Matriculation Certificate Issued Date / Passing Year & Date should be atleast 12 years after Date of birth");
 					}
 					if (Integer.parseInt(edm1) > 100 || Integer.parseInt(edm1) <= 0) {
-						messageOb.add(
-								"Please select valid aggregate percentage of marks for Matriculation Certificate");
+						messageOb
+								.add("Please select valid aggregate percentage of marks for Matriculation Certificate");
 					}
 
 					String[] em1Arr = em1.split("-");
@@ -377,16 +377,13 @@ public class ServerSideSanitizationValidation {
 
 					}
 					if (Integer.parseInt(edm2) > 100 || Integer.parseInt(edm2) <= 0) {
-						messageOb.add(
-								"Please select valid aggregate percentage of marks for 10+2 Certificate");
+						messageOb.add("Please select valid aggregate percentage of marks for 10+2 Certificate");
 					}
 				} else {
-					if (edu3 == false && post_applied == 4) {
+					if (post_applied == 1 || post_applied == 3) {
 						messageOb.add("Please enter 10+2 details  ");
 					}
-					if (edu3 == false && (post_applied == 1 || post_applied == 3)) {
-						interStatus = true;
-					}
+
 				}
 
 				String ep3 = applicationFormBean.getExam_passed_3();
@@ -421,20 +418,9 @@ public class ServerSideSanitizationValidation {
 								"Graduation Certificate Issued Date / Passing Year & Date should be less than or equal to "
 										+ notEndDate); // 18-06-2023
 					}
-					if (post_applied == 1 && !stream3.equalsIgnoreCase("civil_Engineering")) {
-						edug4 = true;
-					}
 
 					if (Integer.parseInt(edm3) > 100 || Integer.parseInt(edm3) <= 0) {
-						messageOb.add(
-								"Please select valid aggregate percentage of marks for Graduation Certificate");
-					}
-				} else {
-					if (post_applied == 3 || post_applied == 1) {
-						messageOb.add("Graduation details should not be empty for selected post");
-					}
-					if (post_applied == 1) {
-						edug3 = true;
+						messageOb.add("Please select valid aggregate percentage of marks for Graduation Certificate");
 					}
 				}
 
@@ -501,147 +487,96 @@ public class ServerSideSanitizationValidation {
 								"Diploma Certificate Issued Date / Passing Year & Date should be less than or equal to "
 										+ notEndDate); // 18-06-2023
 					}
-					if (post_applied == 1 && !streamd4.equalsIgnoreCase("civil_Engineering")
-							&& (edug4 == true || edug3 == true)) {
-						messageOb.add(
-								"You should have Civil engineering as your subject either in Diploma or in Graduation.And make sure either Diploma or Graduation fields filled completely");
-
-					}
 
 					if (Integer.parseInt(edmd4) > 100 || Integer.parseInt(edmd4) <= 0) {
-						messageOb.add(
-								"Please select valid aggregate percentage of marks for Diploma Certificate");
+						messageOb.add("Please select valid aggregate percentage of marks for Diploma Certificate");
 					}
-				} else {
-					if (post_applied == 4) {
-						messageOb.add("Diploma details should not be empty for selected post");
-					}
-					// if (post_applied == 1 && edug3 == true) {
-					// messageOb.add("Either Degree or Diploma details are mandatory for selected
-					// post");
-					// }
-					// if (edug4 == true && post_applied == 1) {
-					// messageOb.add(
-					// "You should have Civil engineering as your subject either in Diploma or in
-					// Graduation.And make sure either Diploma or Graduation fields filled
-					// completely");
-					// }
-					if ((post_applied == 1 || post_applied == 3) && interStatus == true) {
-						messageOb.add("Please enter either 10+2 or Diploma details");
-					}
-				}
-
-				// if (post_applied == 4) { // only female
-				// if (applicationFormBean.getSex().equalsIgnoreCase("F")
-				// || applicationFormBean.getSex().equalsIgnoreCase("Female")) {
-
-				// } else {
-				// messageOb.add("You must be female for this post, male gender not allowed");
-				// }
-				// }
-
-				if ((post_applied == 1 || post_applied == 4)
-						&& applicationFormBean.getNationality().equalsIgnoreCase("Others")) {
-					messageOb.add("Nationality should be Indian for the selected Post");
-				}
-
-				// System.err.println(post_applied);
-				if (post_applied == 4) {
-
-					String inter = ESAPI.encoder().canonicalize(applicationFormBean.getStream_plus2());
-					String diploma = ESAPI.encoder().canonicalize(applicationFormBean.getStream_5());
-
-					if (applicationFormBean.isNursing_council() == false
-							|| (null != applicationFormBean.getNurse()
-									&& applicationFormBean.getNurse().equalsIgnoreCase(""))) {
-						messageOb.add("Must be registered with Central or State Nursing Council for selected post.");
-					}
-					// if (applicationFormBean.isHospital_experience() == false
-					// || applicationFormBean.getHospital().equalsIgnoreCase("")) {
-					// messageOb.add(
-					// "You should have Two years Experience in a recognised Hospital to apply for
-					// selected post.");
-					// }
-
-					// if (inter.equalsIgnoreCase("Science") &&
-					// diploma.equalsIgnoreCase("general_nursing")) {
-					// } else if (!(inter.equalsIgnoreCase("Science"))) {
-					// messageOb.add("You should have Science as your subject in 10+2");
-					// } else
-					// System.err.println(diploma);
-
-					if ((diploma.equalsIgnoreCase("general_nursing_and_midwifery"))) {
-
-					} else if (diploma.equalsIgnoreCase("general_nursing_and_midwifery_with_internship")) {
-
-					} else {
-						messageOb.add(
-								"You should have General nursing and wifery or General nursing and midwifery with Internship  as your subject in Diploma");
-					}
-
-				}
-
-				if (post_applied == 2) {
-
-					if (applicationFormBean.isTradesmen_certificate() == false
-							|| applicationFormBean.getTrade().equalsIgnoreCase("")) {
-						messageOb.add("Should have Two years National Tradesmen certificate for selected post.");
-					}
-					if (applicationFormBean.isAutocad_certificate() == false
-							|| applicationFormBean.getAutocad().equalsIgnoreCase("")) {
-						messageOb.add(
-								"Should have one year certificate course or one year experience in AUTOCAD for selected post.");
-					}
-					/*
-					 * if(applicationFormBean.isDraughtsmanship_exp()==false ||
-					 * applicationFormBean.getDraft().equalsIgnoreCase("")){ messageOb.
-					 * add("Should have one year experience in Draughtsmanship from a recognised Architect Consultancy Firm of Category �B� and �C."
-					 * ); }
-					 */
-
 				}
 
 				if (post_applied == 1) {
-					String degree = ESAPI.encoder().canonicalize(applicationFormBean.getStream_3());
-					String diploma = ESAPI.encoder().canonicalize(applicationFormBean.getStream_5());
-					if (degree.equalsIgnoreCase("civil_Engineering")) {
-					} else {
-						messageOb.add(
-								"You should have Civil Engineering as your subject  in Graduation ");
+					String interSub = applicationFormBean.getStream_plus2();
+					if (!interSub.equalsIgnoreCase("Biology")) {
+						messageOb.add("You should have Biology as your subject in 12th class ");
 					}
+
+					if ((applicationFormBean.isHcLabAsstCert()  == false
+							|| (null != applicationFormBean.getHcLabAsstCertValue()
+									&& applicationFormBean.getHcLabAsstCertValue().equalsIgnoreCase(""))
+					)) {
+						messageOb.add(
+								"You should have Certificate course of a duration of minimum one year in Laboratory Assistant Course from a recognized institution");
+					}
+					
+					if ((applicationFormBean.isHcLabAsstExp()  == false
+							|| (null != applicationFormBean.getHcLabAsstExpValue()
+									&& applicationFormBean.getHcLabAsstExpValue().equalsIgnoreCase(""))
+					)) {
+						messageOb.add(
+								"You should have Working experience of duration of minimum One year as Lab Assistant in Laboratory Diagnostic Centre or hospital or institution lab recognized by the Central Government or State Government ");
+					}
+
 				}
+				
+				if (post_applied == 3) { 
+				 
 
-				if (post_applied == 3) {
-					String degree = ESAPI.encoder().canonicalize(applicationFormBean.getStream_3());
-
-					if (degree.equalsIgnoreCase("Electronics_and_Communication")
-							|| degree.equalsIgnoreCase("Computer_Science")
-							|| degree.equalsIgnoreCase("Information_Technology_Engineering")
-							|| degree.equalsIgnoreCase("Science(Physics,Chemistry and Mathematics)")) {
-					} else {
+					if ((applicationFormBean.isHcPhysioAsstCert()  == false
+							|| (null != applicationFormBean.getHcPhysioAsstCertValue()
+									&& applicationFormBean.getHcPhysioAsstCertValue().equalsIgnoreCase(""))
+					)) {
 						messageOb.add(
-								"You should have Electronics and Communication or Computer Science or Information Technology Engineering or Science with Physics, Chemistry and Mathematics as your subject in Graduation. ");
+								"You should have Certificate course of duration of minimum one year in Physiotherapy from a recognized institute  ");
 					}
+					
+					if ((applicationFormBean.isHcPhysioAsstExp()  == false
+							|| (null != applicationFormBean.getHcPhysioAsstExpValue()
+									&& applicationFormBean.getHcPhysioAsstExpValue().equalsIgnoreCase(""))
+					)) {
+						messageOb.add(
+								"You should have Experience of duration of minimum one year as Physiotherapy Assistant from a Physiotherapy Centre or minimum hundred bedded hospital or institute recognised by the Central Government or State Government  ");
+					}
+
+				}
+				
+				if (post_applied == 4) { 
+					 
+
+					if ((applicationFormBean.isCtNursingCert()  == false
+							|| (null != applicationFormBean.getCtNursingCertValue()
+									&& applicationFormBean.getCtNursingCertValue().equalsIgnoreCase(""))
+					)) {
+						messageOb.add(
+								"You should have First Aid certificate course from St. John’s Ambulance Organization or Red Cross Society of India  ");
+					}
+					
+					if ((applicationFormBean.isCtNursingExp() == false
+							|| (null != applicationFormBean.getCtNursingExpValue()
+									&& applicationFormBean.getCtNursingExpValue().equalsIgnoreCase(""))
+					)) {
+						messageOb.add(
+								"You should have Experience of duration of minimum one year as Nursing Assistant in a minimum fifty bedded Hospital or Institution recognised by the Central Government or State Governments.  ");
+					}
+
 				}
 
 				min_age = 18;
-				max_age = 30;
+				max_age = 27;
 				if (post_applied == 0 || post.equalsIgnoreCase("") || post == null) {
 					messageOb.add("Please select the post");
 				} else {
 
 					if (post_applied == 1) {
 						min_age = 18;
-						max_age = 30;
+						max_age = 27;
 					} else if (post_applied == 2) {
-						max_age = 30;
 						min_age = 18;
+						max_age = 27;
 					} else if (post_applied == 3) {
-						max_age = 30;
 						min_age = 18;
+						max_age = 27;
 					} else if (post_applied == 4) {
-						max_age = 30;
 						min_age = 18;
+						max_age = 27;
 					}
 
 				}
@@ -854,7 +789,9 @@ public class ServerSideSanitizationValidation {
 				// }
 			}
 
-		} catch (Exception e) {
+		} catch (
+
+		Exception e) {
 			e.printStackTrace();
 			StringWriter sw = new StringWriter();
 			e.printStackTrace(new PrintWriter(sw));
