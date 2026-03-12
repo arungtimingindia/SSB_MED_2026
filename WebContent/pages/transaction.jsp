@@ -272,6 +272,23 @@
 		<input type="hidden"  name="autocad" value="<jsp:getProperty name="ApplicationFormBean" property="autocad"/>"/>
 		<input type="hidden"  name="draft" value="<jsp:getProperty name="ApplicationFormBean" property="draft"/>"/>
 		
+
+    <input type="hidden"  name="hcLabAsstCert" value="<jsp:getProperty name="ApplicationFormBean" property="hcLabAsstCert"/>"/>
+    <input type="hidden"  name="hcLabAsstExp" value="<jsp:getProperty name="ApplicationFormBean" property="hcLabAsstExp"/>"/>
+    <input type="hidden"  name="hcPhysioAsstCert" value="<jsp:getProperty name="ApplicationFormBean" property="hcPhysioAsstCert"/>"/>
+    <input type="hidden"  name="hcPhysioAsstExp" value="<jsp:getProperty name="ApplicationFormBean" property="hcPhysioAsstExp"/>"/>
+    <input type="hidden"  name="ctNursingCert" value="<jsp:getProperty name="ApplicationFormBean" property="ctNursingCert"/>"/>
+    <input type="hidden"  name="ctNursingExp" value="<jsp:getProperty name="ApplicationFormBean" property="ctNursingExp"/>"/>
+
+    <input type="hidden"  name="hcLabAsstCertValue" value="<jsp:getProperty name="ApplicationFormBean" property="hcLabAsstCertValue"/>"/>
+    <input type="hidden"  name="hcLabAsstExpValue" value="<jsp:getProperty name="ApplicationFormBean" property="hcLabAsstExpValue"/>"/>
+    <input type="hidden"  name="hcPhysioAsstCertValue" value="<jsp:getProperty name="ApplicationFormBean" property="hcPhysioAsstCertValue"/>"/>
+    <input type="hidden"  name="hcPhysioAsstExpValue" value="<jsp:getProperty name="ApplicationFormBean" property="hcPhysioAsstExpValue"/>"/>
+    <input type="hidden"  name="ctNursingCertValue" value="<jsp:getProperty name="ApplicationFormBean" property="ctNursingCertValue"/>"/>
+    <input type="hidden"  name="ctNursingExpValue" value="<jsp:getProperty name="ApplicationFormBean" property="ctNursingExpValue"/>"/>
+
+
+    
          </td>
           </tr>
           <tr>

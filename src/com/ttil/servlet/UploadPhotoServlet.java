@@ -34,107 +34,101 @@ import com.ttil.bean.ApplicationFormBean;
 import com.ttil.dao.ApplicationFormDAO;
 
 @MultipartConfig
-public class UploadPhotoServlet  extends HttpServlet {
+public class UploadPhotoServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 4267945957957617573L;
-	public void dopost(HttpServletRequest req,HttpServletResponse res)  
-			throws ServletException,IOException
-	{
+
+	public void dopost(HttpServletRequest req, HttpServletResponse res)
+			throws ServletException, IOException {
 
 		this.service(req, res);
 	}
 
-	public void service(HttpServletRequest request,HttpServletResponse res) throws ServletException,IOException
-	{
-		RequestDispatcher rd=null;
-		ApplicationFormBean applicationFormBean=null;
-		//PostsBean postBean=null;
-		try{
+	public void service(HttpServletRequest request, HttpServletResponse res) throws ServletException, IOException {
+		RequestDispatcher rd = null;
+		ApplicationFormBean applicationFormBean = null;
+		// PostsBean postBean=null;
+		try {
 			HttpSession session = request.getSession();
-			if (session!=null && session.isNew()){
-				//System.out.println("Session Time Out Page Called in session.isNew()");
+			if (session != null && session.isNew()) {
+				// System.out.println("Session Time Out Page Called in session.isNew()");
 				rd = request.getRequestDispatcher("/sessionTimeoutPage.jsp");
 				rd.forward(request, res);
-			}else{
+			} else {
 				String requestFrom = ESAPI.encoder().encodeForHTMLAttribute(request.getParameter("requestFrom1"));
-				String transIds=request.getParameter("final_transaction_id");
-				int final_transaction_id=0;
-				if(transIds!=null)
-					final_transaction_id=Integer.parseInt(transIds);
-				if(requestFrom!=null && "uploadPhotoPage".equalsIgnoreCase(requestFrom) && final_transaction_id>0)
-				{
-					applicationFormBean=(ApplicationFormBean)session.getAttribute("ApplicationFormBean");
-					if(applicationFormBean!=null && applicationFormBean.getTransactionid()==final_transaction_id)
-					{
-						//final_transaction_id
+				String transIds = request.getParameter("final_transaction_id");
+				int final_transaction_id = 0;
+				if (transIds != null)
+					final_transaction_id = Integer.parseInt(transIds);
+				if (requestFrom != null && "uploadPhotoPage".equalsIgnoreCase(requestFrom)
+						&& final_transaction_id > 0) {
+					applicationFormBean = (ApplicationFormBean) session.getAttribute("ApplicationFormBean");
+					if (applicationFormBean != null && applicationFormBean.getTransactionid() == final_transaction_id) {
+						// final_transaction_id
 						request.setAttribute("final_transaction_id", final_transaction_id);
-						rd=request.getRequestDispatcher("/pages/uploadPhotoForm.jsp");
+						rd = request.getRequestDispatcher("/pages/uploadPhotoForm.jsp");
 						rd.forward(request, res);
-					}else{
+					} else {
 						rd = request.getRequestDispatcher("/sessionTimeoutPage.jsp");
 						rd.forward(request, res);
 					}
-				} else if(requestFrom!=null && "uploadPhoto".equalsIgnoreCase(requestFrom) && final_transaction_id>0)
-				{
-					applicationFormBean=(ApplicationFormBean)session.getAttribute("ApplicationFormBean");
-					//postBean=(PostsBean)session.getAttribute("postDetails");
-					if(applicationFormBean!=null && applicationFormBean.getTransactionid()==final_transaction_id)
-					{ 
-						ApplicationFormDAO applicationFormDAO=new ApplicationFormDAO();
-						int responseId=applicationFormDAO.checkDuplicateRecord(applicationFormBean);
-						if(responseId>=0){
+				} else if (requestFrom != null && "uploadPhoto".equalsIgnoreCase(requestFrom)
+						&& final_transaction_id > 0) {
+					applicationFormBean = (ApplicationFormBean) session.getAttribute("ApplicationFormBean");
+					// postBean=(PostsBean)session.getAttribute("postDetails");
+					if (applicationFormBean != null && applicationFormBean.getTransactionid() == final_transaction_id) {
+						ApplicationFormDAO applicationFormDAO = new ApplicationFormDAO();
+						int responseId = applicationFormDAO.checkDuplicateRecord(applicationFormBean);
+						if (responseId >= 0) {
 
-							String path=this.getServletContext().getRealPath("path.properties");
-							String imagesPath="";
+							String path = this.getServletContext().getRealPath("path.properties");
+							String imagesPath = "";
 							Properties props = new Properties();
-							try
-							{
+							try {
 								props.load(new FileInputStream(path));
 								imagesPath = props.getProperty("imagesPath");
-							}
-							catch(Exception e)
-							{
+							} catch (Exception e) {
 								e.printStackTrace();
-								//System.out.println("Unalble to load Path connection property file");
-								imagesPath="/opt/apache-tomcat-7.0.42/webapps/ssb_uploads/candidateImages/";
-								//imagesPath="D:\\HSSC_UPLOADED_FILES\\";
+								// System.out.println("Unalble to load Path connection property file");
+								imagesPath = "/opt/apache-tomcat-7.0.42/webapps/ssb_uploads/candidateImages/MEDICAL";
+								// imagesPath="D:\\HSSC_UPLOADED_FILES\\";
 							}
 
 							List<String> messageOb = new ArrayList<String>();
-							int transaction_id=applicationFormBean.getTransactionid();
+							int transaction_id = applicationFormBean.getTransactionid();
 							request.setAttribute("final_transaction_id", final_transaction_id);
 							/** Photo Uploads **/
-							//String imagesPath=request.getServletContext().getRealPath("candidateImages");
+							// String imagesPath=request.getServletContext().getRealPath("candidateImages");
 							Part photoFilePart = request.getPart("photofileData");
 							Part sigFilePart = request.getPart("sigfileData");
 
-							String photo_type=photoFilePart.getContentType();
-							String sign_type=sigFilePart.getContentType();
+							String photo_type = photoFilePart.getContentType();
+							String sign_type = sigFilePart.getContentType();
 
-							if(photo_type!=null  && !"application/octet-stream".equalsIgnoreCase(photo_type)){
+							if (photo_type != null && !"application/octet-stream".equalsIgnoreCase(photo_type)) {
 
-							}else{
+							} else {
 								messageOb.add("Please Upload Photograph");
 							}
 
-							if(sign_type!=null  && !"application/octet-stream".equalsIgnoreCase(sign_type)){
+							if (sign_type != null && !"application/octet-stream".equalsIgnoreCase(sign_type)) {
 
-							}else{
+							} else {
 								messageOb.add("Please Upload Signature");
 							}
 
-							String photoFileName=transaction_id+"_photo.jpg";
-							String sigFileName=transaction_id+"_sig.jpg";
+							String photoFileName = transaction_id + "_photo.jpg";
+							String sigFileName = transaction_id + "_sig.jpg";
 							applicationFormBean.setPhotoFileName(photoFileName);
 							applicationFormBean.setSigFileName(sigFileName);
 
 							this.savePhoto(imagesPath, photoFileName, photoFilePart);
 							this.savePhoto(imagesPath, sigFileName, sigFilePart);
 
-							File outputFilePath = new File((new StringBuilder(String.valueOf(imagesPath))).append(File.separator).append(photoFileName).toString());
-							File outputFilePath1 = new File((new StringBuilder(String.valueOf(imagesPath))).append(File.separator).append(sigFileName).toString());
-
-
+							File outputFilePath = new File((new StringBuilder(String.valueOf(imagesPath)))
+									.append(File.separator).append(photoFileName).toString());
+							File outputFilePath1 = new File((new StringBuilder(String.valueOf(imagesPath)))
+									.append(File.separator).append(sigFileName).toString());
 
 							/*
 							 * AmazonS3 s3 = new AmazonS3Client(new
@@ -145,87 +139,102 @@ public class UploadPhotoServlet  extends HttpServlet {
 							 * "onlinedatafiles","ssb_advt_comb_CT_338_2018/signature");
 							 */
 							if (outputFilePath.exists()) {
-								long bytes = outputFilePath.length(); long kilobytes = (bytes / 1024);
-								if(kilobytes<20) {messageOb.add("Photo Should be atleast minimum 20 kb,  Upload Bigger size again");}
-							}else {
+								long bytes = outputFilePath.length();
+								long kilobytes = (bytes / 1024);
+								if (kilobytes < 20) {
+									messageOb.add("Photo Should be atleast minimum 20 kb,  Upload Bigger size again");
+								}
+							} else {
 								messageOb.add("Please Upload Photo");
 							}
 
 							if (outputFilePath1.exists()) {
-								long bytes = outputFilePath1.length(); long kilobytes = (bytes / 1024);
-								if(kilobytes<10) {messageOb.add("Signature Should be atleast minimum 10 kb,  Upload Bigger size again");}
-							}else {
+								long bytes = outputFilePath1.length();
+								long kilobytes = (bytes / 1024);
+								if (kilobytes < 10) {
+									messageOb.add(
+											"Signature Should be atleast minimum 10 kb,  Upload Bigger size again");
+								}
+							} else {
 								messageOb.add("Please Upload Signature");
 							}
 
-							//LogsGeneration.generateOTPactivatedLog("OTP", applicationFormBean.getMobileNumber(),enteredOtp,request.getRemoteAddr(),request.getHeader("User-Agent"),session.getId());
-							if(messageOb!=null && messageOb.size()>0) {
-								request.setAttribute("message", "Your Photo & Signature Not uploaded, please try again");
-								request.setAttribute("messageOb", messageOb); 
+							// LogsGeneration.generateOTPactivatedLog("OTP",
+							// applicationFormBean.getMobileNumber(),enteredOtp,request.getRemoteAddr(),request.getHeader("User-Agent"),session.getId());
+							if (messageOb != null && messageOb.size() > 0) {
+								request.setAttribute("message",
+										"Your Photo & Signature Not uploaded, please try again");
+								request.setAttribute("messageOb", messageOb);
 								rd = request.getRequestDispatcher("/pages/uploadPhotoForm.jsp");
 								rd.forward(request, res);
-							}else  {
-								String message=applicationFormDAO.updatePhotoPath(applicationFormBean,request.getRemoteAddr());
-								//System.out.println("final_transaction_id="+final_transaction_id);
-								if(message!=null && "Success".equalsIgnoreCase(message))
-								{
-									//request.setAttribute("postDetails", postBean);
+							} else {
+								String message = applicationFormDAO.updatePhotoPath(applicationFormBean,
+										request.getRemoteAddr());
+								// System.out.println("final_transaction_id="+final_transaction_id);
+								if (message != null && "Success".equalsIgnoreCase(message)) {
+									// request.setAttribute("postDetails", postBean);
 									request.setAttribute("ApplicationFormBean", applicationFormBean);
 									session.removeAttribute("ApplicationFormBean");
 									session.removeAttribute("postDetails");
 									session.removeAttribute("requestFromSession");
 
-									AppDataBean appDataBean=new AppDataBean();
+									AppDataBean appDataBean = new AppDataBean();
 									appDataBean.setTransactionid(applicationFormBean.getTransactionid());
 									appDataBean.setFee_amount(applicationFormBean.getFee_amount());
 									session.setAttribute("AppDataBean", appDataBean);
 
-
-									//session.invalidate();
-									//LogsGeneration.generateFormSuccessLog(applicationFormBean.getTransactionid(), applicationFormBean.getMobileNumber(),request.getRemoteAddr(),request.getHeader("User-Agent"),session.getId());
-									rd=request.getRequestDispatcher("/pages/transaction.jsp");
+									// session.invalidate();
+									// LogsGeneration.generateFormSuccessLog(applicationFormBean.getTransactionid(),
+									// applicationFormBean.getMobileNumber(),request.getRemoteAddr(),request.getHeader("User-Agent"),session.getId());
+									rd = request.getRequestDispatcher("/pages/transaction.jsp");
 									rd.forward(request, res);
 
-								}else if(message!=null && "It seems Database Server is busy , please try again.".equalsIgnoreCase(message)){
-									request.setAttribute("message", "It seems Database Server is busy , please try again.");
-									rd=request.getRequestDispatcher("/pages/uploadPhotoForm.jsp");
+								} else if (message != null && "It seems Database Server is busy , please try again."
+										.equalsIgnoreCase(message)) {
+									request.setAttribute("message",
+											"It seems Database Server is busy , please try again.");
+									rd = request.getRequestDispatcher("/pages/uploadPhotoForm.jsp");
 									rd.forward(request, res);
-								}else{
+								} else {
 									request.setAttribute("message", "Application Details not saved, please try again");
-									rd=request.getRequestDispatcher("/pages/uploadPhotoForm.jsp");
+									rd = request.getRequestDispatcher("/pages/uploadPhotoForm.jsp");
 									rd.forward(request, res);
 								}
 							}
-						}else{
-							request.setAttribute("message", "Your details (Name, Fathername, Mothername,DOB or mobilenumber or emailaddress) already submitted for this Advertisement, you can not submit again");
-							rd=request.getRequestDispatcher("/pages/uploadPhotoForm.jsp");
+						} else {
+							request.setAttribute("message",
+									"Your details (Name, Fathername, Mothername,DOB or mobilenumber or emailaddress) already submitted for this Advertisement, you can not submit again");
+							rd = request.getRequestDispatcher("/pages/uploadPhotoForm.jsp");
 							rd.forward(request, res);
 						}
 
-					}else{
+					} else {
 						rd = request.getRequestDispatcher("/sessionTimeoutPage.jsp");
 						rd.forward(request, res);
 					}
-				}else{
+				} else {
 					rd = request.getRequestDispatcher("/sessionTimeoutPage.jsp");
 					rd.forward(request, res);
 				}
 			}
-		}
-		catch(Exception ex)
-		{
+		} catch (Exception ex) {
 			ex.printStackTrace();
 			StringWriter sw = new StringWriter();
 			ex.printStackTrace(new PrintWriter(sw));
 			String exceptionAsString = sw.toString();
-			/*if(applicationFormBean!=null)
-				LogsGeneration.generateErrorLogsWithMobileNumber("ApplicationAfterSave", exceptionAsString, applicationFormBean.getMobileNumber(), request.getRemoteAddr(),request.getHeader("User-Agent"));
-			else
-				LogsGeneration.generateErrorLogsWithMobileNumber("ApplicationAfterSave", exceptionAsString, null, request.getRemoteAddr(),request.getHeader("User-Agent"));
-			throw new UserDefineException("ApplicationAfterSave", exceptionAsString);*/
+			/*
+			 * if(applicationFormBean!=null)
+			 * LogsGeneration.generateErrorLogsWithMobileNumber("ApplicationAfterSave",
+			 * exceptionAsString, applicationFormBean.getMobileNumber(),
+			 * request.getRemoteAddr(),request.getHeader("User-Agent"));
+			 * else
+			 * LogsGeneration.generateErrorLogsWithMobileNumber("ApplicationAfterSave",
+			 * exceptionAsString, null,
+			 * request.getRemoteAddr(),request.getHeader("User-Agent"));
+			 * throw new UserDefineException("ApplicationAfterSave", exceptionAsString);
+			 */
 		}
 	}
-
 
 	// Extract image name from content-disposition header of part
 	private String getFileName(Part part) {
@@ -240,12 +249,13 @@ public class UploadPhotoServlet  extends HttpServlet {
 		return null;
 	}
 
-	public void savePhoto(String imagesPath,String imageName,Part filePart){
+	public void savePhoto(String imagesPath, String imageName, Part filePart) {
 		InputStream inputStream = null;
 		OutputStream outputStream = null;
 		try {
 			File outputFilePath = new File(imagesPath + File.separator + imageName);
-			// System.out.println("***** outputFilePath: " + outputFilePath.getAbsolutePath());            
+			// System.out.println("***** outputFilePath: " +
+			// outputFilePath.getAbsolutePath());
 			inputStream = filePart.getInputStream();
 			outputStream = new FileOutputStream(outputFilePath);
 
@@ -261,57 +271,62 @@ public class UploadPhotoServlet  extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 			// responseMessage = "Image Upload Failed!!";
-		} 
-		finally {
+		} finally {
 			if (outputStream != null) {
-				try{
+				try {
 					outputStream.close();
-				}catch(Exception e){e.printStackTrace();}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 			if (inputStream != null) {
-				try{
+				try {
 					inputStream.close();
-				}catch(Exception e){e.printStackTrace();}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
 
-
-	public void savePhotoS3Bucket(String imagesPath,String imageName,AmazonS3 amazonS3,String bucketName,String folderName){
+	public void savePhotoS3Bucket(String imagesPath, String imageName, AmazonS3 amazonS3, String bucketName,
+			String folderName) {
 		InputStream inputStream = null;
 		OutputStream outputStream = null;
-		PutObjectRequest putObj=null;
+		PutObjectRequest putObj = null;
 		try {
 			File outputFilePath = new File(imagesPath + File.separator + imageName);
-			//System.out.println(outputFilePath.getAbsolutePath());
-			//System.out.println(bucketName+"/"+folderName+"/"+imageName);
-			putObj=new PutObjectRequest(bucketName, folderName+"/"+imageName, outputFilePath);
+			// System.out.println(outputFilePath.getAbsolutePath());
+			// System.out.println(bucketName+"/"+folderName+"/"+imageName);
+			putObj = new PutObjectRequest(bucketName, folderName + "/" + imageName, outputFilePath);
 			putObj.setCannedAcl(CannedAccessControlList.PublicRead);
 			amazonS3.putObject(putObj);
 
-		}  catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			// responseMessage = "Image Upload Failed!!";
 			StringWriter sw = new StringWriter();
 			e.printStackTrace(new PrintWriter(sw));
 			String exceptionAsString = sw.toString();
-			//LogsGeneration.generateErrorLogs("S3 Bucket Catch-"+bucketName,exceptionAsString, null,transactionid, ipaddress, null);
+			// LogsGeneration.generateErrorLogs("S3 Bucket
+			// Catch-"+bucketName,exceptionAsString, null,transactionid, ipaddress, null);
 
-		} 
-		finally {
+		} finally {
 			if (outputStream != null) {
-				try{
+				try {
 					outputStream.close();
-				}catch(Exception e){e.printStackTrace();}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 			if (inputStream != null) {
-				try{
+				try {
 					inputStream.close();
-				}catch(Exception e){e.printStackTrace();}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
 
-
 }
-
