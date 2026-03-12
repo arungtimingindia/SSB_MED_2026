@@ -2392,7 +2392,7 @@ public class ApplicationFormBean implements Serializable {
 	public void setHcPhysioAsstExpValue(String hcPhysioAsstExpValue) {
 		this.hcPhysioAsstExpValue = hcPhysioAsstExpValue;
 	}
-	
+	 
 	public String getCtNursingCertValue() {
 		return ctNursingCertValue;
 	}

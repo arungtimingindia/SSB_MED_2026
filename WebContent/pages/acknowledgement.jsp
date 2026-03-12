@@ -221,7 +221,7 @@ window.print();
               <td>
                       <table width="95%" border="0" align="center" cellpadding="5" cellspacing="0">				
               <tr> <td>
-            <img id="" src="../ssb_uploads/candidateImages/SI/<jsp:getProperty name="AcknoweledgementBean" property="photoFileName" />" style="height:120px;width:160px;"> <br/> </td>
+            <img id="" src="../ssb_uploads26/candidateImages/MEDICAL/<jsp:getProperty name="AcknoweledgementBean" property="photoFileName" />" style="height:120px;width:160px;"> <br/> </td>
                   </tr>
                   </table>
                   </td>
@@ -632,49 +632,73 @@ window.print();
            <tr>
 				<td class="bdr" colspan="2"><h4>ESSENTIAL EDUCATIONAL &amp; PROFESSIONAL QUALIFICATIONS</h4></td>
 			</tr>
-			<tr>
+			 <tr>
 				<td colspan="2"><table width="75%" border="0" align="left" cellpadding="5" cellspacing="0">   
-			 <% if(applicationFormBean.getNurse()==null)  {%>
+			 
+        <% if(applicationFormBean.getHcLabAsstCertValue()==null)  {%>
                <tr>
-                <td><label class="label1">Whether registered with Central or State Nursing Council :</label></td>
-                <td><label><% if(applicationFormBean.isNursing_council()){ %> Yes <% }else{ %> No
+                <td><label class="label1">Whether have Certificate course of a duration of minimum one year in Laboratory Assistant Course from a recognized institution</label></td>
+                <td><label><% if(applicationFormBean.isHcLabAsstCert()){ %> Yes <% }else{ %> No
 								<%} %></label></td>
+                 
               </tr>
-              <%} %>
               
-               <% if(applicationFormBean.getHospital()==null)  {%>
-               <tr>
-                <td><label class="label1">Whether has Two years Experience in a recognised Hospital :</label></td>
-                <td><label><% if(applicationFormBean.isHospital_experience()){ %> Yes <% }else{ %> No
-								<%} %></label></td>
-              </tr>
-              <%} %>
+               <%} %>
               
-               <% if(applicationFormBean.getTrade()==null)  {%>
-               <tr>
-                <td><label class="label1">Whether has Two years National Tradesmen certificate issued by a recognised Industrial Training Institute or equivalent recognised institution :</label></td>
-                <td><label><% if(applicationFormBean.isTradesmen_certificate()){ %> Yes <% }else{ %> No
-								<%} %></label></td>
-              </tr>
-              <%} %>
+               <% if(applicationFormBean.getHcLabAsstExpValue()==null)  {%>
               
-              <% if(applicationFormBean.getAutocad()==null)  {%>
-               <tr>
-                <td><label class="label1">Whether has One year certificate course or one year experience in AUTOCAD from a Government Institution or a recognised institution :</label></td>
-                <td><label><% if(applicationFormBean.isAutocad_certificate()){ %> Yes <% }else{ %> No
+              <tr>
+                <td><label class="label1">Whether have Working experience of duration of minimum One year as Lab Assistant in Laboratory Diagnostic Centre or hospital or institution lab recognized by the Central Government or State Government </label></td>
+                <td><label><% if(applicationFormBean.isHcLabAsstExp()){ %> Yes <% }else{ %> No
 								<%} %></label></td>
+                 
               </tr>
-              <%} %>
-            
-           
-            
-            <% if(applicationFormBean.getDraft()==null)  {%>
+               <%} %>
+               
+                 <% if(applicationFormBean.getHcPhysioAsstCertValue()==null)  {%>
                <tr>
-                <td><label class="label1">Whether has one year experience in Draughtsmanship from a recognised Architect Consultancy Firm of Category 'B' and 'C' :</label></td>
-                <td><label><% if(applicationFormBean.isDraughtsmanship_exp()){ %> Yes <% }else{ %> No
+                <td><label class="label1">Whether have  Certificate course of duration of minimum one year in Physiotherapy from a recognized institute </label></td>
+                <td><label><% if(applicationFormBean.isHcPhysioAsstCert()){ %> Yes <% }else{ %> No
 								<%} %></label></td>
+                 
               </tr>
-              <%} %>
+              
+               <%} %>
+               
+                <% if(applicationFormBean.getHcPhysioAsstExpValue()==null)  {%>
+              
+              <tr>
+                <td><label class="label1">Whether have Experience of duration of minimum one year as Physiotherapy Assistant from a Physiotherapy Centre or minimum hundred bedded hospital or institute recognised by the Central Government or State Government </label></td>
+                <td><label><% if(applicationFormBean.isHcPhysioAsstExp()){ %> Yes <% }else{ %> No
+								<%} %></label></td>
+                 
+              </tr>
+               <%} %>
+               
+               
+                 <% if(applicationFormBean.getCtNursingCertValue()==null)  {%>
+               <tr>
+                <td><label class="label1"> Whether have  First Aid certificate course from St. John’s Ambulance Organization or Red Cross Society of India </label></td>
+                <td><label><% if(applicationFormBean.isCtNursingCert()){ %> Yes <% }else{ %> No
+								<%} %></label></td>
+                 
+              </tr>
+              
+               <%} %>
+               
+                 <% if(applicationFormBean.getCtNursingExpValue()==null)  {%>
+               <tr>
+                <td><label class="label1"> Whether have Experience of duration of minimum one year as Nursing Assistant in a minimum fifty bedded Hospital or Institution recognised by the Central Government or State Governments. </label></td>
+                <td><label><% if(applicationFormBean.isCtNursingExp()){ %> Yes <% }else{ %> No
+								<%} %></label></td>
+                 
+              </tr>
+              
+               <%} %>
+               
+               
+              </td>
+              </tr>
               </table>
               </td>
               </tr>
@@ -876,7 +900,7 @@ window.print();
                 <label><jsp:getProperty name="AcknoweledgementBean" property="date_created" /></label></td>
                 
 					<td align="right" valign="middle" >	
-							 <img  align="right" id="ContentPlaceHolder1_ImgSignature" src="../ssb_uploads/candidateImages/SI/<jsp:getProperty name="AcknoweledgementBean" property="sigFileName" />" style="height:40px;width:160px; margin-bottom:10px;">
+							 <img  align="right" id="ContentPlaceHolder1_ImgSignature" src="../ssb_uploads26/candidateImages/MEDICAL/<jsp:getProperty name="AcknoweledgementBean" property="sigFileName" />" style="height:40px;width:160px; margin-bottom:10px;">
 					 </td>
 			     </tr>
 			     </table>
