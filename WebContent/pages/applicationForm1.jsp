@@ -48,7 +48,7 @@ display:none
 display:none
 }
 .draughtsmanship{
-display:none
+display:none 
 }
 </style>
 <script type="text/javascript">
@@ -457,10 +457,33 @@ function trim1(a){return a;}
 		$("#aadharCharsError").show();
 		l=true;
 	}
-	if(identity_type==""){
+	if (identity_type == "" || identity_type == null) {
+ 
 		$("#identity_errormessage").show();
-		l=true;
+		l = true;
+	} else {
+		if (identity_type == "Aadhaar Card") {
+			if (aadhar.length != 12 ) {
+				$("#identity_errormessage_aadhar").show();
+				l = true;
+			}
+			
+ 
+		}
+		if (identity_type == "PAN Card") {
+			if (aadhar.length != 10) {
+				$("#identity_errormessage_pan").show();
+				l = true;
+			}
+		}
+		if (identity_type == "Passport") {
+			if (aadhar.length != 8 ) {
+				$("#identity_errormessage_passport").show();
+				l = true;
+			}
+		}
 	}
+ 
     
 	if(im==""){
 		$("#identificationError").show();
@@ -733,13 +756,69 @@ $("#sex").change(function(){
 		$("#aadharCharsError").hide();
 	});
 
-$("#identity_type").change(function(){
+/* $("#identity_type").change(function(){
 		if(!($("#identity_type").val()==""))
 			{
 			$("#identity_errormessage").hide();
 			}
 	});
-	
+	 */
+	 
+ function changeIdentityType(){ 
+	var identity_type = trim1($("#identity_type").val());
+		var aadharNoField = document.getElementById('aadharNo');
+		aadharNoField.value="";
+		if (identity_type == "Aadhaar Card") {
+			$('#identity_text').html("ENTER AADHAAR NUMBER :");
+			$('#aadharCharsMessage').html(" Aadhaar Number Should be 12 Digits only ");
+			$("#aadharCharsMessage").show();
+			aadharNoField.maxLength = 12;
+			aadharNoField.onkeypress=function (){return numbersonly_mobile(aadharNoField,event)};
+			
+		} else {
+			$('#identity_text').html(" ENTER IDENTITY CARD NO:");
+			$("#aadharCharsMessage").show();
+			if (identity_type == "PAN Card") {
+				$('#identity_text').html(" ENTER PAN CARD NO:");
+				$('#aadharCharsMessage').html(" PAN number should be exactly 10 alphanumeric characters.");
+				aadharNoField.maxLength = 10;
+				aadharNoField.onkeypress=function (){return charsAndNumbersOnly(aadharNoField,event)};
+			} else if (identity_type == "Passport") {
+				$('#identity_text').html(" ENTER PASSPORT NO:");
+				$('#aadharCharsMessage').html("Passport Number Should be 8 alphanumeric characters.  ");
+				aadharNoField.maxLength = 8;
+				aadharNoField.onkeypress=function (){return charsAndNumbersOnly(aadharNoField,event)};
+			}
+			else if(identity_type=="Driving License"){
+				$('#identity_text').html(" ENTER DRIVING LICENSE NO:");
+				$("#aadharCharsMessage").hide();
+				aadharNoField.maxLength = 25;
+				aadharNoField.onkeypress=function (){return charsNumbersAndSpecialCharsOnly(aadharNoField,event)};
+			}
+			
+			else { 
+				$("#aadharCharsMessage").hide();
+				aadharNoField.maxLength = 25;
+				aadharNoField.onkeypress=function (){return charsNumbersAndSpecialCharsOnly(aadharNoField,event)};
+			}
+
+		}
+	}
+
+		$("#identity_type").change(function() {
+		if (!($("#identity_type").val() == "")) {
+			$("#identity_errormessage").hide();
+		}
+		$("#aadharCharsError").hide();
+		$("#identity_errormessage_aadhar").hide();
+		$("#identity_errormessage_pan").hide();
+		$("#identity_errormessage_passport").hide();
+	 
+		$("#aadharCharsError_opt").hide();
+		$("#identity_errormessage_aadhar_opt").hide();
+		$("#identity_match_aadhar_opt").hide();
+		changeIdentityType();
+	});
 $('#personalMoal').keyup(function(){
 	if(!($("#personalMoal").val()==""))
 		{
@@ -1885,7 +1964,7 @@ function firstPagevalidation(){
 							if(parseFloat(edm2,10)>100 || parseFloat(edm2,10)<=0){
 								alert("Please select valid aggregate percentage of marks for 10+2 Certificate");
 								return false;
-							}
+							} 
 						}
 						else{
 						 if(post_applied=="1" || post_applied=="3" ){
@@ -1907,7 +1986,9 @@ function firstPagevalidation(){
 							var eyear3=document.applicationForm.edu_year_3.value;
 							var edug3=false;
 							var edug4=false;
+							var eduGrd = false;
 							if(ep3!="" && ey3!="" && es3!="" && em3!="" && uni3!="" && stream3!="" && edm3!="" && eyear3!=""){
+								eduGrd=true;
 								if(!dateDiff(dob,em3)){
 									alert("Date Of Issuedd should be Greater than Date of birth for Graduation Certificate");
 									return false;
@@ -1929,6 +2010,8 @@ function firstPagevalidation(){
 									alert("Please select valid aggregate percentage of marks for Graduation Certificate");
 									return false;
 								}
+
+								
 							}
 
 							 
@@ -1942,7 +2025,9 @@ function firstPagevalidation(){
 								var edm4=document.applicationForm.edu_marks_4.value;
 								var eyear4=document.applicationForm.edu_year_4.value;
 								var edu4=false;
+								var eduPG = false;
 								if(ep4!="" && ey4!="" && es4!="" && em4!="" && uni4!="" && stream4!="" && edm4!="" && eyear4!=""){
+									eduPG= true
 									if(!dateDiff(dob,em4)){
 										alert("Date Of Issued should be Greater than Date of birth for Post Graduation Certificate");
 										return false;
@@ -1976,7 +2061,9 @@ function firstPagevalidation(){
 									var edmd4=document.applicationForm.edu_marks_5.value;
 									var eyeard4=document.applicationForm.edu_year_5.value;
 									var edud4=false;
+									var eduDip =false;
 									if(epd4!="" && eyd4!="" && esd4!="" && emd4!="" && unid4!="" && streamd4!="" && edmd4!="" && eyeard4!=""){
+										eduDip = true ;
 										if(!dateDiff(dob,emd4)){
 											alert("Date Of Issued should be Greater than Date of birth for Diploma Certificate");
 											return false;
@@ -2007,6 +2094,30 @@ function firstPagevalidation(){
 											return false;
 										}
 									} 
+
+									//10th // inter 
+									if(edu3==true && eyear2 <= eyear1 ){
+										alert("10+2 Year of exam should be after matriculation year of exam");
+										return false;
+									} 
+
+									// inter //dip
+									if(edu3 == true && eduDip==true   && (eyeard4 <= eyear2) ){
+										alert("Diploma Year of exam should be after 10+2 Year of exam");
+										return false;
+									}
+
+									//dip // grad
+									if(eduDip==true && eduGrd == true && (eyear3 <= eyeard4) ){
+										alert("Graduation Year of exam should be after Diploma Year of exam");
+										return false;
+									}
+
+									// grad //PG
+									if( eduGrd == true &&  eduPG==true && (eyear4 <= eyear3) ){
+										alert("Post Graduation Year of exam should be after Graduation Year of exam");
+										return false;
+									}
 
 		
 		return true;
@@ -3066,6 +3177,14 @@ function getAgeOfTwoDates(date1,date2) {
 		 });  */
 	}
 </script>
+
+<script>
+
+
+
+
+	
+</script>
 </head>
 <body onload="check(); parsePostsJSON();">
 <jsp:include page="header.jsp" flush="true" />
@@ -3852,7 +3971,7 @@ function getAgeOfTwoDates(date1,date2) {
 																class="drop1 pageRequired" name=identity_type
 																id=identity_type>
 																	<option value="">Select Identity Card Type</option>
-																	<option value="Aadhar Card">Aadhar Card</option>
+																	<option value="Aadhaar Card">Aadhaar Card</option>
 																	<option value="Voter Id">Voter Id</option>
 																	<option value="PAN Card">PAN Card</option>
 																	<option value="Passport">Passport</option>
@@ -3861,15 +3980,20 @@ function getAgeOfTwoDates(date1,date2) {
 																	<option value="Birth Certificate">Birth Certificate</option>
 																	<option value="University / College Id Card">University / College Id Card</option>
 															</select></td>
-															<td align="left" valign="middle"><div
+															<td align="left" valign="middle">
+															
+															<div id="aadharCharsMessage"  style="display: none; color: black;"> </div><div
 																	class="rightsideErrorClassR">
 																	<div id="identity_errormessage" class="error"
 																		style="display: none;">Select Identity Card Type</div>
+																		<div id="identity_errormessage_aadhar" class="error" style="display: none;"> Aadhaar Number should be 12 digits only</div>
+																		<div id="identity_errormessage_pan" class="error" style="display: none;">Pan number should be 10 alphanumeric characters.</div>	
+																		<div id="identity_errormessage_passport" class="error"  style="display: none;">Passport Number should be 8 alphanumeric characters.</div>	
 																</div></td>
 														</tr>
 														
 														<tr>
-															<td align="left" valign="middle" width="38.5%"><label style="font-weight:bold;">Enter Identity Card No  : <span style="color: red">*</span> </label> <!-- <span style="display:inline-block;color:#EC7063;width:10px;">(Optional)</span> --></td>
+															<td align="left" valign="middle" width="38.5%"><label id="identity_text" style="font-weight:bold;">Enter Identity Card No  : <span style="color: red">*</span> </label> <!-- <span style="display:inline-block;color:#EC7063;width:10px;">(Optional)</span> --></td>
 															<td align="left" valign="middle" width="30%"><input type="text"
 																class="text1" oncut="return false" oncopy="return false"
 																onpaste="return false" id=aadharNo
