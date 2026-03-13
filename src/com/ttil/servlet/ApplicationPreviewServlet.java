@@ -223,37 +223,43 @@ public class ApplicationPreviewServlet extends HttpServlet {
 						// System.err.println("request ): " + request.getParameter("nursing_council"));
 
 						if (request.getParameter("hc_lab_asst_cert") != null) {
-							applicationFormBean.setHcLabAsstCert(Boolean.parseBoolean(request.getParameter("hc_lab_asst_cert")));
+							applicationFormBean
+									.setHcLabAsstCert(Boolean.parseBoolean(request.getParameter("hc_lab_asst_cert")));
 						} else {
 							applicationFormBean.setHcLabAsstCertValue("");
 						}
-						
+
 						if (request.getParameter("hc_lab_asst_exp") != null) {
-							applicationFormBean.setHcLabAsstExp(Boolean.parseBoolean(request.getParameter("hc_lab_asst_exp")));
+							applicationFormBean
+									.setHcLabAsstExp(Boolean.parseBoolean(request.getParameter("hc_lab_asst_exp")));
 						} else {
 							applicationFormBean.setHcLabAsstExpValue("");
 						}
-						
+
 						if (request.getParameter("hc_physio_asst_cert") != null) {
-							applicationFormBean.setHcPhysioAsstCert(Boolean.parseBoolean(request.getParameter("hc_physio_asst_cert")));
+							applicationFormBean.setHcPhysioAsstCert(
+									Boolean.parseBoolean(request.getParameter("hc_physio_asst_cert")));
 						} else {
 							applicationFormBean.setHcPhysioAsstCertValue("");
 						}
-						
+
 						if (request.getParameter("hc_physio_asst_exp") != null) {
-						applicationFormBean.setHcPhysioAsstExp(Boolean.parseBoolean(request.getParameter("hc_physio_asst_exp")));
-					} else {
-						applicationFormBean.setHcPhysioAsstExpValue("");
-					}
-						
+							applicationFormBean.setHcPhysioAsstExp(
+									Boolean.parseBoolean(request.getParameter("hc_physio_asst_exp")));
+						} else {
+							applicationFormBean.setHcPhysioAsstExpValue("");
+						}
+
 						if (request.getParameter("ct_nursing_asst_cert") != null) {
-							applicationFormBean.setCtNursingCert(Boolean.parseBoolean(request.getParameter("ct_nursing_asst_cert")));
+							applicationFormBean.setCtNursingCert(
+									Boolean.parseBoolean(request.getParameter("ct_nursing_asst_cert")));
 						} else {
 							applicationFormBean.setCtNursingCertValue("");
 						}
-						
+
 						if (request.getParameter("ct_nursing_asst_exp") != null) {
-							applicationFormBean.setCtNursingExp(Boolean.parseBoolean(request.getParameter("ct_nursing_asst_exp")));
+							applicationFormBean
+									.setCtNursingExp(Boolean.parseBoolean(request.getParameter("ct_nursing_asst_exp")));
 						} else {
 							applicationFormBean.setCtNursingExpValue("");
 						}
@@ -405,7 +411,7 @@ public class ApplicationPreviewServlet extends HttpServlet {
 						if (payExempted == true) {
 							fee_amount = 0;
 						} else {
-							fee_amount = 200;
+							fee_amount = 100;
 						}
 						applicationFormBean.setFee_amount(fee_amount);
 						applicationFormBean.setPayExempted(payExempted);

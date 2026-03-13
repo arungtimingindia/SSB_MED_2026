@@ -377,10 +377,29 @@
                 <td><label class="label1">Marital Status : </label></td>
                 <td><label><jsp:getProperty name="ApplicationFormBean" property="marrital_status" /></label></td>
               </tr>
+
                <tr>
                 <td><label class="label1">Nationality  : </label></td>
-                <td><label><jsp:getProperty name="ApplicationFormBean" property="nationality" /></label></td>
+                <td>
+                  <label><jsp:getProperty name="ApplicationFormBean" property="nationality" /></label>
+                  <% if("Others".equalsIgnoreCase(applicationFormBean.getNationality())){%>
+                    (<label><jsp:getProperty name="ApplicationFormBean" property="other_nationality" /></label>)
+              <%} %>
+              </td>
               </tr>
+
+              
+
+
+              
+               <!-- <tr>
+                <td><label class="label1">Nationality  : </label></td>
+                <td><label><jsp:getProperty name="ApplicationFormBean" property="other_nationality" /></label></td>
+              </tr> -->
+
+               
+
+              
               <tr>
                 <td><label class="label1">Category : </label></td>
                 <td><label><jsp:getProperty name="ApplicationFormBean" property="community" /></label></td>

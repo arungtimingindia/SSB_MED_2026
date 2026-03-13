@@ -54,7 +54,7 @@
 										<div class="form-group">
 										<input type="hidden" name="requestFrom" value="ApplicationHome"/>
 											<label>Registration ID</label>
-											<input type="text" class="form-control" placeholder="Enter your Registraion ID" maxlength="8" autocomplete="off" oncut="return false;" oncopy="return false;" onpaste="return false;" id="transactionid" name="transactionid" 
+											<input type="text" class="form-control" placeholder="Enter your Registration ID" maxlength="8" autocomplete="off" oncut="return false;" oncopy="return false;" onpaste="return false;" id="transactionid" name="transactionid" 
                                     onKeyPress="return numbersonly_mobile(this,event)" />
 										</div>
 										<div class="form-group">

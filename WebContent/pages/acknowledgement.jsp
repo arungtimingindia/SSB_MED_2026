@@ -78,7 +78,7 @@ form:before { content: url(images/ssb_400.png);
   width: 100%;
   height: 100%;
 } */
-}
+
   
 </style>
 
@@ -117,7 +117,7 @@ window.print();
            SASHASTRA SEEMA BAL RECRUITMENT
            </h1>
            <h2 style="margin-top: 11px; margin-left: -110px; font-size:14px;">
-          RECRUITMENT OF 338/RC/SSB/Combined Advt./Sub-Inspectors/2023 FOR THE POST OF (<%=applicationFormBean.getPost_selected_name() %>) 
+          RECRUITMENT OF 524/RC/SSB/Combined Advt./CT to SI (Non-GD)/2025 FOR THE POST OF (<%=applicationFormBean.getPost_selected_name() %>) 
            </h2>
 		</div>
     </div> 
