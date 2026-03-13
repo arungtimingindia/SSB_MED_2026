@@ -34,7 +34,7 @@
 					<div class="contentList">
 						<div class="blockHeader" style="font-size: 15px;">
 						<div>
-						Advertisement no : 338/RC/SSB/Combined Advt./Sub-Inspectors/2023 - <br/> Online applications are invited for the Post's of Sub-Inspectors (Pioneer, Draughtsman, Communication and Staff Nurse Female) in Group-'B' Non-Gazetted (Combatised) 
+						Advertisement No. 524/RC/SSB/Combined Advt./CT to SI (Non-GD)/2025  - <br/> Online applications are invited for filling up the posts of Head Constable (Laboratory Assistant), Head Constable (Physiotherapy Assistant) & Constable (Nursing Assistant cum Medic) in Group-C Non-Gazetted (Combatised) 
 						</div><br/>
 					  
 						</div>
@@ -42,7 +42,7 @@
 							<div class="text-center">
 								<p>
 									Start Date : 
-									<span>18-03-2026</span>
+									<span>21-03-2026</span>
 								</p>
 								<p>
 									End Date:

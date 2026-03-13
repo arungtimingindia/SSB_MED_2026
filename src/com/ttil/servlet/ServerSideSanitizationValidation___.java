@@ -245,7 +245,7 @@ public class ServerSideSanitizationValidation___ {
 					applicationFormBean.getPassword(), CharsNumbersAndSpecialChars, 6, false);
 			if (!pwd_status) {
 				messageOb.add("Please Provide Valid input in Password (6 Characters only).");
-			}  
+			}
 			/*
 			 * if(!(("true".equalsIgnoreCase(applicationFormBean.getJk_domiciledS())) ||
 			 * ("false".equalsIgnoreCase(applicationFormBean.getJk_domiciledS())))) {
@@ -320,7 +320,7 @@ public class ServerSideSanitizationValidation___ {
 						messageOb.add(
 								"Matriculation Certificate Issued Date / Passing Year & Date should be atleast 12 years after Date of birth");
 					}
-					if (Integer.parseInt(edm1) > 100 || Integer.parseInt(edm1) <=0) {
+					if (Integer.parseInt(edm1) > 100 || Integer.parseInt(edm1) <= 0) {
 						messageOb.add(
 								"Please select valid aggregate percentage of marks for Matriculation Certificate");
 					}
@@ -411,7 +411,7 @@ public class ServerSideSanitizationValidation___ {
 								"Graduation Certificate Issued Date / Passing Year & Date should be less than or equal to 18-06-2023");
 					}
 
-					if (Integer.parseInt(edm3) > 100 || Integer.parseInt(edm3) <=0) {
+					if (Integer.parseInt(edm3) > 100 || Integer.parseInt(edm3) <= 0) {
 						messageOb.add(
 								"Please select valid aggregate percentage of marks for Graduation Certificate");
 					}
@@ -508,16 +508,16 @@ public class ServerSideSanitizationValidation___ {
 					}
 				}
 
-				if ((post_applied == 1 || post_applied == 4)
-						&& applicationFormBean.getNationality().equalsIgnoreCase("Others")) {
-					messageOb.add("Nationality should be Indian for the selected Post");
-				}
+				// if ((post_applied == 1 || post_applied == 4)
+				// && applicationFormBean.getNationality().equalsIgnoreCase("Others")) {
+				// messageOb.add("Nationality should be Indian for the selected Post");
+				// }
 
 				if (post_applied == 4) {
 
-					String inter = applicationFormBean.getStream_plus2();  
+					String inter = applicationFormBean.getStream_plus2();
 					String diploma = applicationFormBean.getStream_5();
-		    		
+
 					if (applicationFormBean.isNursing_council() == false
 							|| applicationFormBean.getNurse().equalsIgnoreCase("")) {
 						messageOb.add("Must be registered with Central or State Nursing Council for selected post.");
@@ -527,12 +527,11 @@ public class ServerSideSanitizationValidation___ {
 						messageOb.add(
 								"You should have Two years Experience in a recognised Hospital to apply for selected post.");
 					}
-					
-					if(inter.equalsIgnoreCase("Science") && diploma.equalsIgnoreCase("general_nursing")){}
-					else if(!(inter.equalsIgnoreCase("Science"))){
+
+					if (inter.equalsIgnoreCase("Science") && diploma.equalsIgnoreCase("general_nursing")) {
+					} else if (!(inter.equalsIgnoreCase("Science"))) {
 						messageOb.add("You should have Science as your subject in 10+2");
-					}
-					else if(!(diploma.equalsIgnoreCase("general_nursing"))){
+					} else if (!(diploma.equalsIgnoreCase("general_nursing"))) {
 						messageOb.add("You should have General nursing as your subject in Diploma");
 					}
 
@@ -552,30 +551,34 @@ public class ServerSideSanitizationValidation___ {
 					/*
 					 * if(applicationFormBean.isDraughtsmanship_exp()==false ||
 					 * applicationFormBean.getDraft().equalsIgnoreCase("")){ messageOb.
-					 * add("Should have one year experience in Draughtsmanship from a recognised Architect Consultancy Firm of Category ‘B’ and ‘C."
+					 * add("Should have one year experience in Draughtsmanship from a recognised Architect Consultancy Firm of Category ï¿½Bï¿½ and ï¿½C."
 					 * ); }
 					 */
 
 				}
-				
-				  if(post_applied==1){
-				    	String degree = applicationFormBean.getStream_3();
-				    	String diploma = applicationFormBean.getStream_5();
-				    	if(degree.equalsIgnoreCase("civil_Engineering") || diploma.equalsIgnoreCase("civil_Engineering")){}
-				    	else{
-				    		messageOb.add("You should have Civil Engineering as your subject either in Graduation or in Diploma");
-				    	}
-				    }
-				    
-				    if(post_applied==3){
-				    	String degree = applicationFormBean.getStream_3(); 
-				    	
-				    	if(degree.equalsIgnoreCase("Electronics_and_Communication") || degree.equalsIgnoreCase("Computer_Science") ||  degree.equalsIgnoreCase("Information_Technology_Engineering") 
-				    			|| degree.equalsIgnoreCase("Science(Physics,Chemistry and Mathematics)")){}
-				    	else{
-				    		messageOb.add("You should have Electronics and Communication or Computer Science or Information Technology Engineering or Science with Physics, Chemistry and Mathematics as your subject in Graduation. ");
-				    	}
-				    }
+
+				if (post_applied == 1) {
+					String degree = applicationFormBean.getStream_3();
+					String diploma = applicationFormBean.getStream_5();
+					if (degree.equalsIgnoreCase("civil_Engineering") || diploma.equalsIgnoreCase("civil_Engineering")) {
+					} else {
+						messageOb.add(
+								"You should have Civil Engineering as your subject either in Graduation or in Diploma");
+					}
+				}
+
+				if (post_applied == 3) {
+					String degree = applicationFormBean.getStream_3();
+
+					if (degree.equalsIgnoreCase("Electronics_and_Communication")
+							|| degree.equalsIgnoreCase("Computer_Science")
+							|| degree.equalsIgnoreCase("Information_Technology_Engineering")
+							|| degree.equalsIgnoreCase("Science(Physics,Chemistry and Mathematics)")) {
+					} else {
+						messageOb.add(
+								"You should have Electronics and Communication or Computer Science or Information Technology Engineering or Science with Physics, Chemistry and Mathematics as your subject in Graduation. ");
+					}
+				}
 
 				min_age = 18;
 				max_age = 30;
@@ -633,35 +636,37 @@ public class ServerSideSanitizationValidation___ {
 
 				}
 
-
 				if ("true".equalsIgnoreCase(applicationFormBean.getJk_domiciledS())
 						|| "true".equalsIgnoreCase(applicationFormBean.getRiots_gujaratS())
 						|| "true".equalsIgnoreCase(applicationFormBean.getRiots_affectedS())) {
 					riots_flag = true;
-					if(applicationFormBean.getJk_cert_no()==null || applicationFormBean.getJk_cert_no().equalsIgnoreCase("")) {
+					if (applicationFormBean.getJk_cert_no() == null
+							|| applicationFormBean.getJk_cert_no().equalsIgnoreCase("")) {
 						messageOb.add("Please Enter Certificate No for J&K Domicile Certificate");
-					}
-					else if(applicationFormBean.getJk_date_Issue()==null || applicationFormBean.getJk_date_Issue().equalsIgnoreCase("")) {
+					} else if (applicationFormBean.getJk_date_Issue() == null
+							|| applicationFormBean.getJk_date_Issue().equalsIgnoreCase("")) {
 						messageOb.add("Please Select Date Of Issued for J&K Domicile Certificate");
-					}else if(applicationFormBean.getJk_issue_authority()==null || applicationFormBean.getJk_issue_authority().equalsIgnoreCase("")) {
+					} else if (applicationFormBean.getJk_issue_authority() == null
+							|| applicationFormBean.getJk_issue_authority().equalsIgnoreCase("")) {
 						messageOb.add("Please Enter Issuing Authority for J&K Domicile Certificate");
+					} else if (!dateDiff(dob, applicationFormBean.getJk_date_Issue())) {
+						messageOb.add(
+								"Date Of Issued should be Greater than Date of birth for J&K Domicile Certificate");
 					}
-					else if(!dateDiff(dob,applicationFormBean.getJk_date_Issue())){
-						messageOb.add("Date Of Issued should be Greater than Date of birth for J&K Domicile Certificate");
-					}
-					
-					else if(applicationFormBean.getRiots_cert_no()==null || applicationFormBean.getRiots_cert_no().equalsIgnoreCase("")) {
+
+					else if (applicationFormBean.getRiots_cert_no() == null
+							|| applicationFormBean.getRiots_cert_no().equalsIgnoreCase("")) {
 						messageOb.add("Please Enter Certificate No for riots Certificate");
-					}
-					else if(applicationFormBean.getRiots_date_Issue()==null || applicationFormBean.getRiots_date_Issue().equalsIgnoreCase("")) {
+					} else if (applicationFormBean.getRiots_date_Issue() == null
+							|| applicationFormBean.getRiots_date_Issue().equalsIgnoreCase("")) {
 						messageOb.add("Please Select Date Of Issued for riots Certificate");
-					}else if(applicationFormBean.getRiots_issue_authority()==null || applicationFormBean.getRiots_issue_authority().equalsIgnoreCase("")) {
+					} else if (applicationFormBean.getRiots_issue_authority() == null
+							|| applicationFormBean.getRiots_issue_authority().equalsIgnoreCase("")) {
 						messageOb.add("Please Enter Issuing Authority for riots Certificate");
-					}
-					else if(!dateDiff(dob,applicationFormBean.getRiots_date_Issue())){
+					} else if (!dateDiff(dob, applicationFormBean.getRiots_date_Issue())) {
 						messageOb.add("Date Of Issued should be Greater than Date of birth for riots Certificate");
 					}
-					
+
 				}
 				/*
 				 * System.out.println("exman="+exman); System.out.println("govtFlag="+govtFlag);
@@ -763,7 +768,7 @@ public class ServerSideSanitizationValidation___ {
 
 					}
 
-				  else if (riots_flag == true) {
+					else if (riots_flag == true) {
 						if ("SC".equalsIgnoreCase(community) || "ST".equalsIgnoreCase(community)) {
 							max_age = max_age + 10;
 						} else if ("OBC".equalsIgnoreCase(community)) {

@@ -1378,12 +1378,12 @@ $("#other_reason").keyup(function(){
 			
 			$('#post_selected_id').text(post_applied_value);
 			
-			if(post_applied=="1" || post_applied=="4"){
-				document.getElementById("others").style.display = "none";
-			}
-			else{
-				document.getElementById("others").style.display = "block";
-			}
+			// if(post_applied=="1" || post_applied=="4"){
+			// 	document.getElementById("others").style.display = "none";
+			// }
+			// else{
+			// 	document.getElementById("others").style.display = "block";
+			// }
 			
 			if(post_applied=="1"){
 				 min_age="18";
