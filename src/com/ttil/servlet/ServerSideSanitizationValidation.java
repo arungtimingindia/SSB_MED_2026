@@ -26,10 +26,10 @@ public class ServerSideSanitizationValidation {
 			String CharsNumbers = "^[a-zA-Z0-9 \\-]*$";
 			String CharsNumbersAndSpecialChars = "^[a-zA-Z0-9 \\-.,()&@_/:;'#]*$";
 			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-			String notEndDate = "11-04-2026";
+			String notEndDate = "20-04-2026";
 			// Date notificationDate = sdf.parse("18-06-2023");
 			Date notificationDate = sdf.parse(notEndDate);
-			String lessEqualCheck = "12-04-2026";
+			String lessEqualCheck = "21-04-2026";
 
 			boolean firstname_status = ESAPI.validator().isValidInput("ServerSideTest",
 					applicationFormBean.getFirst_name().trim(), charactersOnlyRule, 30, false);
@@ -499,60 +499,52 @@ public class ServerSideSanitizationValidation {
 						messageOb.add("You should have Biology as your subject in 12th class ");
 					}
 
-					if ((applicationFormBean.isHcLabAsstCert()  == false
+					if ((applicationFormBean.isHcLabAsstCert() == false
 							|| (null != applicationFormBean.getHcLabAsstCertValue()
-									&& applicationFormBean.getHcLabAsstCertValue().equalsIgnoreCase(""))
-					)) {
+									&& applicationFormBean.getHcLabAsstCertValue().equalsIgnoreCase("")))) {
 						messageOb.add(
 								"You should have Certificate course of a duration of minimum one year in Laboratory Assistant Course from a recognized institution");
 					}
-					
-					if ((applicationFormBean.isHcLabAsstExp()  == false
+
+					if ((applicationFormBean.isHcLabAsstExp() == false
 							|| (null != applicationFormBean.getHcLabAsstExpValue()
-									&& applicationFormBean.getHcLabAsstExpValue().equalsIgnoreCase(""))
-					)) {
+									&& applicationFormBean.getHcLabAsstExpValue().equalsIgnoreCase("")))) {
 						messageOb.add(
 								"You should have Working experience of duration of minimum One year as Lab Assistant in Laboratory Diagnostic Centre or hospital or institution lab recognized by the Central Government or State Government ");
 					}
 
 				}
-				
-				if (post_applied == 3) { 
-				 
 
-					if ((applicationFormBean.isHcPhysioAsstCert()  == false
+				if (post_applied == 3) {
+
+					if ((applicationFormBean.isHcPhysioAsstCert() == false
 							|| (null != applicationFormBean.getHcPhysioAsstCertValue()
-									&& applicationFormBean.getHcPhysioAsstCertValue().equalsIgnoreCase(""))
-					)) {
+									&& applicationFormBean.getHcPhysioAsstCertValue().equalsIgnoreCase("")))) {
 						messageOb.add(
 								"You should have Certificate course of duration of minimum one year in Physiotherapy from a recognized institute  ");
 					}
-					
-					if ((applicationFormBean.isHcPhysioAsstExp()  == false
+
+					if ((applicationFormBean.isHcPhysioAsstExp() == false
 							|| (null != applicationFormBean.getHcPhysioAsstExpValue()
-									&& applicationFormBean.getHcPhysioAsstExpValue().equalsIgnoreCase(""))
-					)) {
+									&& applicationFormBean.getHcPhysioAsstExpValue().equalsIgnoreCase("")))) {
 						messageOb.add(
 								"You should have Experience of duration of minimum one year as Physiotherapy Assistant from a Physiotherapy Centre or minimum hundred bedded hospital or institute recognised by the Central Government or State Government  ");
 					}
 
 				}
-				
-				if (post_applied == 4) { 
-					 
 
-					if ((applicationFormBean.isCtNursingCert()  == false
+				if (post_applied == 4) {
+
+					if ((applicationFormBean.isCtNursingCert() == false
 							|| (null != applicationFormBean.getCtNursingCertValue()
-									&& applicationFormBean.getCtNursingCertValue().equalsIgnoreCase(""))
-					)) {
+									&& applicationFormBean.getCtNursingCertValue().equalsIgnoreCase("")))) {
 						messageOb.add(
 								"You should have First Aid certificate course from St. John’s Ambulance Organization or Red Cross Society of India  ");
 					}
-					
+
 					if ((applicationFormBean.isCtNursingExp() == false
 							|| (null != applicationFormBean.getCtNursingExpValue()
-									&& applicationFormBean.getCtNursingExpValue().equalsIgnoreCase(""))
-					)) {
+									&& applicationFormBean.getCtNursingExpValue().equalsIgnoreCase("")))) {
 						messageOb.add(
 								"You should have Experience of duration of minimum one year as Nursing Assistant in a minimum fifty bedded Hospital or Institution recognised by the Central Government or State Governments.  ");
 					}
@@ -741,7 +733,7 @@ public class ServerSideSanitizationValidation {
 					if ("SC".equalsIgnoreCase(community) || "ST".equalsIgnoreCase(community)) {
 						max_age = 45;
 					} else if ("OBC".equalsIgnoreCase(community)) {
-						max_age = 43;
+						max_age = 40; // not metioned for obc so we considered similar to general
 					} else if ("General".equalsIgnoreCase(community) || "EWS".equalsIgnoreCase(community)) {
 						max_age = 40;
 					}

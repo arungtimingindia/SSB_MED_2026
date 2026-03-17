@@ -412,11 +412,11 @@
               </tr>
               <%} %>
               
-               <tr>
+               <%-- <tr>
                 <td><label class="label1">Whether in Government Service : </label></td>
                 <td><label><% if(applicationFormBean.isGovt_service()){ %> Yes <% }else{ %> No
 								<%} %></label></td>
-              </tr>
+              </tr> --%>
               <%--  <tr>
                 <td><label class="label1">Whether in Government Service : </label></td>
                 <td><label><% if(applicationFormBean.isGovt_service()){ %> Yes <% }else{ %> No
