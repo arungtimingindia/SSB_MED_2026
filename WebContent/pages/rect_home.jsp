@@ -109,7 +109,7 @@
 								<div class="panelBody">
 									<ul class="candidatesNote">
 										<li>
-											<a href="pdfs/adv-2_SI.pdf" target="_blank"><button type="button" class="btn btn-primary advBtn">Advertisement</button></a>
+											<a href="pdfs/Medical_cadre_Ct__HC.pdf" target="_blank"><button type="button" class="btn btn-primary advBtn">Advertisement</button></a>
 										</li>
 										<li>
 											<a href="pdfs/SSB_ADVT_GUIDELINES.pdf" target="_blank"><button type="button" class="btn btn-primary instructionBtn">Instruction to the Candidates</button></a>

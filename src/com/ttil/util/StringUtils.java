@@ -187,16 +187,17 @@ public class StringUtils {
 		if (postName != null) {
 			if (postName.equalsIgnoreCase("1")) {
 				return "Head Constable (Laboratory Assistant)";
-			} 
-//			else if (postName.equalsIgnoreCase("2")) {
-//				return "Sub Inspector (Draughtsman)";
-//			} 
+			}
+			// else if (postName.equalsIgnoreCase("2")) {
+			// return "Sub Inspector (Draughtsman)";
+			// }
 			else if (postName.equalsIgnoreCase("3")) {
 				return "Head Constable (Physiotherapy Assistant)";
 			} else if (postName.equalsIgnoreCase("4")) {
 				return "Constable (Nursing Assistant cum Medic)";
-			} else
-				return "Sub Inspector";
+			}
+			// else
+			// return "Sub Inspector";
 
 		}
 		return "";

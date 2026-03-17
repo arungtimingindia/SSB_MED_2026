@@ -52,10 +52,10 @@ display:none
 }
 </style>
 <script type="text/javascript">
-	var maxDOBDateValue = "11-04-2008"; //max dob picker
-		var maxDateValue = "11-04-2026"; //app last date
-		var dateSincemaxDate = "11-04-2023"; //dept.
-		var lessEqualCheck = "12-04-2026"; //app last date +1 (education certificates validation)
+	var maxDOBDateValue = "20-04-2008"; //max dob picker
+		var maxDateValue = "20-04-2026"; //app last date
+		var dateSincemaxDate = "20-04-2023"; //dept.
+		var lessEqualCheck = "21-04-2026"; //app last date +1 (education certificates validation)
 		
 	$(function() { 
 		//var changeMonth = $( ".selector" ).datepicker( "option", "changeMonth" );
@@ -2451,83 +2451,54 @@ function firstPagevalidation(){
 			var exman_retirement_date=document.applicationForm.exman_retirement_date.value;
 			var exman_enrollment_date=document.applicationForm.exman_enrollment_date.value;
 			var exman_service=AgeCaluclateFor2Dates(exman_enrollment_date,exman_retirement_date);
-			//alert("exman_service "+exman_service);
-			//alert("age "+age);
+			 
 			var exman_ser_age_diff=(age-exman_service);
-		    //alert("exman_ser_age_diff "+exman_ser_age_diff);
+		    
 			
 			if(community=="General" || community=="EWS")
 			{
 				if(exman_ser_age_diff<=(max_age+3)){
 					agevalidated=true;
 				}
-				// else{
-				// 	alert("Your age is Not in Permissible Limit "+min_age+" TO "+(max_age+exman_service+3)+" for Ex-serviceman Candidates.");
-				// 	return false;
-				// }
 			}
 			if(community=="OBC")
 			{
 				if(exman_ser_age_diff<=(max_age+6)){
 					agevalidated=true;
 				}
-				// else{
-				// 	alert("Your age is Not in Permissible Limit "+min_age+" TO "+(max_age+exman_service+6)+" for Ex-serviceman Candidates.");
-				// 	return false;
-				// }
 			}
 		    if(community=="SC" || community=="ST")
 		    {
 				if(exman_ser_age_diff<=(max_age+8)){
 					agevalidated=true;
 				}
-				// else{
-				// 	alert("Your age is Not in Permissible Limit "+min_age+" TO "+(max_age+exman_service+8)+" for Ex-serviceman Candidates.");
-				// 	return false;
-				// }
 			}
 			
 			
 		}
 		 
-		  if(agevalidated==false && ssb_service=="true")
-		  {
+		  if(agevalidated==false && ssb_service=="true" )  { 
 				var govtservice=AgeCaluclateFor2Dates(date_since,maxDateValue); // 18-06-2023
 				if(govtservice>=3)
 				{
 					
 							if(community=="SC" || community=="ST")
 							{
-								// if(age>=min_age && age<=40){
 								if(age>=min_age && age<=45){
 									agevalidated=true;
 								}
-								// else{
-								// 	// alert("Your age must be in between "+min_age+" TO 40 for Departmental Candidates.");
-								// 	alert("Your age must be in between "+min_age+" TO 45 for Departmental Candidates.");
-								// 	return false;
-								// }
 							}
+							
 							else if(community=="OBC"){
-								// if(age>=min_age && age<=38){
-								if(age>=min_age && age<=43){
+								if(age>=min_age && age<=40){ //obc not given so we considered 40 similar to general
 									agevalidated=true;
 								}
-								// else{
-								// 	// alert("Your age must be in between "+min_age+" TO 38 for Departmental Candidates.");
-								// 	alert("Your age must be in between "+min_age+" TO 43 for Departmental Candidates.");
-								// 	return false;
-								// }
-							}else if(community=="General" || community=="EWS"){
-								// if(age>=min_age && age<=35){
+							}
+							
+							else if(community=="General" || community=="EWS"){
 								if(age>=min_age && age<=40){
 									agevalidated=true;
 								}
-								// else{
-								// 	// alert("Your age must be in between "+min_age+" TO 35 for Departmental Candidates.");
-								// 	alert("Your age must be in between "+min_age+" TO 40 for Departmental Candidates.");
-								// 	return false;
-								// }
 							}else{
 								alert("Please select Category.");
 								return false;
@@ -2536,10 +2507,6 @@ function firstPagevalidation(){
 					
 					
 				}
-				// else{
-				// 	alert("You are not eligible for Departmental Candidates, due to service is less than 3 years");
-				// 	return false;
-				// }
 			}
 		
 		
@@ -2549,67 +2516,47 @@ function firstPagevalidation(){
 				if(age>=min_age && age<=(max_age+10)){
 					agevalidated=true;
 				}
-				// else{
-				// 	alert("Your age must be in between "+min_age+" TO "+(max_age+10)+".");
-				// 	return false;
-				// }
+				 
 			}else if(community=="OBC"){
 				if(age>=min_age && age<=(max_age+8)){
 					agevalidated=true;
 				}
-				// else{
-				// 	alert("Your age must be in between "+min_age+" TO "+(max_age+8)+".");
-				// 	return false;
-				// }
+				 
 			}else if(community=="General" || community=="EWS"){
 				if(age>=min_age && age<=(max_age+5)){
 					agevalidated=true;
 				}
-				// else{
-				// 	alert("Your age must be in between "+min_age+" TO "+(max_age+5)+".");
-				// 	return false;
-				// }
+				 
 			}else{
 				alert("Please select Category.");
 				return false;
 			}
 		}
-		 if(agevalidated==false)
-		{
+		 if(agevalidated==false) {
 			if(community=="SC" || community=="ST")
 			{
 				if(age>=min_age && age<=(max_age+sc_rel)){
 					agevalidated=true;
 				}
-				// else{
-				// 	alert("Your age must be in between "+min_age+" TO "+(max_age+sc_rel)+".");
-				// 	return false;	
-				// }	
+				 	
 			}
 			if(community=="OBC")
 			{
 				if(age>=min_age && age<=(max_age+obc_rel)){
 					agevalidated=true;
 				}
-				// else{
-				// 	alert("Your age must be in between "+min_age+" TO "+(max_age+obc_rel)+".");
-				// 	return false;	
-				// }
+				 
 			}
 			if(community=="General" || community=="EWS")
 			{
 				if(age>=min_age && age<=max_age){
 					agevalidated=true;
 				}
-				// else{
-				// 	alert("Your age must be in between "+min_age+" TO "+(max_age)+".");
-				// 	return false;	
-				// }
+				 
 			}
 	   } 
 		
-		if(agevalidated==false){
-			// alert("Your age must be in between "+min_age+" TO "+(max_age)+".");
+		if(agevalidated==false){ 
 			alert("As per Advertisement cut off dates, You are not eligible due to OVER AGE");
 			return false;	
 		}else{
@@ -2633,7 +2580,7 @@ function firstPagevalidation(){
 		// tday=18;
 		// tmo=06;
 		// tyr=2023;
-		tday=11;
+		tday=20;
 		tmo=04;
 		tyr=2026;
 		
@@ -2653,7 +2600,7 @@ function firstPagevalidation(){
 		
 		//var now = new Date("2021","08","22");
 		// var now = new Date("2023","06","18");
-		var now = new Date("2026","04","11");
+		var now = new Date("2026","04","20");
 		var dob1 = document.applicationForm.dob.value;
 		var dobArr = dob1.split("-");
 		var byr=parseInt(dobArr[2]);
@@ -2737,7 +2684,7 @@ function firstPagevalidation(){
 		else if ( (age.years == 0) && (age.months > 0) && (age.days == 0) )
 		ageString = age.months + monthString ;
 		else ageString = "NA"; */
-		document.getElementById('age_as_on').innerHTML = "Age as on (11-Apr-2026): (YY/MM/DD) "+ageString;
+		document.getElementById('age_as_on').innerHTML = "Age as on (20-Apr-2026): (YY/MM/DD) "+ageString;
 		document.applicationForm.age_value.value=ageString;
 		return ageString;
 	}
