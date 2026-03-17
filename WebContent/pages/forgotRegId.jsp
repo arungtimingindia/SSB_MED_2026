@@ -120,10 +120,10 @@ function validation() {
 										  <option value="">Select</option>
 										  <!-- <option value="21">Assistant Commandant (Veterinary)</option>  -->
 										  
-										   <option value="1">Sub Inspector (Pioneer)</option>
-										   <option value="2">Sub Inspector (Draughtsman)</option>
-										   <option value="3">Sub Inspector (Communication)  </option>
-										   <option value="4">Sub Inspector (Staff Nurse Female)</option>
+										    <option value="1">Head Constable (Laboratory Assistant)</option>
+																   <!-- <option value="2">Sub Inspector (Draughtsman)</option> -->
+																   <option value="3">Head Constable (Physiotherapy Assistant)</option>
+																   <option value="4">Constable (Nursing Assistant cum Medic) </option>
 										  
 										  <!--  <option value="1">ASI(Pharmacist)</option>
 										   <option value="2">ASI(Radiographer)</option>
