@@ -37,7 +37,10 @@ display:none
 	display:none
 }
 
-
+.interMandate {
+display:none
+}
+ 
 .hospital {
 display:none
 }
@@ -121,7 +124,8 @@ display:none
 			changeMonth : true,
 			changeYear : true,
 			showButtonPanel : true,
-			yearRange : "-67:+0",
+			yearRange : "-67:+1",  
+			maxDate: '20-04-2027' ,
 			onSelect: function(evnt) {
 				getExmanService();
 		    }
@@ -530,12 +534,12 @@ function trim1(a){return a;}
 	var dob1 = document.applicationForm.dob.value;
 	var dobArr = dob1.split("-");
 	var byr=parseInt(dobArr[2]);
-	//if(byr>=1980 && byr<=1989){
+	 if(byr>=1980 && byr<=1989){
 		if (jk_domiciled < 1){
 	        $("#jkDomicileErrorMessage").show();
 			l=true;
 	    }
-	//}
+	 }
 	
 	
 	
@@ -1678,7 +1682,10 @@ function communityText(){
    if(post_applied=="1"){
 		$('#postCert').show();
 	    $('#postCert').html("(i) 12th class pass with Biology as a subject from a recognized Board, <br/> (ii) Certificate course of a duration of minimum one year in Laboratory Assistant Course from a recognized institution, and <br/>(iii) Working experience of duration of minimum One year as Lab Assistant in Laboratory Diagnostic Centre or hospital or institution lab recognized by the Central Government or State Government. ");
-	}
+	
+	    $('#interMandate').show();
+   
+   }
 	
 	// if(post_applied=="2"){
 	// 	$('#postCert').show();
@@ -1688,16 +1695,21 @@ function communityText(){
 	if(post_applied=="3"){
 		$('#postCert').show();
 	     $('#postCert').html("(i) 12th class pass from a recognized Board. <br/> (ii)  Certificate course of  duration of  minimum one year in Physiotherapy from a recognized institute, and <br/>(iii) Experience of duration of minimum one year as Physiotherapy Assistant from a Physiotherapy Centre or minimum hundred bedded hospital or institute recognised by the Central Government or State Government. ");
+	
+	     $('#interMandate').show();
+	
 	}
 	
 	if(post_applied=="4"){
 		$('#postCert').show();
 	    $('#postCert')
 		.html("(i) 10th class pass from a recognized Board,  <br/> (ii)  First Aid certificate course from St. John’s Ambulance Organization or Red Cross Society of India, and <br/>(iii) Experience of duration of minimum one year as Nursing Assistant in a minimum fifty bedded Hospital or Institution recognised by the Central Government or State Governments. ");
+	
+	    $('#interMandate').hide();
 	}
 	// (i) Should have passed 10+2 in Science or equivalent from a recognized University or Board or Institution. <br />(ii) Should have three years Diploma in General nursing from an Institution recognized by the State or Central Government.<br />(iii) Must be registered with Central or State Nursing Council.<br />(iv) Two years Experience in a recognised Hospital  <br/><br/><br/> 
 	
-	
+	 
 	
 	if(value=="" || value==undefined ){
 		$('#communityCert').hide();
@@ -1720,7 +1732,14 @@ function communityText(){
 		$('#communityCert').show();
 		$('#communityCertAge').show();
 	    $('#communityCert').html("Note: 1. You have selected "+value+" Category. <br/>Please make sure to Submit Relevant Certificate at the time of Document Verification. (Please refer Advertisement of Job Notification for the format of relevant Certificate)");
-	    $('#communityCertAge').html("2. There will be relaxation in age for 5 years");
+	    // $('#communityCertAge').html("2. There will be relaxation in age for 5 years");
+		 
+    if(post_applied == "3" && value == "ST"){
+        $('#communityCertAge').hide();  
+    } else {
+        $('#communityCertAge').html("2. There will be relaxation in age for 5 years");
+    }
+	
 	}
 }
 function categoryText(){
@@ -1953,14 +1972,14 @@ function firstPagevalidation(){
 								alert(`10+2 Certificate Issued Date / Passing Year & Date should be less than or equal to ${maxDateValue} `); // 18-06-2023
 								return false;
 							}
-							if(edu1==true){
-								if(!dateDiff(date_ug,em2)){
-									alert("10+2 Certificate Issued Date should be atleast 1 year after Matriculation Passing Date");
-									return false;
-								}
+							// if(edu1==true){
+							// 	if(!dateDiff(date_ug,em2)){
+							// 		alert("10+2 Certificate Issued Date should be atleast 1 year after Matriculation Passing Date");
+							// 		return false;
+							// 	}
 								
 								
-							}
+							// }
 							if(parseFloat(edm2,10)>100 || parseFloat(edm2,10)<=0){
 								alert("Please select valid aggregate percentage of marks for 10+2 Certificate");
 								return false;
@@ -2149,7 +2168,7 @@ function firstPagevalidation(){
 		
 		var dobArr = dob.split("-");
 		var byr=parseInt(dobArr[2]);
-		//if(byr>=1980 && byr<=1989){
+		if(byr>=1980 && byr<=1989){
 		
 		var jk_domiciled=getCheckedRadio(document.applicationForm.jk_domiciled);
 		<%--Category Validations Start --%>
@@ -2165,7 +2184,7 @@ function firstPagevalidation(){
 			
 	      }
 	   }
-		//}
+		}
 		
 		var riots_affected=getCheckedRadio(document.applicationForm.riots_affected);
 		<%--Category Validations Start --%>
@@ -2417,15 +2436,24 @@ function firstPagevalidation(){
 		var riot_rel=Number(5);
 		var exman=getCheckedRadio(document.applicationForm.ex_serviceman).value;
 		var community = document.applicationForm.community.value;
+
+		//    alert(post_applied)
+		//    alert(community)
+		if(post_applied == "3" && community =="ST" ){ //physio aasist
+			community = "General" 
+		}
+		//    alert("after : " + post_applied)
+		//    alert("after :" + community)
+		
 		var jk_domiciled=false;
 		var dob1 = document.applicationForm.dob.value;
 		var dobArr = dob1.split("-");
 		var byr=parseInt(dobArr[2]);
-		//if(byr>=1980 && byr<=1989){
+		if(byr>=1980 && byr<=1989){
 			jk_domiciled=getCheckedRadio(document.applicationForm.jk_domiciled).value;
-		/* }else{
+		 }else{
 			jk_domiciled=false;
-		} */
+		} 
 		var riots_gujarat="false";
 		var riots_affected=getCheckedRadio(document.applicationForm.riots_affected).value;
 		//var riots_gujarat=getCheckedRadio(document.applicationForm.riots_gujarat).value;
@@ -2611,13 +2639,20 @@ function firstPagevalidation(){
 		var monthNow = now.getMonth();
 		var dateNow = now.getDate();
 
-		/* if(byr>=1980 && byr<=1989){
+		  if(byr>=1980 && byr<=1989){
 			$('#jkdomicilerow').show();
 		}
 		else{
+			
+			$("input[name='jk_domiciled']").prop("checked", false);
+			 
+		    $("#jk_cert_no").val("");
+		    $("#recordClientJKDateIssue").val("");
+		    $("#jk_issue_authority").val("");
+		    
 			$('#jkdomicilerow').hide();
 				$("#jkdomiciledetailsdiv").hide();
-		} */
+		}  
 		var dob = new Date(byr, bmo, bday );
 
 		var yearDob = dob.getYear();
@@ -2938,11 +2973,11 @@ function getAgeOfTwoDates(date1,date2) {
 		var dob1 = document.applicationForm.dob.value;
 		var dobArr = dob1.split("-");
 		var byr=parseInt(dobArr[2]);
-		/* if(byr>=1980 && byr<=1989){
+		  if(byr>=1980 && byr<=1989){
 			 $("#jkdomicilerow").show();
 		}else{
 			 $("#jkdomicilerow").hide();
-		} */
+		}  
 		
 		var religion = trim1($("#religion").val());
 		if(religion=="Others"){
@@ -3559,7 +3594,7 @@ function getAgeOfTwoDates(date1,date2) {
 												
 												
 												<tr>
-															<td align="left" valign="middle"><label style="font-weight:bold;">Whether affected in 1984 riots or communal riots of 2002 Gujarat :<span style="color: red">*</span><br/>
+															<td align="left" valign="middle"><label style="font-weight:bold;">Whether affected in 1984 riots  :<span style="color: red">*</span><br/>
 															<span style="font-size:10px">(Children/dependent of victim killed in the riots)</span>  </label></td>
 															<td align="left" valign="middle" id="riotsaffected">
 															  <label> <input type="radio" name="riots_affected" id="riotsaffectedid" value="true" /> Yes </label> 
@@ -4048,7 +4083,7 @@ function getAgeOfTwoDates(date1,date2) {
 
 																
 <tr>
-	<td align="center" valign="middle" class="border1"><label><input type="hidden" name="exam_passed_plus2" value="12"/><strong>10+2 <span style="color: red">*</span> </strong></label></td>
+	<td align="center" valign="middle" class="border1"><label><input type="hidden" name="exam_passed_plus2" value="12"/><strong>10+2 <span class="interMandate" id="interMandate" style="color: red">*</span> </strong></label></td>
 	<td align="center" valign="middle" class="border1">
 	<input type="text" class="board" oncut="return false" oncopy="return false" onpaste="return false" id="university_plus2" name="university_plus2" maxlength=80
 		onKeyPress="return charsNumbersAndSpecialCharsOnly(this,event)" /></td>

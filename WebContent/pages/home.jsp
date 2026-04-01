@@ -34,7 +34,7 @@
 					<div class="contentList">
 						<div class="blockHeader" style="font-size: 15px;">
 						<div>
-						Advertisement No. 524/RC/SSB/Combined Advt./CT to SI (Non-GD)/2025  - <br/> Online applications are invited for filling up the posts of Head Constable (Laboratory Assistant), Head Constable (Physiotherapy Assistant) & Constable (Nursing Assistant cum Medic) in Group-C Non-Gazetted (Combatised) 
+						Advertisement No. 524/RC/SSB/Combined Advt./CT to SI (Non-GD)/2025  - <br/> Online applications are invited for filling up the posts of Head Constable (Laboratory Assistant), Head Constable (Physiotherapy Assistant) & Constable (Nursing Assistant cum Medic) in Group-C Non-Gazetted (Combatised) & Non-Ministerial in Sashastra Seema Bal, Ministry of Home Affairs, Government of India.
 						</div><br/>
 					  
 						</div>

@@ -3410,7 +3410,7 @@ function getAgeOfTwoDates(date1,date2) {
 												
 												
 												<tr>
-															<td align="left" valign="middle"><label style="font-weight:bold;">Whether affected in 1984 riots or communal riots of 2002 Gujarat :<span style="color: red">*</span><br/>
+															<td align="left" valign="middle"><label style="font-weight:bold;">Whether affected in 1984 riots :<span style="color: red">*</span><br/>
 															<span style="font-size:10px">(Children/dependent of victim killed in the riots)</span>  </label></td>
 															<td align="left" valign="middle" id="riotsaffected">
 															  <label> <input type="radio" name="riots_affected" id="riotsaffectedid" value="true" /> Yes </label> 

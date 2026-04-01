@@ -52,10 +52,8 @@
             <div class="pull-left contactNo">
               <ul>
                 <li>
-                  +91-7702651682 <br />
-                  +91-8790569150 <br />
-                  +91-7842905753 <br />
-                  +91-7396569150 <br />
+                  +91-8121584411 <br />
+                  +91-8121581133 <br />
                   helpdesk.ssbrectt@gmail.com
                 </li>
               </ul>
