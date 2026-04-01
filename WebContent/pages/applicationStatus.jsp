@@ -458,7 +458,7 @@
               <%} %>
               
                <tr>
-                <td><label class="label1">Whether affected in 1984 riots or communal riots of 2002 Gujarat   : </label></td>
+                <td><label class="label1">Whether affected in 1984 riots : </label></td>
                 <td><label><% if(applicationFormBean.isRiots_affected()){ %> Yes <% }else{ %> No
 								<%} %></label></td>
               </tr>
@@ -878,7 +878,7 @@
                
                  <% if(applicationFormBean.getCtNursingCertValue()==null)  {%>
                <tr>
-                <td><label class="label1"> Whether have  First Aid certificate course from St. John’s Ambulance Organization or Red Cross Society of India </label></td>
+                <td><label class="label1"> Whether have  First Aid certificate course from St. Johns Ambulance Organization or Red Cross Society of India </label></td>
                 <td><label><% if(applicationFormBean.isCtNursingCert()){ %> Yes <% }else{ %> No
 								<%} %></label></td>
                  

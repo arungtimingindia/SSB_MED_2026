@@ -239,7 +239,7 @@ public class UploadPhotoServlet extends HttpServlet {
 	// Extract image name from content-disposition header of part
 	private String getFileName(Part part) {
 		final String partHeader = part.getHeader("content-disposition");
-		System.out.println("***** partHeader: " + partHeader);
+		// System.out.println("***** partHeader: " + partHeader);
 		for (String content : part.getHeader("content-disposition").split(";")) {
 			if (content.trim().startsWith("filename")) {
 				return content.substring(content.indexOf('=') + 1).trim()

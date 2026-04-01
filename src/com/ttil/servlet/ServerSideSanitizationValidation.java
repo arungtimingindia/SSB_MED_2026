@@ -324,7 +324,7 @@ public class ServerSideSanitizationValidation {
 						messageOb.add(
 								"Matriculation Certificate Issued Date / Passing Year & Date should be atleast 12 years after Date of birth");
 					}
-					if (Integer.parseInt(edm1) > 100 || Integer.parseInt(edm1) <= 0) {
+					if (Double.parseDouble(edm1) > 100 || Double.parseDouble(edm1) <= 0) {
 						messageOb
 								.add("Please select valid aggregate percentage of marks for Matriculation Certificate");
 					}
@@ -376,7 +376,7 @@ public class ServerSideSanitizationValidation {
 						}
 
 					}
-					if (Integer.parseInt(edm2) > 100 || Integer.parseInt(edm2) <= 0) {
+					if (Double.parseDouble(edm2) > 100 || Double.parseDouble(edm2) <= 0) {
 						messageOb.add("Please select valid aggregate percentage of marks for 10+2 Certificate");
 					}
 				} else {
@@ -419,7 +419,7 @@ public class ServerSideSanitizationValidation {
 										+ notEndDate); // 18-06-2023
 					}
 
-					if (Integer.parseInt(edm3) > 100 || Integer.parseInt(edm3) <= 0) {
+					if (Double.parseDouble(edm3) > 100 || Double.parseDouble(edm3) <= 0) {
 						messageOb.add("Please select valid aggregate percentage of marks for Graduation Certificate");
 					}
 				}
@@ -455,7 +455,7 @@ public class ServerSideSanitizationValidation {
 										+ notEndDate); // 18-06-2023
 					}
 
-					if (Integer.parseInt(edm4) > 100 || Integer.parseInt(edm4) <= 0) {
+					if (Double.parseDouble(edm4) > 100 || Double.parseDouble(edm4) <= 0) {
 						messageOb.add(
 								"Please select valid aggregate percentage of marks for Post Graduation Certificate");
 					}
@@ -488,7 +488,7 @@ public class ServerSideSanitizationValidation {
 										+ notEndDate); // 18-06-2023
 					}
 
-					if (Integer.parseInt(edmd4) > 100 || Integer.parseInt(edmd4) <= 0) {
+					if (Double.parseDouble(edmd4) > 100 || Double.parseDouble(edmd4) <= 0) {
 						messageOb.add("Please select valid aggregate percentage of marks for Diploma Certificate");
 					}
 				}
@@ -607,9 +607,11 @@ public class ServerSideSanitizationValidation {
 
 				}
 
-				if ("true".equalsIgnoreCase(applicationFormBean.getJk_domiciledS())
-						|| "true".equalsIgnoreCase(applicationFormBean.getRiots_gujaratS())
-						|| "true".equalsIgnoreCase(applicationFormBean.getRiots_affectedS())) {
+				// if ("true".equalsIgnoreCase(applicationFormBean.getJk_domiciledS())
+				// || "true".equalsIgnoreCase(applicationFormBean.getRiots_gujaratS())
+				// || "true".equalsIgnoreCase(applicationFormBean.getRiots_affectedS())) {
+
+				if ("true".equalsIgnoreCase(applicationFormBean.getJk_domiciledS())) {
 					riots_flag = true;
 					if (applicationFormBean.getJk_cert_no() == null
 							|| applicationFormBean.getJk_cert_no().equalsIgnoreCase("")) {
@@ -625,7 +627,12 @@ public class ServerSideSanitizationValidation {
 								"Date Of Issued should be Greater than Date of birth for J&K Domicile Certificate");
 					}
 
-					else if (applicationFormBean.getRiots_cert_no() == null
+				}
+
+				if ("true".equalsIgnoreCase(applicationFormBean.getRiots_gujaratS())
+						|| "true".equalsIgnoreCase(applicationFormBean.getRiots_affectedS())) {
+					riots_flag = true;
+					if (applicationFormBean.getRiots_cert_no() == null
 							|| applicationFormBean.getRiots_cert_no().equalsIgnoreCase("")) {
 						messageOb.add("Please Enter Certificate No for riots Certificate");
 					} else if (applicationFormBean.getRiots_date_Issue() == null
@@ -639,6 +646,7 @@ public class ServerSideSanitizationValidation {
 					}
 
 				}
+				// System.err.println("riots_flag : " + riots_flag);
 				/*
 				 * System.out.println("exman="+exman); System.out.println("govtFlag="+govtFlag);
 				 * System.out.println("riots_flag="+riots_flag);
@@ -700,30 +708,15 @@ public class ServerSideSanitizationValidation {
 
 					if (sixMonths == false) {
 						if (community.equalsIgnoreCase("General") || community.equalsIgnoreCase("EWS")) {
-							if (exman_ser_age_diff <= (max_age + 3)) {
-
-							} else {
-								exman_age_relxation = max_age + exService + 3;
-
-							}
+							exman_age_relxation = max_age + exService + 3;
 						}
 						if (community.equalsIgnoreCase("OBC")) {
-							if (exman_ser_age_diff <= (max_age + 6)) {
-
-							} else {
-								exman_age_relxation = max_age + exService + 6;
-
-							}
+							exman_age_relxation = max_age + exService + 6;
 						}
 						if (community.equalsIgnoreCase("SC") || community.equalsIgnoreCase("ST")) {
-							if (exman_ser_age_diff <= (max_age + 8)) {
-
-							} else {
-								exman_age_relxation = max_age + exService + 8;
-							}
+							exman_age_relxation = max_age + exService + 8;
 						}
 					}
-
 				}
 
 				// else {
