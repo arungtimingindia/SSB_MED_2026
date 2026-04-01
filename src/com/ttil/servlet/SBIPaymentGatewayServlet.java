@@ -54,7 +54,7 @@ public class SBIPaymentGatewayServlet extends HttpServlet {
 						String key="ckaqU2OBuU/ArZKLvyBAKQ=="; // key provided by sbi
 
 						String EncryptTrans="";
-						String requestParameter="1000420|DOM|IN|INR|"+appDataBean.getFee_amount()+"|"+transactionid+"|https://applyssb.com/SSB_SI/sbisuccess|https://applyssb.com/SSB_SI/sbifail|SBIEPAY|"+order_id+"|"+transactionid+"|NB|ONLINE|ONLINE";
+						String requestParameter="1000420|DOM|IN|INR|"+appDataBean.getFee_amount()+"|"+transactionid+"|https://applyssb.com/SSB_ADVT_MED_2026/sbisuccess|https://applyssb.com/SSB_ADVT_MED_2026/sbifail|SBIEPAY|"+order_id+"|"+transactionid+"|NB|ONLINE|ONLINE";
 						//String requestParameter="1000420|DOM|IN|INR|"+appDataBean.getFee_amount()+"|"+transactionid+"|http://54.151.253.85:86/SSB_Online_V1/sbisuccess|http://54.151.253.85:86/SSB_Online_V1/sbifail|SBIEPAY|"+order_id+"|"+transactionid+"|NB|ONLINE|ONLINE";
 						//System.out.println(requestParameter);
 						EncryptTrans=AES128Bit.encrypt(requestParameter, key); // encrtpting the request with the sbi key

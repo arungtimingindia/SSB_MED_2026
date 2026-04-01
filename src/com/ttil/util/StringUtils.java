@@ -176,8 +176,14 @@ public class StringUtils {
 				return "CT (Cook)";
 			} else if (postName.equalsIgnoreCase("Constable (Water Carrier) Male")) {
 				return "CT (Water Carrier)";
+			} else if (postName.equalsIgnoreCase("Head Constable (Laboratory Assistant)")) {
+				return "HC (Lab Asst)";
+			} else if (postName.equalsIgnoreCase("Head Constable (Physiotherapy Assistant)")) {
+				return "HC (Physio Asst)";
+			} else if (postName.equalsIgnoreCase("Constable (Nursing Assistant cum Medic)")) {
+				return "CT (Nursing Asst cum Medic)";
 			} else
-				return "AC (Vetty)";
+				return "Head Constable";
 
 		}
 		return "";
@@ -300,12 +306,12 @@ public class StringUtils {
 		// System.out.println(parse(yyyyMMdd));
 		// System.out.println(parse(yyyyMMdd1));
 		// System.out.println(StringUtils.changeDateFormatDMY("2013-12-01"));
-		System.out.println(StringUtils.changeDateFormatYMD("21-12-2013"));
-		System.out.println(StringUtils.changeDateFormatYMD("2-Oct-1997"));
-		System.out.println(StringUtils.changeDateFormatYMD("23-june-1997"));
-		System.out.println(StringUtils.changeDateFormatYMD("15-Sep-1997"));
-		System.out.println(StringUtils.changeDateFormatYMD("14-Jun-1992"));
-		System.out.println(StringUtils.changeDateFormatYMD("23-Mar-1997"));
+		// System.out.println(StringUtils.changeDateFormatYMD("21-12-2013"));
+		// System.out.println(StringUtils.changeDateFormatYMD("2-Oct-1997"));
+		// System.out.println(StringUtils.changeDateFormatYMD("23-june-1997"));
+		// System.out.println(StringUtils.changeDateFormatYMD("15-Sep-1997"));
+		// System.out.println(StringUtils.changeDateFormatYMD("14-Jun-1992"));
+		// System.out.println(StringUtils.changeDateFormatYMD("23-Mar-1997"));
 	}
 
 }
