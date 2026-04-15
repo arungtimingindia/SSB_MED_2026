@@ -339,8 +339,11 @@ public class ApplicationSearchDAO {
 					applicationFormBean.setPhotoFileName(rs.getString("photo_file_name"));
 					applicationFormBean.setSigFileName(rs.getString("signature_file_name"));
 					
+					if("FINISHED".equalsIgnoreCase(applicationFormBean.getApplication_status())) {
 					applicationFormBean.setPhotoStr("data:image/jpg;base64,"+StringUtils.imageUrlToBase64("https://applyssb.com/ssb_uploads26/candidateImages/MEDICAL/"+applicationFormBean.getPhotoFileName()));
 					applicationFormBean.setSignStr("data:image/jpg;base64,"+StringUtils.imageUrlToBase64("https://applyssb.com/ssb_uploads26/candidateImages/MEDICAL/"+applicationFormBean.getSigFileName()));
+					}
+					
 					applicationFormBean.setEditEnabled(rs.getBoolean("edit_enabled"));
 					applicationFormBean.setEditCompleted(rs.getBoolean("edit_completed"));
 					applicationFormBean.setPaymentRequired(rs.getBoolean("payment_required"));

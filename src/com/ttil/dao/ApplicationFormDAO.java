@@ -947,7 +947,7 @@ public class ApplicationFormDAO {
 						+ "nationality = ? , other_nationality = ? , aadhar_no = ? , category_belongs  = ? , "
 						+ "jk_domiciled = ? , riots_affected = ? , riots_gujarat = ? , fee_amount = ? , mother_name = ? , "
 						+ "application_status = ? , fullname = ? , identity_type = ? ,browser = ? , post_selected_name = ? , payment_required = ? ,edit_completed = ? ,mobile_number_backup = ? ,fee_amount_edit=?, "
-						+ "total_fee_amount=?, email_address_backup=? "
+						+ "total_fee_amount=?, email_address_backup=? , photo_file_name=?,signature_file_name=?, date_created=?  "
 						+ " WHERE transactionid=? ";
 				pstmt = con.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
 				pstmt.setString(1, ESAPI.encoder().canonicalize(appFormBean.getFirst_name()));
@@ -1018,7 +1018,10 @@ public class ApplicationFormDAO {
 				pstmt.setInt(66, appFormBean.getFee_amount_edit());
 				pstmt.setInt(67, appFormBean.getTotalFeeAmount());
 				pstmt.setString(68, ESAPI.encoder().canonicalize(appFormBean.getEmailaddressBackup()));
-				pstmt.setInt(69, appFormBean.getTransactionidEdit());
+				pstmt.setString(69, ESAPI.encoder().canonicalize(appFormBean.getPhotoFileName()));
+				pstmt.setString(70, ESAPI.encoder().canonicalize(appFormBean.getSigFileName()));
+				pstmt.setString(71,appFormBean.getDate_created());
+				pstmt.setInt(72, appFormBean.getTransactionidEdit());
 
 				pstmt.executeUpdate();
 //				rs = pstmt.getGeneratedKeys();
@@ -1689,7 +1692,7 @@ public class ApplicationFormDAO {
 			con = DbConnection.setupDataSource();
 			if (con != null) {
 				con.setAutoCommit(false);
-				String query = "update applicants  set photo_file_name=?,signature_file_name=?,matric_file_name=?,prof_qual_file_name=?,identity_file_name=?,cat_file_name=?,com_file_name=?,application_status='FINISHED' where transactionid=?  ";
+				String query = "update applicants  set photo_file_name=?,signature_file_name=?,matric_file_name=?,prof_qual_file_name=?,identity_file_name=?,cat_file_name=?,com_file_name=?,application_status='FINISHED' , edit_enabled=?  where transactionid=?  ";
 				pstmt = con.prepareStatement(query);
 				pstmt.setString(1, appFormBean.getPhotoFileName());
 				pstmt.setString(2, appFormBean.getSigFileName());
@@ -1698,7 +1701,8 @@ public class ApplicationFormDAO {
 				pstmt.setString(5, appFormBean.getIdentityFileName());
 				pstmt.setString(6, appFormBean.getCatFileName());
 				pstmt.setString(7, appFormBean.getComFileName());
-				pstmt.setInt(8, appFormBean.getTransactionid());
+				pstmt.setBoolean(8, appFormBean.isEditEnabled());
+				pstmt.setInt(9, appFormBean.getTransactionid());
 				pstmt.executeUpdate();
 
 				con.commit();
@@ -1968,7 +1972,7 @@ public class ApplicationFormDAO {
 				appFormBean.setDate_created(currentDate);
 				con.setAutoCommit(false);
 				String query = "INSERT INTO payments (transactionid, SBIePay_Reference_ID, status, amount, currency, paymode, reason, bankCode, bankReferenceNumber, TransactionDate, bank_cin, bank_response, paid_on, payment_amount, order_id,ipaddress,responseType,country,merchant_id,transaction_gst_fee) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?,?)";
-				String query1 = "update applicants  set payment_status=? ,payment_status_edit=? where transactionid=?  ";
+				String query1 = "update applicants  set payment_status=? ,payment_status_edit=? , edit_enabled=? where transactionid=?  ";
 				pstmt = con.prepareStatement(query);
 				pstmt1 = con.prepareStatement(query1);
 				pstmt.setInt(1, paymentBean.getRes_transactionid());
@@ -1995,7 +1999,8 @@ public class ApplicationFormDAO {
 
 				pstmt1.setString(1, appFormBean.getPayment_status());
 				pstmt1.setString(2, appFormBean.getPaymentStatusEdit());
-				pstmt1.setInt(3, paymentBean.getRes_transactionid());
+				pstmt1.setBoolean(3, appFormBean.isEditEnabled());
+				pstmt1.setInt(4, paymentBean.getRes_transactionid());
 				pstmt1.executeUpdate();
 				con.commit();
 			} else {

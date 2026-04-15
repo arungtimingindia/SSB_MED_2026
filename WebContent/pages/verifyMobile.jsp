@@ -66,7 +66,8 @@
 					 
 					<%
                       ApplicationFormBean applicationFormBean=(ApplicationFormBean)session.getAttribute("ApplicationFormBean");
-					String transactionid=(String)request.getParameter("transactionid");
+					/* String transactionid=(String)request.getParameter("transactionid"); */
+					Integer transactionid=applicationFormBean.getTransactionid(); 
         			 %>
         <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" style="padding:30px 0px 0px 0px;">
           
@@ -137,8 +138,8 @@
                 <td><label class="label1">Email address  : </label></td>
                   <%  String strPattern1 = "(?<=.{3}).(?=[^@]*?@)";
                   String maskedEmail="-NA-";
-                  if(applicationFormBean.getEmailaddress()!=null){
-               maskedEmail=  applicationFormBean.getEmailaddress().replaceAll(strPattern1, "*");
+                  if(applicationFormBean.getEmailaddressBackup()!=null){
+               maskedEmail=  applicationFormBean.getEmailaddressBackup().replaceAll(strPattern1, "*");
                   }
                 %>
                

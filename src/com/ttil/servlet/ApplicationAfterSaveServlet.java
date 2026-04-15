@@ -101,6 +101,7 @@ public class ApplicationAfterSaveServlet extends HttpServlet {
 								session.removeAttribute("requestFromSession");
 								request.setAttribute("final_transaction_id", final_transaction_id);
 								applicationFormBean.setApplication_status("FINISHED");
+								applicationFormBean.setEditCompleted(true);
 								request.setAttribute("ApplicationFormBean", applicationFormBean);
 								// session.removeAttribute("ApplicationFormBean");
 								session.removeAttribute("postDetails");
