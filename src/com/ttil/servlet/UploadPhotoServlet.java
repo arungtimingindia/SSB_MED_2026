@@ -33,6 +33,9 @@ import com.ttil.bean.AppDataBean;
 import com.ttil.bean.ApplicationFormBean;
 import com.ttil.dao.ApplicationFormDAO;
 
+import java.io.ByteArrayOutputStream;
+import org.apache.tomcat.util.codec.binary.Base64;
+
 @MultipartConfig
 public class UploadPhotoServlet extends HttpServlet {
 
@@ -122,8 +125,8 @@ public class UploadPhotoServlet extends HttpServlet {
 							applicationFormBean.setPhotoFileName(photoFileName);
 							applicationFormBean.setSigFileName(sigFileName);
 
-							this.savePhoto(imagesPath, photoFileName, photoFilePart);
-							this.savePhoto(imagesPath, sigFileName, sigFilePart);
+							String photoStr = this.savePhoto(imagesPath, photoFileName, photoFilePart);
+							String signStr= this.savePhoto(imagesPath, sigFileName, sigFilePart);
 
 							File outputFilePath = new File((new StringBuilder(String.valueOf(imagesPath)))
 									.append(File.separator).append(photoFileName).toString());
@@ -168,25 +171,37 @@ public class UploadPhotoServlet extends HttpServlet {
 								rd = request.getRequestDispatcher("/pages/uploadPhotoForm.jsp");
 								rd.forward(request, res);
 							} else {
+								boolean editEnabled=applicationFormBean.isPayExempted();
+								applicationFormBean.setEditEnabled(editEnabled);
+								
 								String message = applicationFormDAO.updatePhotoPath(applicationFormBean,
 										request.getRemoteAddr());
 								// System.out.println("final_transaction_id="+final_transaction_id);
 								if (message != null && "Success".equalsIgnoreCase(message)) {
 									// request.setAttribute("postDetails", postBean);
+									
+									applicationFormBean.setApplication_status("FINISHED");
+									applicationFormBean.setPhotoStr(photoStr);
+									applicationFormBean.setSignStr(signStr);
+									session.setAttribute("ApplicationFormBean", applicationFormBean);
+									
 									request.setAttribute("ApplicationFormBean", applicationFormBean);
-									session.removeAttribute("ApplicationFormBean");
+//									session.removeAttribute("ApplicationFormBean");
 									session.removeAttribute("postDetails");
 									session.removeAttribute("requestFromSession");
 
 									AppDataBean appDataBean = new AppDataBean();
 									appDataBean.setTransactionid(applicationFormBean.getTransactionid());
 									appDataBean.setFee_amount(applicationFormBean.getFee_amount());
+									if(applicationFormBean.isEditCompleted()) {
+										appDataBean.setEdit(true);
+									}
 									session.setAttribute("AppDataBean", appDataBean);
 
 									// session.invalidate();
 									// LogsGeneration.generateFormSuccessLog(applicationFormBean.getTransactionid(),
 									// applicationFormBean.getMobileNumber(),request.getRemoteAddr(),request.getHeader("User-Agent"),session.getId());
-									rd = request.getRequestDispatcher("/pages/transaction.jsp");
+									rd = request.getRequestDispatcher("/pages/applicationStatus.jsp");
 									rd.forward(request, res);
 
 								} else if (message != null && "It seems Database Server is busy , please try again."
@@ -249,21 +264,26 @@ public class UploadPhotoServlet extends HttpServlet {
 		return null;
 	}
 
-	public void savePhoto(String imagesPath, String imageName, Part filePart) {
+	public String savePhoto(String imagesPath, String imageName, Part filePart) {
 		InputStream inputStream = null;
 		OutputStream outputStream = null;
+		ByteArrayOutputStream baos=null;
 		try {
 			File outputFilePath = new File(imagesPath + File.separator + imageName);
 			// System.out.println("***** outputFilePath: " +
 			// outputFilePath.getAbsolutePath());
 			inputStream = filePart.getInputStream();
 			outputStream = new FileOutputStream(outputFilePath);
+			baos=new ByteArrayOutputStream();
 
 			int read = 0;
 			final byte[] bytes = new byte[1024];
 			while ((read = inputStream.read(bytes)) != -1) {
 				outputStream.write(bytes, 0, read);
+				baos.write(bytes, 0, read);
 			}
+			byte[] imageBytes=baos.toByteArray();
+			return "data:image/jpg;base64,"+Base64.encodeBase64String(imageBytes);
 
 		} catch (FileNotFoundException fne) {
 			fne.printStackTrace();
@@ -287,6 +307,7 @@ public class UploadPhotoServlet extends HttpServlet {
 				}
 			}
 		}
+		return null;
 	}
 
 	public void savePhotoS3Bucket(String imagesPath, String imageName, AmazonS3 amazonS3, String bucketName,

@@ -113,6 +113,8 @@ public class SBISuccessServlet extends HttpServlet {
 				}
 			}
 			
+			applicationFormBean.setEditEnabled(true);
+			
 			if(updatePayment) {
 				PaymentBean paymentBean=new PaymentBean();
 				//LogsGeneration.generateAccessLog("SBI Payment Success",applicationFormBean.getMobileNumber(),applicationFormBean.getTransactionid(), req.getRemoteAddr(),req.getHeader("User-Agent"),session.getId());

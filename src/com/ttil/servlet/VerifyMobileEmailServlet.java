@@ -13,11 +13,13 @@ import javax.servlet.http.HttpSession;
 
 import org.owasp.esapi.ESAPI;
 
+import com.ttil.bean.AppDataBean;
 import com.ttil.bean.ApplicationFormBean;
 import com.ttil.dao.ApplicationFormDAO;
 import com.ttil.dao.ApplicationSearchDAO;
 import com.ttil.util.AsyncOTPRunner;
 import com.ttil.util.CreateRegMailTemplateSB;
+import com.ttil.util.StringUtils;
 
 @WebServlet(asyncSupported=true)
 public class VerifyMobileEmailServlet extends HttpServlet {
@@ -39,7 +41,7 @@ public class VerifyMobileEmailServlet extends HttpServlet {
 		try{
 			String req_transactionid=req.getParameter("transactionid");
 			int transactionid=0;
-			if(req_transactionid!=null)
+			if(!StringUtils.isNullOrEmpty(req_transactionid))
 				transactionid=Integer.parseInt(req_transactionid);
 
 			ApplicationFormBean applicationFormBean=(ApplicationFormBean)session.getAttribute("ApplicationFormBean");
@@ -69,6 +71,12 @@ public class VerifyMobileEmailServlet extends HttpServlet {
 									ApplicationSearchDAO applicationSearchDAO=new ApplicationSearchDAO();
 									//session.removeAttribute("requestFromSession");
 									req.setAttribute("final_transaction_id", transactionid);
+									
+									AppDataBean appDataBean=new AppDataBean();
+									appDataBean.setTransactionid(applicationFormBean.getTransactionid());
+									appDataBean.setEdit(true);
+									appDataBean.setFee_amount(applicationFormBean.getTotalFeeAmount());
+									session.setAttribute("AppDataBean", appDataBean);
 									 
 									/** AppDataBean appDataBean=new AppDataBean();
 									appDataBean.setTransactionid(applicationFormBean.getTransactionid());

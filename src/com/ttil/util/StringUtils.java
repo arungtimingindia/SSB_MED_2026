@@ -371,6 +371,17 @@ public class StringUtils {
 		return Base64.encodeBase64String(cipherText);
 	}
 	
+	public static boolean isNullOrEmpty(String str) {
+		return str == null || str.trim().isEmpty();
+	}
+	public static boolean isNullOrEmpty(Long value) {
+		return value == null || value == 0L;
+	}
+
+	public static boolean isNullOrEmpty(Integer value) {
+		return value == null || value == 0;
+	}
+	
 	
 
 }
