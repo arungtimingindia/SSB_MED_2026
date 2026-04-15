@@ -12,6 +12,18 @@ import org.owasp.esapi.ESAPI;
 import com.ttil.awsemail.AWSJavaMailSample;
 import com.ttil.bean.ApplicationFormBean;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 public class CreateOTPMailTemplateSB implements Runnable {
 
 	AsyncContext asyncContext;
@@ -34,9 +46,9 @@ public class CreateOTPMailTemplateSB implements Runnable {
 			curFormater = new SimpleDateFormat("dd MMM HH:mm"); 
 			currDate=curFormater.format(date);
 
-			if(applicationFormBean.getEmailaddress()!=null)
+			if(applicationFormBean.getEmailaddressBackup()!=null)
 			{
-				String emailaddress=ESAPI.encoder().canonicalize(applicationFormBean.getEmailaddress()).trim();
+				String emailaddress=ESAPI.encoder().canonicalize(applicationFormBean.getEmailaddressBackup()).trim();
 				long verifyStatus=1;
 				if(verifyStatus>0 || verifyStatus==-1 || verifyStatus==-2)
 				{
@@ -53,7 +65,7 @@ public class CreateOTPMailTemplateSB implements Runnable {
 					String email_content="";
 					email_content=email_content+"<html> <style> h4{ text-align:center; color:blue; font-family: sans-serif; font-size:20px; } #text1 span{ text-align:center; color:red; font:bold; margin-left:10px; font-size:16px; } #text1 p{ text-align:center;} #text2 p{text-align:center; color:black;} table { width: 60%;border: 1px solid black;padding: 5px 20px; } table tr td{ padding: 5px 0; } .personalDetailsTable{width: 60%;border: 1px solid black;padding: 5px 20px; }.personalDetailsTable tr td:nth-child(2) {padding-right: 5%;}.personalDetailsTable tr td:nth-child(3) {padding-left: 5%;} .addressTable{ border-collapse:collapse;  table-layout:fixed; width:100%; border: 1px solid black; padding: 5px 20px; width: 60%; border-collapse: collapse; margin-top: 40px;} table.addressTable tr td { border: 1px solid black; text-align: center; width:100px; word-wrap:break-word   } .EducationTable{ width: 60%; border-collapse: collapse; margin-top: 40px; } table.EducationTable tr td { border: 1px solid black; text-align: center; } .criminalTable{ width: 60%; border-collapse: collapse; margin-top: 40px; } table.criminalTable tr td { border: 1px solid black; text-align: left; } </style>";
 					email_content=email_content+"<body> <h4 style='text-align: center;color: blue;font-family: sans-serif;font-size: 20px;'>PLEASE DO NOT REPLY TO THIS EMAIL</h4> <div id='text1'> <p><span style='text-align: center; color: red; font: bold; margin-left: 10px; font-size: 16px;'>This is an automated email sent by SASHASTRA SEEMA BAL RECRUITMENT  </span></p>   </div>";
-					email_content=email_content+"<div id='text2'><p><b><u> Please use the following One Time Password (OTP) for changing of post to Constable (Veterinary) for Recruitment of 338/RC/SSB/Combined Advt./2020 in SSB with Reg Id:"+applicationFormBean.getTransactionid()+" </u></b></p>   	"
+					email_content=email_content+"<div id='text2'><p><b><u> Please use the following One Time Password (OTP) for edit application of the "+applicationFormBean.getPost_selected_name()+" for Recruitment of Advertisement No. 524/RC/SSB/Combined Advt./CT to SI (Non-GD)/2025 in SSB with Reg Id:"+applicationFormBean.getTransactionid()+" </u></b></p>   	"
 							+ "<p>------------------------------------------------------------------------------------</p>"
 							+ "<p> One Time Password (OTP) : "+otp+"</p>"
 							+ "<p>------------------------------------------------------------------------------------</p>";
@@ -61,14 +73,59 @@ public class CreateOTPMailTemplateSB implements Runnable {
 					email_content=email_content+"<tr> <td width='30%'><b>Registration No:</b></td><td>"+applicationFormBean.getTransactionid()+"</td> </tr> ";
 					email_content=email_content+"<tr> <td ><b>Applicant Name:</b></td><td>"+applicationFormBean.getFirst_name()+" "+applicationFormBean.getMiddle_name()+" "+applicationFormBean.getLast_name()+"</td> </tr>";
 					email_content=email_content+="<tr> <td ><b>Mobile Number:</b></td><td>"+applicationFormBean.getMobileNumber()+"</td> </tr>";
-					email_content=email_content+="<tr>  <td ><b>Email Address :</b></td><td>"+applicationFormBean.getEmailaddress()+"</td> </tr>";
+//					email_content=email_content+="<tr>  <td ><b>Email Address :</b></td><td>"+applicationFormBean.getEmailaddress()+"</td> </tr>";
 					email_content=email_content+="<tr> <td ><b>Community:</b></td><td>"+applicationFormBean.getCommunity()+"</td> </tr>";
 					email_content=email_content+="<tr> <td ><b>Gender:</b></td><td>"+applicationFormBean.getSex()+"</td> </tr>";
 					email_content=email_content+="<tr> <td ><b>Date of Birth:</b></td><td>"+applicationFormBean.getDob()+"</td> </tr> </table> </div> </body> </html>";
 					template.append(email_content);
+					
+					long expiryTimeMillis = System.currentTimeMillis() + (5 * 60 * 1000);
 
-					AWSJavaMailSample awsJavaMailSample=new AWSJavaMailSample(emailaddress," One Time Password (OTP) for SSB Recruitment of 338/RC/SSB/Combined Advt./2020 Post Change ",template.toString(),applicationFormBean.getMobileNumber());
-					awsJavaMailSample.sendEmailViaAWS();
+		            String xMailKey = StringUtils.encrypt(
+		                 "SSB_CT|" + expiryTimeMillis + "|" + emailaddress);
+
+
+		           
+		            
+		            String url="http://15.207.158.49:8080/ses-email-sender/api/sesv2/simplemail/send";
+		            
+		            URL send=new URL(url);
+		            
+		            Map<String,Object> reqJson=new HashMap<>();
+		            reqJson.put("toList", Arrays.asList(emailaddress));
+		            reqJson.put("from", "donotreply.ssbrectt@applyssb.com");
+		            reqJson.put("subject", "OTP for edit application");
+		            reqJson.put("bodyHtml", template.toString());
+		            reqJson.put("charset", "UTF-8");
+		            reqJson.put("region", "us-east-1");
+		           
+		            
+		            
+		            HttpURLConnection httpconnection = (HttpURLConnection)send.openConnection();
+					httpconnection.setRequestMethod("POST");
+					httpconnection.setRequestProperty("Content-Type", "application/json");
+					httpconnection.setRequestProperty("X-Mail-key", xMailKey);
+					httpconnection.setReadTimeout(60000);
+					httpconnection.setDoInput(true);
+					httpconnection.setDoOutput(true);
+					httpconnection.setUseCaches(false);
+					
+					ObjectMapper mapper = new ObjectMapper();
+					OutputStream os = httpconnection.getOutputStream();
+					os.write(mapper.writeValueAsBytes(reqJson));
+					os.flush();
+					os.close();
+					BufferedReader in = new BufferedReader(new InputStreamReader(httpconnection.getInputStream()));
+					String inputLine;
+					StringBuffer response = new StringBuffer();
+					while ((inputLine = in.readLine()) != null) {
+						response.append(inputLine);
+					}
+					in.close();
+					System.out.println(response);
+
+//					AWSJavaMailSample awsJavaMailSample=new AWSJavaMailSample(emailaddress," One Time Password (OTP) for SSB Recruitment of 338/RC/SSB/Combined Advt./2020 Post Change ",template.toString(),applicationFormBean.getMobileNumber());
+//					awsJavaMailSample.sendEmailViaAWS();
 					/*if(verifyStatus==-1)
 					{
 						LogsGeneration.generateErrorLogsWithMobileNumber("EmailVerifier Error", emailaddress, applicationFormBean.getMobileNumber(), ipaddress,browser);

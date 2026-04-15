@@ -55,6 +55,28 @@
 	function goToInstructions() {
 		document.location.href = "applicationAfterIndex";
 	}
+	
+	function verifyMobile(){
+		document.applicationView.action="showVerificationForm";
+		 document.applicationView.submit();
+	}
+	
+	function formEdit() {
+		var s = confirm("Are you sure, do you want to edit the details?");
+		if (s == true) {
+			document.applicationView.action = "applicationFormEdit";
+			document.applicationView.submit();
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	function editApplication() {
+		document.applicationView.requestFrom.value = "apllicationpreview";
+		document.applicationView.action="applicationFormEdit";
+		 document.applicationView.submit();
+	}
 </script>
 
 <script type="text/javascript">window.history.forward();function noBack(){
@@ -80,7 +102,7 @@
      
      
       <jsp:useBean id="ApplicationFormBean" scope="session" class="com.ttil.bean.ApplicationFormBean" />
-					<input type="hidden" name="requestFrom" value="TransactionPage" />
+					<input type="hidden" name="requestFrom" value="apllicationpreview" />
 					
 					 <%--  <input type="hidden" id="org_name" name="org_name" value="RECRUITMENT FOR THE POSTS OF ASSISTANT SUB-INSPECTOR (STENO) AND HEAD CONSTABLE (MINISTERIAL) CADRE - 2017 FROM MALE AND FEMALE CITIZENS OF INDIA"/>
           <input type="hidden" id="notification_number" name="notification_number" value="XXXXXXXX DD/YYYY Dated DD-MM-YYYY"/>
@@ -318,6 +340,9 @@
 				          <tr>
 				            <td colspan="2" height="80"  align="left" valign="middle" class="bdr"><div align="center" class="transpagestyle2">RegistrationID : <%=applicationFormBean.getTransactionid() %></div></td>
 				          </tr>
+				          <%
+				          session.setAttribute("app_request_id_session", applicationFormBean.getTransactionid());
+							%>
 				          
 				           <tr>
 				            <td colspan="2" height="80"  align="left" valign="middle" class="bdr"><div align="center" class="transpagestyle1">Post Applied For : <%=applicationFormBean.getPost_selected_name() %></div></td>
@@ -1080,7 +1105,7 @@
           </td>
           </tr>   
           
-          <tr>
+          <%-- <tr>
             <td colspan="2" align="center" valign="middle">
             
             <table width="95%" border="0" align="center" cellpadding="5" cellspacing="0" >
@@ -1108,6 +1133,9 @@
 					          </tr>
 					          
 								   <tr>
+								   <td>
+					            <input name="formBack0" type="button" class="nextbutton appFormBtmleft" value="Edit Application" alt="Next step" style="width:211px; margin:0px 20px 0px 0px;" onClick="editApplication()" >
+					            </td>
 							    <td><div class="buttonWrapper" style="margin:20px 0px 0px 0px;"> 
 							            <input type="button" class="nextbutton appFormBtmRight" value="Print Acknowledgemnent" onClick="acknoweledgementView()" style="margin:0px 0px  0px 20px;width:270px;">
 							                        
@@ -1122,6 +1150,11 @@
 					          </tr>
 					          
 					            <tr>
+					            
+					            <td>
+					            <input name="formBack0" type="button" class="nextbutton appFormBtmleft" value="Edit Application" alt="Next step" style="width:211px; margin:0px 20px 0px 0px;" onClick="editApplication()" >
+					            </td>
+					            
 								    <td><div class="buttonWrapper" style="margin:20px 0px 0px 0px;"> 
 								    <input type="hidden" name="EncryptTrans" value="<%=request.getAttribute("EncryptTrans")%>">
 									<input type="hidden" name="merchIdVal" value="1000420" />
@@ -1157,7 +1190,118 @@
 					
 						</table>
 					</td>
-			</tr> 
+			</tr>  --%>
+			
+			<%
+	boolean editEnabled=applicationFormBean.isEditEnabled();
+	boolean editCompleted=applicationFormBean.isEditCompleted();
+ 
+	
+	int feeAmount=0;
+	
+	boolean	paymentNeeded=false;
+	if(editEnabled&&editCompleted){
+		paymentNeeded=applicationFormBean.isPaymentRequired() && !"SUCCESS".equalsIgnoreCase(applicationFormBean.getPaymentStatusEdit());
+		feeAmount=applicationFormBean.getTotalFeeAmount();
+	}
+	else{
+		paymentNeeded=!applicationFormBean.isPayExempted() && !"Success".equalsIgnoreCase(applicationFormBean.getPayment_status());
+		feeAmount=applicationFormBean.getFee_amount();
+		editEnabled=!paymentNeeded && editEnabled;
+	}
+	boolean editable=editEnabled&&!editCompleted;
+	boolean verifyOtp=editEnabled&&editCompleted&&!applicationFormBean.isOtpValidated();
+	
+%>
+ 
+					 <tr>
+					 	<td colspan="2" align="left" valign="middle">
+				     		 <table width="100%" border="0" align="center" cellpadding="5" cellspacing="0">
+				     		 <tr>
+								<% if(applicationFormBean.getApplication_status()!=null && applicationFormBean.getApplication_status().equalsIgnoreCase("NEW")) {%>
+								
+								
+								          <td colspan="2" height="70"  align="left" valign="middle" class="bdr"><div align="center" class="transpagestyle3">
+									<span style="color: #000044;">To avail Edit application please complete the following:</span><br/>You have filled in the Application Form, But Photo and Signature Not Uploaded.</div>
+								
+								</td>
+									<%}
+								else if(applicationFormBean.getApplication_status()!=null && applicationFormBean.getApplication_status().equalsIgnoreCase("FINISHED"))
+								{%>
+								 <td colspan="2" height="70"  align="left" valign="middle" class="bdr">
+									<%if(editable){%>
+									<div align="center" class="transpagestyle3" style="color: blue">
+										You may update your application by paying the mandatory edit fee of &#x20B9; 50.</div>
+									<%}%>
+									
+									<%if(verifyOtp){%>
+									<div align="center" class="transpagestyle3"> Please complete OTP verification to proceed.</div>
+									<%}else{%>
+									
+										<%if(paymentNeeded){%>
+										<div align="center" class="transpagestyle3"> <%if(!editCompleted){%><span style="color: #000044;">To avail Edit application please complete the following:</span><br/><% } %> Proceed to make Payment - Amount to be paid : <%=feeAmount %>.</div>
+										<%}else{%>
+										<div align="center" class="transpagestyle3">  Your application has been submitted successfully.</div>
+										<%}
+									}%>
+									</td>
+									<%}
+								%>
+								</tr>
+								
+								<!--Buttons  -->
+								<tr>
+								<% if(applicationFormBean.getApplication_status()!=null && applicationFormBean.getApplication_status().equalsIgnoreCase("NEW")) {%>
+								
+								
+								    
+							
+									
+									<td><div class="buttonWrapper" style="margin:20px 0px 0px 0px;">
+							            <input type="button" class="nextbutton appFormBtmRight" value="Upload Photo &amp; Signature" onClick="uploadPhoto()" style="margin:0px 0px  0px 20px;width:270px;">
+							                        
+							          </div></td>
+									<%}
+								else if(applicationFormBean.getApplication_status()!=null && applicationFormBean.getApplication_status().equalsIgnoreCase("FINISHED"))
+								{%>
+									<%if(editable){%>
+									 	<td>  <div class="buttonWrapper" style="margin:20px 0px 0px 0px;">
+							            <input type="button" class="prevbutton appFormBtmleft" value="Edit Application" onClick="formEdit()" style="margin:0px 0px  0px 20px;width:270px;"></div></td>
+									
+									<%}%>
+									
+									<%if(verifyOtp){%>
+									<td><div class="buttonWrapper" style="margin:20px 0px 0px 0px;">
+							            <input type="button" class="nextbutton appFormBtmRight" value="Verify Mobile" onClick="verifyMobile()" style="margin:0px 0px  0px 20px;width:270px;">
+							                        
+							          </div></td>
+									<%}else{%>
+									
+										<%if(paymentNeeded){%>
+										
+										<td>
+										
+										<div class="buttonWrapper" style="margin:20px 0px 0px 0px;">
+										  <input type="hidden" name="EncryptTrans" value="<%=request.getAttribute("EncryptTrans")%>">
+									<input type="hidden" name="merchIdVal" value="1000420" />
+									<input type="hidden" id="encRequest" name="encRequest" value="<%= request.getAttribute("encRequest") %>">
+		<input type="hidden" name="access_code" id="access_code" value="<%= request.getAttribute("accessCode") %>">
+							            <input type="button" class="nextbutton appFormBtmRight" value="Pay Online" onClick="sbiPayment()" style="margin:0px 0px  0px 20px;width:270px;">
+							                        
+							          </div></td>
+							          <%}else{%>
+										<td><div class="buttonWrapper" style="margin:20px 0px 0px 0px;">
+							            <input type="button" class="nextbutton appFormBtmRight" value="Print Acknowledgemnent" onClick="acknoweledgementView()" style="margin:0px 0px  0px 20px;width:270px;">
+							                        
+							          </div></td>
+										<%}
+									}%>
+									<%}
+								%>
+								</tr>
+								</table>
+						</td>
+					</tr>
               
        </table>
          

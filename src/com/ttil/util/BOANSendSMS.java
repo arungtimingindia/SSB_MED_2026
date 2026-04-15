@@ -32,7 +32,7 @@ public class BOANSendSMS {
 			String outResponse = "";
 			String url="http://boancomm.net/boansms/boansmsinterface.aspx";
 			//message=message.replaceAll(" ", "%20");
-			strUrl = "http://boancomm.net/boansms/boansmsinterface.aspx?mobileno=91"+mobileNo+"&smsmsg="+message+"&uname=rsgreensms&pwd=rsgreen14sms&pid=950";
+			strUrl = "http://boancomm.net/boansms/boansmsinterface.aspx?mobileno=91"+mobileNo+"&smsmsg="+message+"&uname=rsgreensms&pwd=rsgreen14sms&pid=105";
 			URL sendurl=new URL(url);
 			
 			HttpURLConnection httpconnection=(HttpURLConnection) sendurl.openConnection();

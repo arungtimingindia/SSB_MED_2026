@@ -58,8 +58,8 @@ public class AsyncOTPRunner  implements Runnable {
 			//LogsGeneration.generateErrorLogsWithMobileNumber("AsyncOTPRunner Catch", exceptionAsString, mobilenumber, ipaddress,browser);
 		} finally {
 			try{
-				if(asyncContext!=null)
-				asyncContext.complete();
+//				if(asyncContext!=null)
+//				asyncContext.complete();
 			}catch(Exception e)
 			{
 				StringWriter sw = new StringWriter();

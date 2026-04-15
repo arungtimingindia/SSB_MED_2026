@@ -103,6 +103,7 @@
 					<%
                       ApplicationFormBean applicationFormBean=(ApplicationFormBean)session.getAttribute("ApplicationFormBean");
         			 %>
+        			 <input type="hidden" name="final_transaction_id" value="<%=applicationFormBean.getTransactionidEdit() %>" />
         <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" style="padding:30px 0px 0px 0px;">
           
             
@@ -1082,11 +1083,29 @@
          %>
               <tr>
                 <td colspan="2"><div class="buttonWrapper" style="margin:20px 0px 20px 0px;"> 
-                      <input type="button" class="nextbutton appFormBtmleft" value="Edit Details" onClick="<%=scripText%>" >
+                      <input type="button" class="nextbutton appFormBtmleft" value="Edit Details" onClick="formEdit()" > <%-- <%=scripText%> --%>
                       <span class="buttonWrapper" style="margin:20px 0px 0px 0px;">
                       <input name="Confirm" type="submit" class="nextbutton appFormBtmRight" value="Submit Application" alt="Next step" style="width:200px;" id="complexConfirm" onClick="return validation();"/>
                        </span></div></td>
               </tr>
+              
+              <script>
+              
+              function formEdit() {
+            		var s = confirm("Are you sure, do you want to edit the details?");
+            		if (s == true) {
+            			document.applicationView.action = "applicationFormEdit";
+            			document.applicationView.submit();
+            			return true;
+            		} else {
+            			return false;
+            		}
+            	 
+            	}
+              
+              
+              
+              </script>
             </table>
         </form>
       </div>

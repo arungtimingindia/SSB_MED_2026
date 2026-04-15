@@ -10,6 +10,7 @@ public class ApplicationFormBean implements Serializable {
 	private static final long serialVersionUID = 5152543486844793358L;
 
 	private int transactionid = 0;
+	private int transactionidEdit = 0;
 	private String language = null;
 	private String first_name = null;
 	private String middle_name = null;
@@ -65,6 +66,7 @@ public class ApplicationFormBean implements Serializable {
 	private String affected_category_names = null;
 	private boolean payExempted;
 	private int fee_amount = 0;
+	private int fee_amount_edit = 0;
 	private boolean ex_serviceman = false;
 	private boolean employee_ssb = false;
 	private boolean govt_service = false;
@@ -312,6 +314,21 @@ public class ApplicationFormBean implements Serializable {
 	private String qualification4_text = null;
 	private boolean post_change_eligible = false;
 	private boolean is_rejected = false;
+	
+	private boolean editEnabled;
+	private boolean editCompleted;
+	private boolean paymentRequired;
+
+	private boolean otpValidated;
+	private String mobileNumberBackup;
+	private String emailaddressBackup;
+
+	private String photoStr;
+	private String signStr;
+
+	private int totalFeeAmount=0;
+
+	private String paymentStatusEdit;
 
 	public int getTransactionid() {
 		return transactionid;
@@ -2439,6 +2456,111 @@ public class ApplicationFormBean implements Serializable {
 
 	public void setDraft(String draft) {
 		this.draft = draft;
+	}
+	
+	
+	public int getTransactionidEdit() {
+		return transactionidEdit;
+	}
+
+	public void setTransactionidEdit(int transactionidEdit) {
+		this.transactionidEdit = transactionidEdit;
+	}
+
+	public int getFee_amount_edit() {
+		return fee_amount_edit;
+	}
+
+	public void setFee_amount_edit(int fee_amount_edit) {
+		this.fee_amount_edit = fee_amount_edit;
+	}
+	
+	public boolean isEditEnabled() {
+		return editEnabled;
+	}
+
+	public void setEditEnabled(boolean editEnabled) {
+		this.editEnabled = editEnabled;
+	}
+
+	public boolean isEditCompleted() {
+		return editCompleted;
+	}
+
+	public void setEditCompleted(boolean editCompleted) {
+		this.editCompleted = editCompleted;
+	}
+
+	public boolean isPaymentRequired() {
+		return paymentRequired;
+	}
+
+	public void setPaymentRequired(boolean paymentRequired) {
+		this.paymentRequired = paymentRequired;
+	}
+	
+	public boolean isOtpValidated() {
+		return otpValidated;
+	}
+
+	public void setOtpValidated(boolean otpValidated) {
+		this.otpValidated = otpValidated;
+	}
+
+//	public String getPaymentEditStatus() {
+//		return paymentEditStatus;
+//	}
+//
+//	public void setPaymentEditStatus(String paymentEditStatus) {
+//		this.paymentEditStatus = paymentEditStatus;
+//	}
+
+	public String getMobileNumberBackup() {
+		return mobileNumberBackup;
+	}
+
+	public void setMobileNumberBackup(String mobileNumberBackup) {
+		this.mobileNumberBackup = mobileNumberBackup;
+	}
+	
+	public String getPhotoStr() {
+		return photoStr;
+	}
+
+	public void setPhotoStr(String photoStr) {
+		this.photoStr = photoStr;
+	}
+
+	public String getSignStr() {
+		return signStr;
+	}
+
+	public void setSignStr(String signStr) {
+		this.signStr =signStr;
+	}
+	
+	public int getTotalFeeAmount() {
+		return totalFeeAmount;
+	}
+
+	public void setTotalFeeAmount(int totalFeeAmount) {
+		this.totalFeeAmount = totalFeeAmount;
+	}
+	
+	public String getEmailaddressBackup() {
+		return emailaddressBackup;
+	}
+
+	public void setEmailaddressBackup(String emailaddressBackup) {
+		this.emailaddressBackup = emailaddressBackup;
+	}
+
+	public String getPaymentStatusEdit() {
+		return paymentStatusEdit;
+	}
+
+	public void setPaymentStatusEdit(String paymentStatusEdit) {
+		this.paymentStatusEdit = paymentStatusEdit;
 	}
 
 }

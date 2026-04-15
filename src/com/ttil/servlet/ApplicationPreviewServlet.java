@@ -26,6 +26,13 @@ import org.owasp.esapi.ESAPI;
 import com.ttil.bean.ApplicationFormBean;
 import com.ttil.util.StringUtils;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.util.Date;
+import java.util.Properties;
+import org.apache.commons.io.FileUtils;
+import org.apache.tomcat.util.codec.binary.Base64;
+
 /**
  * @author Timing Technologies India Pvt Ltd
  * 
@@ -59,16 +66,66 @@ public class ApplicationPreviewServlet extends HttpServlet {
 			} else {
 				String requestFrom = ESAPI.encoder().encodeForHTMLAttribute(request.getParameter("requestFrom"));
 				// System.out.println("requestFrom="+requestFrom);
+				int app_request_id_session=(Integer)session.getAttribute("app_request_id_session");
 				if (requestFrom != null && "apllicationform".equalsIgnoreCase(requestFrom)) {
 					String requestAppForm = ESAPI.encoder()
 							.encodeForHTMLAttribute((String) session.getAttribute("requestAppForm"));
-					if (requestAppForm != null && "applicationForm".equalsIgnoreCase(requestAppForm)) {
+					if (requestAppForm != null && "applicationForm".equalsIgnoreCase(requestAppForm) && app_request_id_session>0 ) {
+						ApplicationFormBean oldForm=(ApplicationFormBean)session.getAttribute("ApplicationFormBean");
+						
 						applicationFormBean = new ApplicationFormBean();
 						applicationFormBean.setNoOfRequests(1);
 						// LogsGeneration.generateAccessLogWithMobileNumber("ApplicationPreview",applicationFormBean.getMobileNumber(),
 						// request.getRemoteAddr(),request.getHeader("User-Agent"),session.getId());
 
 						/** Page-5 Photo Uploads **/
+						String path=this.getServletContext().getRealPath("path.properties");
+						String imagesPath="";
+						Properties props = new Properties();
+						try
+						{
+							props.load(new FileInputStream(path));
+							imagesPath = props.getProperty("imagesPath");
+						}
+						catch(Exception e)
+						{
+							e.printStackTrace();
+							imagesPath="/opt/apache-tomcat-7.0.42/webapps/ssb_uploads26/candidateImages/MEDICAL/";
+						}
+						
+						Part photoFilePart = request.getPart("photofileData");
+						Part sigFilePart = request.getPart("sigfileData");
+						
+						
+						String photo_type=photoFilePart.getContentType();
+						String sign_type=sigFilePart.getContentType();
+						/*
+						 * System.out.println("photo_type:"+photo_type);
+						 * System.out.println("sign_type:"+sign_type);
+						 */
+						String photoFileName=app_request_id_session+"_photo.jpg";
+						String sigFileName=app_request_id_session+"_sig.jpg";
+						String photoStr="";
+						String signStr="";
+						if(photo_type!=null  && !"application/octet-stream".equalsIgnoreCase(photo_type)){
+							photoStr=this.savePhoto(imagesPath, photoFileName, photoFilePart);
+							applicationFormBean.setPhotoFileName(photoFileName);
+							applicationFormBean.setPhotoStr(photoStr);
+						}
+						else {
+							applicationFormBean.setPhotoFileName(oldForm.getPhotoFileName());
+							applicationFormBean.setPhotoStr(oldForm.getPhotoStr());
+						}
+						if(sign_type!=null  && !"application/octet-stream".equalsIgnoreCase(sign_type)){
+							signStr=this.savePhoto(imagesPath, sigFileName, sigFilePart);
+							applicationFormBean.setSigFileName(sigFileName);
+							applicationFormBean.setSignStr(signStr);
+						}
+						else {
+							applicationFormBean.setSigFileName(oldForm.getSigFileName());
+							applicationFormBean.setSignStr(oldForm.getSignStr());
+						}
+						
 						/*
 						 * String imagesPath=request.getServletContext().getRealPath("candidateImages");
 						 * //System.out.println("***** imagesPath: " + imagesPath);
@@ -88,6 +145,11 @@ public class ApplicationPreviewServlet extends HttpServlet {
 						 */
 
 						/** Page-1 Personal Details **/
+						
+						applicationFormBean.setTransactionidEdit(app_request_id_session);
+						applicationFormBean.setEditEnabled(true);
+						applicationFormBean.setMobileNumberBackup(oldForm.getMobileNumber());
+						applicationFormBean.setEmailaddressBackup(oldForm.getEmailaddress());
 
 						applicationFormBean.setFirst_name(
 								ESAPI.encoder().encodeForHTMLAttribute(request.getParameter("first_name").trim()));
@@ -348,12 +410,21 @@ public class ApplicationPreviewServlet extends HttpServlet {
 						}
 						boolean payExempted = false;
 						int fee_amount = 0;
+						int total_fee_amount=0;
 						if ("Female".equalsIgnoreCase(applicationFormBean.getSex()))
 							payExempted = true;
 						if ("SC".equalsIgnoreCase(applicationFormBean.getCommunity()))
 							payExempted = true;
 						if ("ST".equalsIgnoreCase(applicationFormBean.getCommunity()))
 							payExempted = true;
+						
+//						if(!oldForm.getCommunity().equalsIgnoreCase(applicationFormBean.getCommunity()) && 
+//								oldForm.getCommunity().equalsIgnoreCase("SC") 
+//								|| oldForm.getCommunity().equalsIgnoreCase("ST")  ) { 
+//						}else {
+//							payExempted = true;
+//							
+//						} 
 
 						/*
 						 * if(applicationFormBean.getPost_applied().
@@ -408,13 +479,30 @@ public class ApplicationPreviewServlet extends HttpServlet {
 							applicationFormBean.setNocdesignation2(ESAPI.encoder()
 									.encodeForHTMLAttribute(request.getParameter("nocdesignation2").trim()));
 						}
-						if (payExempted == true) {
-							fee_amount = 0;
-						} else {
-							fee_amount = 100;
+//						if (payExempted == true) {
+//							fee_amount = 0;
+//						} else {
+//							fee_amount = 100;
+//						}
+						
+						if(!payExempted&& oldForm.isPayExempted()){
+							fee_amount=100;
 						}
+						else{
+							fee_amount=0;
+						}
+						
+						total_fee_amount=fee_amount+50;
+						
+						
 						applicationFormBean.setFee_amount(fee_amount);
+						applicationFormBean.setTotalFeeAmount(total_fee_amount);
+						applicationFormBean.setFee_amount_edit(50);
 						applicationFormBean.setPayExempted(payExempted);
+						applicationFormBean.setPaymentRequired(true);
+						
+						
+						
 
 						/** Page-2 Education Qualification **/
 						if (request.getParameter("edu_qual") != null)
@@ -993,21 +1081,26 @@ public class ApplicationPreviewServlet extends HttpServlet {
 		return null;
 	}
 
-	public void savePhoto(String imagesPath, String imageName, Part filePart) {
+	public String savePhoto(String imagesPath, String imageName, Part filePart) {
 		InputStream inputStream = null;
 		OutputStream outputStream = null;
+		ByteArrayOutputStream baos=null;
 		try {
 			File outputFilePath = new File(imagesPath + File.separator + imageName);
 			// System.out.println("***** outputFilePath: " +
 			// outputFilePath.getAbsolutePath());
 			inputStream = filePart.getInputStream();
 			outputStream = new FileOutputStream(outputFilePath);
+			baos=new ByteArrayOutputStream();
 
 			int read = 0;
 			final byte[] bytes = new byte[1024];
 			while ((read = inputStream.read(bytes)) != -1) {
 				outputStream.write(bytes, 0, read);
+				baos.write(bytes, 0, read);
 			}
+			byte[] imageBytes=baos.toByteArray();
+			return "data:image/jpg;base64,"+Base64.encodeBase64String(imageBytes);
 
 		} catch (FileNotFoundException fne) {
 			fne.printStackTrace();
@@ -1031,6 +1124,7 @@ public class ApplicationPreviewServlet extends HttpServlet {
 				}
 			}
 		}
+		return null;
 	}
 
 }

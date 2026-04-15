@@ -13,6 +13,7 @@ public class AppDataBean implements Serializable{
 	private int order_id=0;
 	private int fee_amount=0;
 	private String message=null;
+	private boolean isEdit;
 	public int getTransactionid() {
 		return transactionid;
 	}
@@ -36,6 +37,13 @@ public class AppDataBean implements Serializable{
 	}
 	public void setMessage(String message) {
 		this.message = message;
+	}
+	
+	public boolean isEdit() {
+		return isEdit;
+	}
+	public void setEdit(boolean isEdit) {
+		this.isEdit = isEdit;
 	}
 
 

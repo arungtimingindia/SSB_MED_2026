@@ -63,8 +63,23 @@ public class ApplicationSearchPreviewServlet  extends HttpServlet {
 					
 					AppDataBean appDataBean=new AppDataBean();
 					appDataBean.setTransactionid(applicationFormBean.getTransactionid());
-					appDataBean.setFee_amount(applicationFormBean.getFee_amount());
+//					appDataBean.setFee_amount(applicationFormBean.getTotalFeeAmount());
+//					if(applicationFormBean.isEditCompleted()) {
+//						appDataBean.setEdit(true);
+//					}
+					
+					int feeAmount=0;
+					if(applicationFormBean.isEditCompleted()) {
+						appDataBean.setEdit(true);
+						feeAmount=applicationFormBean.getTotalFeeAmount();
+					}else {
+						feeAmount=applicationFormBean.getFee_amount();
+					}
+					appDataBean.setFee_amount(feeAmount);
+					
 					session.setAttribute("AppDataBean", appDataBean);
+					session.setAttribute("app_request_id_session", appDataBean.getTransactionid());
+					session.setAttribute("requestAppForm", "applicationForm");
 					
 				
 					rd=request.getRequestDispatcher("/pages/applicationStatus.jsp");

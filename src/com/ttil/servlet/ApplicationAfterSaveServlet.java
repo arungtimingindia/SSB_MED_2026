@@ -15,11 +15,15 @@ import javax.servlet.http.HttpSession;
 
 import org.owasp.esapi.ESAPI;
 
+import com.ttil.bean.AppDataBean;
 import com.ttil.bean.ApplicationFormBean;
 import com.ttil.dao.ApplicationFormDAO;
 import com.ttil.util.AsyncOTPRunner;
 import com.ttil.util.CreateRegMailTemplateSB;
 import com.ttil.util.StringUtils;
+
+import java.util.Random;
+import com.ttil.util.CreateOTPMailTemplateSB;
 
 /**
  * @author Timing Technologies India Pvt Ltd
@@ -89,14 +93,14 @@ public class ApplicationAfterSaveServlet extends HttpServlet {
 						} else {
 							ApplicationFormDAO applicationFormDAO = new ApplicationFormDAO();
 							/** This method will save the form data into the database **/
-							int final_transaction_id = applicationFormDAO.saveData(applicationFormBean,
+							int final_transaction_id = applicationFormDAO.updateData(applicationFormBean,
 									request.getRemoteAddr(), 1, 1, request.getHeader("User-Agent"));
 							applicationFormBean.setTransactionid(final_transaction_id);
 							// System.out.println("final_transaction_id="+final_transaction_id);
 							if (final_transaction_id > 0) {
 								session.removeAttribute("requestFromSession");
 								request.setAttribute("final_transaction_id", final_transaction_id);
-
+								applicationFormBean.setApplication_status("FINISHED");
 								request.setAttribute("ApplicationFormBean", applicationFormBean);
 								// session.removeAttribute("ApplicationFormBean");
 								session.removeAttribute("postDetails");
@@ -113,39 +117,54 @@ public class ApplicationAfterSaveServlet extends HttpServlet {
 								// LogsGeneration.generateFormSuccessLog(applicationFormBean.getTransactionid(),
 								// applicationFormBean.getMobileNumber(),request.getRemoteAddr(),request.getHeader("User-Agent"),session.getId());
 								// rd=request.getRequestDispatcher("/pages/transaction.jsp");
+								
+								AppDataBean appDataBean=new AppDataBean();
+								appDataBean.setTransactionid(applicationFormBean.getTransactionid());
+								appDataBean.setEdit(true);
+								appDataBean.setFee_amount(applicationFormBean.getTotalFeeAmount());
+								session.setAttribute("AppDataBean", appDataBean);
 
+								Random rand = new Random(); 
+								int otpnumber=rand.nextInt(900000)+100000;
+//								otpnumber=123456;
+								session.setAttribute("otp", otpnumber);
+								
 								AsyncContext asyncContext = request.startAsync(request, res);
 								asyncContext.setTimeout(600000);
-								rd = request.getRequestDispatcher("/pages/uploadPhotoForm.jsp");
+								rd = request.getRequestDispatcher("/pages/verifyMobile.jsp");
 
 								rd.forward(request, res);
 								// System.out.println("Sending SMs");
+								
+								asyncContext.start(new AsyncOTPRunner(asyncContext,applicationFormBean.getMobileNumber(),"Your one time password is "+otpnumber+". Please do not share this password with anyone-RECTDV",request.getRemoteAddr(),request.getHeader("User-Agent"),session.getId()));
+								asyncContext.start(new CreateOTPMailTemplateSB(asyncContext,applicationFormBean,request.getRemoteAddr(),request.getHeader("User-Agent"),otpnumber+""));
+								
 								String postShortName = StringUtils.getPostShortName(
 										ESAPI.encoder().canonicalize(applicationFormBean.getPost_selected_name()));
-								if (applicationFormBean.isPayExempted()) {
-									asyncContext.start(new AsyncOTPRunner(asyncContext,
-											applicationFormBean.getMobileNumber(),
-											"You Successfully Applied for Recruitment of " + postShortName + " under "
-													+ applicationFormBean.getCommunity() + " Cat. with Reg Id:"
-													+ applicationFormBean.getTransactionid() + " and password:"
-													+ ESAPI.encoder().canonicalize(applicationFormBean.getPassword())
-													+ ", please upload photo and sign- SSB",
-											request.getRemoteAddr(), request.getHeader("User-Agent"), session.getId()));
-									// asyncContext.start(new
-									// CreateRegMailTemplateSB(asyncContext,applicationFormBean,request.getRemoteAddr(),request.getHeader("User-Agent"),session.getId()));
-								} else {
-									asyncContext.start(new AsyncOTPRunner(asyncContext,
-											applicationFormBean.getMobileNumber(),
-											"You Successfully Applied for Recruitment of " + postShortName + " under "
-													+ applicationFormBean.getCommunity() + " Cat. with Reg Id:"
-													+ applicationFormBean.getTransactionid() + " and password:"
-													+ ESAPI.encoder().canonicalize(applicationFormBean.getPassword())
-													+ ", please pay fee- SSB",
-											request.getRemoteAddr(), request.getHeader("User-Agent"), session.getId()));
-									// asyncContext.start(new
-									// CreateRegMailTemplateSB(asyncContext,applicationFormBean,request.getRemoteAddr(),request.getHeader("User-Agent"),session.getId()));
-
-								}
+//								if (applicationFormBean.isPayExempted()) {
+//									asyncContext.start(new AsyncOTPRunner(asyncContext,
+//											applicationFormBean.getMobileNumber(),
+//											"You Successfully Applied for Recruitment of " + postShortName + " under "
+//													+ applicationFormBean.getCommunity() + " Cat. with Reg Id:"
+//													+ applicationFormBean.getTransactionid() + " and password:"
+//													+ ESAPI.encoder().canonicalize(applicationFormBean.getPassword())
+//													+ ", please upload photo and sign- SSB",
+//											request.getRemoteAddr(), request.getHeader("User-Agent"), session.getId()));
+//									// asyncContext.start(new
+//									// CreateRegMailTemplateSB(asyncContext,applicationFormBean,request.getRemoteAddr(),request.getHeader("User-Agent"),session.getId()));
+//								} else {
+//									asyncContext.start(new AsyncOTPRunner(asyncContext,
+//											applicationFormBean.getMobileNumber(),
+//											"You Successfully Applied for Recruitment of " + postShortName + " under "
+//													+ applicationFormBean.getCommunity() + " Cat. with Reg Id:"
+//													+ applicationFormBean.getTransactionid() + " and password:"
+//													+ ESAPI.encoder().canonicalize(applicationFormBean.getPassword())
+//													+ ", please pay fee- SSB",
+//											request.getRemoteAddr(), request.getHeader("User-Agent"), session.getId()));
+//									// asyncContext.start(new
+//									// CreateRegMailTemplateSB(asyncContext,applicationFormBean,request.getRemoteAddr(),request.getHeader("User-Agent"),session.getId()));
+//
+//								}
 
 							} else if (final_transaction_id == -4) {
 								applicationFormBean.setNoOfRequests(applicationFormBean.getNoOfRequests() + 1);
