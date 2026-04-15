@@ -317,6 +317,36 @@
     <url-pattern>/changePost</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+    <servlet-name>applicationFormEdit</servlet-name>
+    <servlet-class>com.ttil.servlet.ApplicationFormEditServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>applicationFormEdit</servlet-name>
+    <url-pattern>/applicationFormEdit</url-pattern>
+</servlet-mapping>
+
+<servlet>
+    <servlet-name>ShowVerifyMobileServlet</servlet-name>
+    <servlet-class>com.ttil.servlet.ShowVerifyMobileEmailServlet</servlet-class>
+     <async-supported>true</async-supported>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ShowVerifyMobileServlet</servlet-name>
+    <url-pattern>/showVerificationForm</url-pattern>
+  </servlet-mapping>
+
+ <servlet>
+    <servlet-name>VerifyMobileServlet</servlet-name>
+    <servlet-class>com.ttil.servlet.VerifyMobileEmailServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>VerifyMobileServlet</servlet-name>
+    <url-pattern>/verifymobile</url-pattern>
+  </servlet-mapping>
+  
  <!--   
   <servlet>
     <servlet-name>ApplicationOtp</servlet-name>

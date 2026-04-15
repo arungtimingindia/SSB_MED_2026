@@ -63,11 +63,11 @@ public class ApplicationSaveServlet  extends HttpServlet {
 							List<String> messageOb = new ArrayList<String>();
 							ServerSideSanitizationValidation serverSideSanitizationValidation=new ServerSideSanitizationValidation();
 							serverSideSanitizationValidation.checkValidation(applicationFormBean, messageOb);
-							if(applicationFormBean.getPassword()==null || "".equalsIgnoreCase(applicationFormBean.getPassword().trim())){
-								messageOb.add("Password is Empty, please set password");
-							}else if (!applicationFormBean.getPassword().equalsIgnoreCase(applicationFormBean.getConfirm_password())){
-								messageOb.add("Password is not same as Confirm Password");
-							}
+//							if(applicationFormBean.getPassword()==null || "".equalsIgnoreCase(applicationFormBean.getPassword().trim())){
+//								messageOb.add("Password is Empty, please set password");
+//							}else if (!applicationFormBean.getPassword().equalsIgnoreCase(applicationFormBean.getConfirm_password())){
+//								messageOb.add("Password is not same as Confirm Password");
+//							}
 							if(messageOb!=null && messageOb.size()>0)
 							{
 								request.setAttribute("messageOb", messageOb);

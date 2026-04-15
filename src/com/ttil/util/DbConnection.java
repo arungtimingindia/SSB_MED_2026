@@ -17,7 +17,7 @@ public class DbConnection {
 			Context envContext = (Context) initContext.lookup("java:/comp/env"); 
 			DataSource ds = null;
 			if (envContext != null) {
-				ds = (DataSource) envContext.lookup("jdbc/SSBADVT_1_MEDICAL_26");
+				ds = (DataSource) envContext.lookup("jdbc/SSBADVT_1_MEDICAL_26_EDIT");
 			}
 			if (ds != null) {
 				conn = ds.getConnection();
@@ -46,7 +46,7 @@ public class DbConnection {
 			Context envContext = (Context) initContext.lookup("java:/comp/env");
 			DataSource ds = null;
 			if (envContext != null) {
-				ds = (DataSource) envContext.lookup("jdbc/SSBADVT_1_MEDICAL_26"); 
+				ds = (DataSource) envContext.lookup("jdbc/SSBADVT_1_MEDICAL_26_EDIT"); 
 			}
 			if (ds != null) {
 				conn = ds.getConnection();
@@ -72,7 +72,7 @@ public class DbConnection {
 			Context envContext = (Context) initContext.lookup("java:/comp/env");
 			DataSource ds = null;
 			if (envContext != null) {
-				ds = (DataSource) envContext.lookup("jdbc/SSBADVT_1_MEDICAL_26");
+				ds = (DataSource) envContext.lookup("jdbc/SSBADVT_1_MEDICAL_26_EDIT");
 			}
 			if (ds != null) {
 				conn = ds.getConnection();

@@ -269,6 +269,10 @@ public class ApplicationSearchDAO {
 					applicationFormBean.setDate_created(rs.getString("date_created_format"));
 					applicationFormBean.setPayExempted(rs.getBoolean("payment_exempted"));
 					applicationFormBean.setFee_amount(rs.getInt("fee_amount"));
+					
+					applicationFormBean.setTotalFeeAmount(rs.getInt("total_fee_amount"));
+					applicationFormBean.setFee_amount_edit(rs.getInt("fee_amount_edit"));
+					applicationFormBean.setPaymentStatusEdit(rs.getString("payment_status_edit"));
 					// boolean is_rejected=rs.getBoolean("is_rejected");
 					// applicationFormBean.setIs_rejected(is_rejected);
 
@@ -303,6 +307,8 @@ public class ApplicationSearchDAO {
 					applicationFormBean.setIdentity_type(rs.getString("identity_type"));
 					applicationFormBean.setIdentification_mark(rs.getString("identification_mark"));
 					applicationFormBean.setMobileNumber(rs.getString("mobileNumber"));
+					applicationFormBean.setMobileNumberBackup(rs.getString("mobile_number_backup"));
+					applicationFormBean.setEmailaddressBackup(rs.getString("email_address_backup"));
 					applicationFormBean.setEmailaddress(rs.getString("emailaddress"));
 					applicationFormBean.setCommunity(rs.getString("community"));
 					applicationFormBean.setCategory(rs.getString("category"));
@@ -325,12 +331,20 @@ public class ApplicationSearchDAO {
 					applicationFormBean.setState1(rs.getString("state1"));
 					applicationFormBean.setDistrict1(rs.getString("district1"));
 					applicationFormBean.setPincode1(rs.getString("pincode1"));
+					applicationFormBean.setCorrespondence_address(rs.getBoolean("correspondance_address"));
 					applicationFormBean.setPost_id(rs.getInt("post_id"));
 					applicationFormBean.setOrg_id(rs.getInt("org_id"));
 					applicationFormBean.setEdu_qual(rs.getString("edu_qual"));
 
 					applicationFormBean.setPhotoFileName(rs.getString("photo_file_name"));
 					applicationFormBean.setSigFileName(rs.getString("signature_file_name"));
+					
+					applicationFormBean.setPhotoStr("data:image/jpg;base64,"+StringUtils.imageUrlToBase64("https://applyssb.com/ssb_uploads26/candidateImages/MEDICAL/"+applicationFormBean.getPhotoFileName()));
+					applicationFormBean.setSignStr("data:image/jpg;base64,"+StringUtils.imageUrlToBase64("https://applyssb.com/ssb_uploads26/candidateImages/MEDICAL/"+applicationFormBean.getSigFileName()));
+					applicationFormBean.setEditEnabled(rs.getBoolean("edit_enabled"));
+					applicationFormBean.setEditCompleted(rs.getBoolean("edit_completed"));
+					applicationFormBean.setPaymentRequired(rs.getBoolean("payment_required"));
+					applicationFormBean.setOtpValidated(rs.getBoolean("otp_verified"));
 
 					applicationFormBean.setOther_nationality(rs.getString("other_nationality"));
 					/*
@@ -402,8 +416,8 @@ public class ApplicationSearchDAO {
 					while (rs5.next()) {
 						applicationFormBean.setExamorganizer(rs5.getString("exam_organizer"));
 						applicationFormBean.setExamname(rs5.getString("exam_name"));
-						applicationFormBean.setExamdate(rs5.getString("exam_date"));
-						applicationFormBean.setDebarenddate(rs5.getString("debarment_date"));
+						applicationFormBean.setExamdate(StringUtils.changeDateFormatDMY(rs5.getString("exam_date")));
+						applicationFormBean.setDebarenddate(StringUtils.changeDateFormatDMY(rs5.getString("debarment_date")));
 						applicationFormBean.setDebar_reason(rs5.getString("reason"));
 						applicationFormBean.setOther_reason(applicationFormBean.getDebar_reason());
 					}
@@ -413,7 +427,7 @@ public class ApplicationSearchDAO {
 					pstmt1 = con.prepareStatement(query_check);
 					rs1 = pstmt1.executeQuery();
 					while (rs1.next()) {
-						applicationFormBean.setFirdate(rs1.getString("fir_date"));
+						applicationFormBean.setFirdate(StringUtils.changeDateFormatDMY(rs1.getString("fir_date")));
 						applicationFormBean.setFirdistrict(rs1.getString("fir_district"));
 						applicationFormBean.setFirstatus(rs1.getString("fir_status"));
 						applicationFormBean.setFirsection(rs1.getString("fir_section"));
@@ -425,7 +439,7 @@ public class ApplicationSearchDAO {
 					pstmt3 = con.prepareStatement(query_check);
 					rs3 = pstmt3.executeQuery();
 					while (rs3.next()) {
-						applicationFormBean.setEmp_date_since(rs3.getString("emp_date"));
+						applicationFormBean.setEmp_date_since(StringUtils.changeDateFormatDMY(rs3.getString("emp_date")));
 						applicationFormBean.setPost_held(rs3.getString("post_held"));
 						applicationFormBean.setNocdesignation(rs3.getString("noc_designation"));
 						applicationFormBean.setPresent_employer(rs3.getString("emp_name"));
@@ -444,8 +458,8 @@ public class ApplicationSearchDAO {
 						applicationFormBean.setExman_awd_dec(rs2.getString("award_decoration"));
 						applicationFormBean.setExman_discharge_reason(rs2.getString("discharge_reason"));
 						applicationFormBean.setExman_edu_qual(rs2.getString("edu_qual"));
-						applicationFormBean.setExman_enrollment_date(rs2.getString("date_enrollment"));
-						applicationFormBean.setExman_retirement_date(rs2.getString("date_retirement"));
+						applicationFormBean.setExman_enrollment_date(StringUtils.changeDateFormatDMY(rs2.getString("date_enrollment")));
+						applicationFormBean.setExman_retirement_date(StringUtils.changeDateFormatDMY(rs2.getString("date_retirement")));
 					}
 					if (rs2 != null)
 						rs2.close();
@@ -843,6 +857,61 @@ public class ApplicationSearchDAO {
 				String exceptionAsString = sw.toString();
 				// LogsGeneration.generateErrorLogsWithMobileNumber("MobileVerifyDAO in
 				// Finally", exceptionAsString, null, null, null);
+			}
+		}
+	}
+	
+	public String getPaymentStatusEdit(int transactionid)
+	{
+		Connection con=null;
+		String query_check=null;
+		PreparedStatement pstmt1=null;
+		ResultSet rs=null;
+		String application_status="",payment_status_edit=null;
+		try{
+			con=DbConnection.setupRepoDataSource();
+			if(con!=null)
+			{
+				query_check="select transactionid,application_status,payment_status_edit from applicants WHERE transactionid=? ";
+				pstmt1=con.prepareStatement(query_check);
+				pstmt1.setInt(1, transactionid);
+				rs=pstmt1.executeQuery();
+				if(rs.next())
+				{
+					payment_status_edit=rs.getString("payment_status_edit");
+					return payment_status_edit;
+				}else{
+					return null;
+				}
+			}else{
+				//LogsGeneration.generateErrorLogsWithMobileNumber("MobileVerifyDAO", "Connection is null in DAO", null, null, null);
+				return null;
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			StringWriter sw = new StringWriter();
+			e.printStackTrace(new PrintWriter(sw));
+			String exceptionAsString = sw.toString();
+			//LogsGeneration.generateErrorLogs("PaymentStatus Catch",exceptionAsString, null,transactionid, null, null);
+			return null;
+		}
+		finally{
+			try{
+				if(rs!=null)
+					rs.close();
+				if(pstmt1!=null)
+					pstmt1.close();
+				if(con!=null && !con.isClosed())
+					con.close();
+			}
+			catch(Exception e)
+			{
+				StringWriter sw = new StringWriter();
+				e.printStackTrace(new PrintWriter(sw));
+				String exceptionAsString = sw.toString();
+				//LogsGeneration.generateErrorLogsWithMobileNumber("MobileVerifyDAO in Finally", exceptionAsString, null, null, null);
 			}
 		}
 	}

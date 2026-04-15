@@ -246,9 +246,9 @@ public class ServerSideSanitizationValidation {
 
 			boolean pwd_status = ESAPI.validator().isValidInput("ServerSideTest", applicationFormBean.getPassword(),
 					CharsNumbersAndSpecialChars, 6, false);
-			if (!pwd_status) {
-				messageOb.add("Please Provide Valid input in Password (6 Characters only).");
-			}
+//			if (!pwd_status) {
+//				messageOb.add("Please Provide Valid input in Password (6 Characters only).");
+//			}
 			/*
 			 * if(!(("true".equalsIgnoreCase(applicationFormBean.getJk_domiciledS())) ||
 			 * ("false".equalsIgnoreCase(applicationFormBean.getJk_domiciledS())))) {
@@ -368,14 +368,15 @@ public class ServerSideSanitizationValidation {
 								"10+2 Certificate Issued Date / Passing Year & Date should be less than or equal to "
 										+ notEndDate); // 18-06-2023
 					}
-					if (edu1 == true) {
-						if (!dateDiff(date_ug, em2)) {
-							messageOb.add(
-									"10+2 Certificate Issued Date should be atleast 2 year after Matriculation Passing Date");
-
-						}
-
-					}
+					/*
+					 * if (edu1 == true) { if (!dateDiff(date_ug, em2)) { messageOb.add(
+					 * "10+2 Certificate Issued Date should be atleast 2 year after Matriculation Passing Date"
+					 * );
+					 * 
+					 * }
+					 * 
+					 * }
+					 */
 					if (Double.parseDouble(edm2) > 100 || Double.parseDouble(edm2) <= 0) {
 						messageOb.add("Please select valid aggregate percentage of marks for 10+2 Certificate");
 					}

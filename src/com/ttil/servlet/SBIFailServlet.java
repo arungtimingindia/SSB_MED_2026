@@ -70,6 +70,7 @@ public class SBIFailServlet extends HttpServlet {
 				ApplicationSearchDAO applicationSearchDAO = new ApplicationSearchDAO();
 
 				String payment_status = null;
+				String payment_status_edit=null;
 				payment_status = applicationSearchDAO.getPaymentStatus(res_transactionid);
 
 				ApplicationFormBean applicationFormBean = (ApplicationFormBean) session
@@ -79,28 +80,97 @@ public class SBIFailServlet extends HttpServlet {
 				 * then it will do nothing other wise
 				 * it will fetch full candidate details
 				 */
-				if (applicationFormBean != null && res_transactionid == applicationFormBean.getTransactionid()) {
-				} else {
-					applicationFormBean = applicationSearchDAO.getData(res_transactionid, "Post");
+//				if (applicationFormBean != null && res_transactionid == applicationFormBean.getTransactionid()) {
+//				} else {
+//					applicationFormBean = applicationSearchDAO.getData(res_transactionid, "Post");
+//					session.setAttribute("ApplicationFormBean", applicationFormBean);
+//				}
+				
+				if(applicationFormBean!=null && res_transactionid==applicationFormBean.getTransactionid())
+				{
+					payment_status_edit=applicationSearchDAO.getPaymentStatusEdit(res_transactionid);
+					payment_status=applicationSearchDAO.getPaymentStatus(res_transactionid);
+				}else{
+					applicationFormBean=applicationSearchDAO.getData( res_transactionid,"post");
 					session.setAttribute("ApplicationFormBean", applicationFormBean);
+					payment_status=applicationFormBean.getPayment_status();
+					payment_status_edit=applicationFormBean.getPaymentStatusEdit();
 				}
 				/**
 				 * First will check weather any earlier payments successful or not. If
 				 * successful then redirects to success page otherwise save the payment details
 				 * into database and redirects to Failure page
 				 **/
-
-				if (payment_status != null && "SUCCESS".equalsIgnoreCase(payment_status)) {
-					applicationFormBean.setPayment_status(payment_status);
-					session.setAttribute("requestFromSession1", "SBIPayment");
-					session.setAttribute("SBIPayTransactionId", applicationFormBean.getTransactionid());
-					res.sendRedirect("paymentSuccess");
+				
+				boolean updatePayment=false;
+				
+				if (applicationFormBean.isEditCompleted()) {
+					if(payment_status_edit!=null &&  "SUCCESS".equalsIgnoreCase(payment_status_edit)){
+						applicationFormBean.setPaymentStatusEdit(payment_status_edit);
+					} else {
+						applicationFormBean.setPaymentStatusEdit(res_status);
+						updatePayment=true;
+					
+					}
 				} else {
+					if (payment_status != null && "SUCCESS".equalsIgnoreCase(payment_status)) {
+						applicationFormBean.setPayment_status(payment_status);
+						
+					} else {
+						applicationFormBean.setPayment_status(res_status);
+						updatePayment=true;
+						
+					}
+				}
 
-					PaymentBean paymentBean = new PaymentBean();
-					// LogsGeneration.generateAccessLog("SBI Payment
-					// Success",applicationFormBean.getMobileNumber(),applicationFormBean.getTransactionid(),
-					// req.getRemoteAddr(),req.getHeader("User-Agent"),session.getId());
+//				if (payment_status != null && "SUCCESS".equalsIgnoreCase(payment_status)) {
+//					applicationFormBean.setPayment_status(payment_status);
+//					session.setAttribute("requestFromSession1", "SBIPayment");
+//					session.setAttribute("SBIPayTransactionId", applicationFormBean.getTransactionid());
+//					res.sendRedirect("paymentSuccess");
+//				} else {
+//
+//					PaymentBean paymentBean = new PaymentBean();
+//					// LogsGeneration.generateAccessLog("SBI Payment
+//					// Success",applicationFormBean.getMobileNumber(),applicationFormBean.getTransactionid(),
+//					// req.getRemoteAddr(),req.getHeader("User-Agent"),session.getId());
+//					paymentBean.setRes_transactionid(res_transactionid);
+//					paymentBean.setRes_orderid(res_order_id);
+//					paymentBean.setRes_amount(res_amount);
+//					paymentBean.setRes_bank_ref_id(res_bank_ref_id);
+//					paymentBean.setRes_bank_ref_no(res_bank_ref_no);
+//					paymentBean.setRes_bankCode(res_bankCode);
+//					paymentBean.setRes_cin(res_cin);
+//					paymentBean.setRes_paymode(res_paymode);
+//					paymentBean.setRes_reason(res_reason);
+//					paymentBean.setRes_status(res_status);
+//					paymentBean.setRes_trans_date_time(res_trans_date_time);
+//					paymentBean.setBank_response(DecryptTrans);
+//					paymentBean.setResponseType("Browser Response");
+//					paymentBean.setCurrency(currency);
+//					paymentBean.setCountry(country);
+//					// paymentBean.setOther_details(other_details);
+//					paymentBean.setTrans_fee(trans_fee);
+//					paymentBean.setMerchantId(merchantId);
+//					applicationFormBean.setPayment_status(paymentBean.getRes_status());
+//
+//					/** This method will save the payment data into the database **/
+//					applicationFormDAO.saveSBIPaymentsData(paymentBean, applicationFormBean, req.getRemoteAddr());
+//
+//					req.setAttribute("responseHS", "");
+//					req.setAttribute("bank_ref_no", "");
+//					req.setAttribute("order_id", res_order_id + "".toString());
+//					req.setAttribute("failure_message", res_reason);
+//					req.setAttribute("status_message", "");
+//					req.setAttribute("order_status", res_status);
+//
+//					rd = req.getRequestDispatcher("/pages/sbifail.jsp");
+//					rd.forward(req, res);
+//				}
+				
+				if(updatePayment) {
+					PaymentBean paymentBean=new PaymentBean();
+					//LogsGeneration.generateAccessLog("SBI Payment Success",applicationFormBean.getMobileNumber(),applicationFormBean.getTransactionid(), req.getRemoteAddr(),req.getHeader("User-Agent"),session.getId());
 					paymentBean.setRes_transactionid(res_transactionid);
 					paymentBean.setRes_orderid(res_order_id);
 					paymentBean.setRes_amount(res_amount);
@@ -116,23 +186,17 @@ public class SBIFailServlet extends HttpServlet {
 					paymentBean.setResponseType("Browser Response");
 					paymentBean.setCurrency(currency);
 					paymentBean.setCountry(country);
-					// paymentBean.setOther_details(other_details);
+					//paymentBean.setOther_details(other_details);
 					paymentBean.setTrans_fee(trans_fee);
 					paymentBean.setMerchantId(merchantId);
-					applicationFormBean.setPayment_status(paymentBean.getRes_status());
-
-					/** This method will save the payment data into the database **/
 					applicationFormDAO.saveSBIPaymentsData(paymentBean, applicationFormBean, req.getRemoteAddr());
-
-					req.setAttribute("responseHS", "");
-					req.setAttribute("bank_ref_no", "");
-					req.setAttribute("order_id", res_order_id + "".toString());
-					req.setAttribute("failure_message", res_reason);
-					req.setAttribute("status_message", "");
-					req.setAttribute("order_status", res_status);
-
-					rd = req.getRequestDispatcher("/pages/sbifail.jsp");
+					rd=req.getRequestDispatcher("/pages/sbifail.jsp");
 					rd.forward(req, res);
+				}
+				else {
+					session.setAttribute("requestFromSession1", "SBIPayment");
+					session.setAttribute("SBIPayTransactionId", applicationFormBean.getTransactionid());
+					res.sendRedirect("paymentSuccess");
 				}
 			} else {
 				rd = req.getRequestDispatcher("/pages/sbifail.jsp");

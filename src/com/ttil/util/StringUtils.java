@@ -5,6 +5,26 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import org.owasp.esapi.ESAPI;
+import org.owasp.esapi.errors.EncodingException;
+
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URL;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+
+import org.apache.tomcat.util.codec.binary.Base64; 
+
 public class StringUtils {
 
 	public static String getMonth(String id) {
@@ -313,5 +333,44 @@ public class StringUtils {
 		// System.out.println(StringUtils.changeDateFormatYMD("14-Jun-1992"));
 		// System.out.println(StringUtils.changeDateFormatYMD("23-Mar-1997"));
 	}
+	
+	public static String getDecodedField(String col) throws EncodingException {
+		return ESAPI.encoder().canonicalize(col)==null?"":ESAPI.encoder().canonicalize(col);
+	}
+	
+	public static String imageUrlToBase64(String imageUrl) {
+        try {
+            URL url = new URL(imageUrl);
+            InputStream inputStream = url.openStream();
+
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            byte[] buffer = new byte[4096];
+            int n;
+            while ((n = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, n);
+            }
+            byte[] imageBytes = outputStream.toByteArray();
+
+            return Base64.encodeBase64String(imageBytes);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+	public static String encrypt(String input)
+			throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException,
+			InvalidKeyException, BadPaddingException, IllegalBlockSizeException, UnsupportedEncodingException {
+		String k = "TTILCBTADMIN1234";
+		SecretKey key = new SecretKeySpec(k.getBytes(), "AES");
+		Cipher cipher = Cipher.getInstance("AES");
+		cipher.init(1, key);
+		byte[] byteInfo = input.getBytes("UTF8");
+		byte[] cipherText = cipher.doFinal(byteInfo);
+		return Base64.encodeBase64String(cipherText);
+	}
+	
+	
 
 }
