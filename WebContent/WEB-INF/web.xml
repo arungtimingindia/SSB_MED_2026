@@ -340,7 +340,7 @@
  <servlet>
     <servlet-name>VerifyMobileServlet</servlet-name>
     <servlet-class>com.ttil.servlet.VerifyMobileEmailServlet</servlet-class>
-    <load-on-startup>1</load-on-startup>
+   <!--  <load-on-startup>1</load-on-startup> -->
   </servlet>
   <servlet-mapping>
     <servlet-name>VerifyMobileServlet</servlet-name>

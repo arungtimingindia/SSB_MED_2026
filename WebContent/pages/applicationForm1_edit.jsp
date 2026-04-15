@@ -80,7 +80,8 @@ display:none
 		var dateSincemaxDate = "20-04-2023"; //dept.
 		var lessEqualCheck = "21-04-2026"; //app last date +1 (education certificates validation)
 		
-	$(function() { 
+	$(function() {
+		var isPhotoReq=false;
 		//var changeMonth = $( ".selector" ).datepicker( "option", "changeMonth" );
 		//var changeYear = $( ".selector" ).datepicker( "option", "changeYear" );
 		//var minDate = $( ".selector" ).datepicker( "option", "minDate" );
@@ -1223,6 +1224,35 @@ $("#thirdDivNext").click(function() {
 	}else{
 	    var agree_save = document.applicationForm.agree_save.checked;
 	    var agree_save1 = document.applicationForm.agree_save1.checked;
+	    if(document.applicationForm.isPhotoReq.value=='true'){
+			var image = document.getElementById("photosrc").value;
+			if(image==""){
+				alert("Please select Photograph");
+				return false;
+			}
+			else {
+				var checkimg = image.toLowerCase();
+				if (!checkimg.match(/(\.jpg|\.JPG|\.jpeg|\.JPEG|\.png|\.PNG)$/)) {
+					alert("Please select .jpg/.png images only.");
+					document.getElementById("photosrc").focus();
+					return false;
+				}
+			}
+			var image1 = document.getElementById("sigsrc").value;
+			if(image1==""){
+				alert("Please select Signature");
+				return false;
+			}
+			else {
+				var checkimg = image1.toLowerCase();
+				if (!checkimg.match(/(\.jpg|\.JPG|\.jpeg|\.JPEG|\.png|\.PNG)$/)) {
+					alert("Please select .jpg/.png images only.");
+					document.getElementById("sigsrc").focus();
+					return false;
+				}
+			}
+		}
+	    
 		if (agree_save == true && agree_save1 == true) { 
 			if(secondPagevalidation()){
 	    		if((firstPagevalidation)){
@@ -3253,6 +3283,11 @@ function getAgeOfTwoDates(date1,date2) {
 					var reader = new FileReader();
 					reader.onload = function(e) {
 						$('#photoblah').attr('src', e.target.result);
+						
+						if(document.applicationForm.isPhotoReq.value!='true'){
+							$('#oldsign').show()
+							}
+						
 					};
 					reader.readAsDataURL(input.files[0]);
 			    }
@@ -3326,6 +3361,7 @@ function getAgeOfTwoDates(date1,date2) {
 														
 											<tr>
 												<td class="bdr"><h2>Personal Details</h2>
+												<input type=hidden name=isPhotoReq value=false/>
 													<input type=hidden name=requestFrom value="apllicationform" />
 													<input type=hidden name=age id=age value="0" />
 													<input type=hidden name="post_selected_name" id="post_selected_name" value="Head Constable (Ministerial)" />
@@ -5547,6 +5583,8 @@ function fillform() {
 					document.applicationForm.firdistrict.value='<%=StringUtils.getDecodedField(afb.getFirdistrict())%>';
 					document.applicationForm.firstatus.value='<%=StringUtils.getDecodedField(afb.getFirstatus())%>';
 					<%}%>
+					
+					document.applicationForm.isPhotoReq.value='<%="NEW".equalsIgnoreCase(afb.getApplication_status())%>';
 		 
 			 
 			

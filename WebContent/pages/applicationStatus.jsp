@@ -1105,97 +1105,14 @@
           </td>
           </tr>   
           
-          <%-- <tr>
+           <tr>
             <td colspan="2" align="center" valign="middle">
             
             <table width="95%" border="0" align="center" cellpadding="5" cellspacing="0" >
-
-				           <tr>
-							   <td colspan="2" align="left" valign="middle">
-							      <table width="100%" border="0" align="center" cellpadding="5" cellspacing="0">
-							   <%if(applicationFormBean.getApplication_status()!=null && applicationFormBean.getApplication_status().equalsIgnoreCase("NEW")) {%>
-							  <tr>
-					            <td colspan="2" height="70"  align="left" valign="middle" class="bdr"><div align="center" class="transpagestyle3">
-								You have filled in the Application Form, But Photo and Signature Not Uploaded.</div></td>
-					          </tr>
-							 
-							  <tr>
-							    <td><div class="buttonWrapper" style="margin:20px 0px 0px 0px;"> 
-							            <input type="button" class="nextbutton appFormBtmRight" value="Upload Photo &amp; Signature" onClick="uploadPhoto()" style="margin:0px 0px  0px 20px;width:270px;">
-							                        
-							          </div></td>
-							  </tr>
-							  <%} else if(applicationFormBean.getApplication_status()!=null && applicationFormBean.getApplication_status().equalsIgnoreCase("FINISHED")) {
-							  if(applicationFormBean.isPayExempted()==true || "Success".equalsIgnoreCase(applicationFormBean.getPayment_status())){
-							  %>
-							  <tr>
-					            <td colspan="2" height="100"  align="left" valign="middle" class="bdr"><div align="center" class="transpagestyle3">  Your application has been submitted successfully.</div></td>
-					          </tr>
-					          
-								   <tr>
-								   <td>
-					            <input name="formBack0" type="button" class="nextbutton appFormBtmleft" value="Edit Application" alt="Next step" style="width:211px; margin:0px 20px 0px 0px;" onClick="editApplication()" >
-					            </td>
-							    <td><div class="buttonWrapper" style="margin:20px 0px 0px 0px;"> 
-							            <input type="button" class="nextbutton appFormBtmRight" value="Print Acknowledgemnent" onClick="acknoweledgementView()" style="margin:0px 0px  0px 20px;width:270px;">
-							                        
-							          </div></td>
-							  </tr>
-							  
-							 
-								  <%}else{ %>
-								  
-								   <tr>
-					            <td colspan="2" height="70"  align="left" valign="middle" class="bdr"><div align="center" class="transpagestyle3">  Proceed to make Payment - Amount to be paid : <%=applicationFormBean.getFee_amount() %>.</div></td>
-					          </tr>
-					          
-					            <tr>
-					            
-					            <td>
-					            <input name="formBack0" type="button" class="nextbutton appFormBtmleft" value="Edit Application" alt="Next step" style="width:211px; margin:0px 20px 0px 0px;" onClick="editApplication()" >
-					            </td>
-					            
-								    <td><div class="buttonWrapper" style="margin:20px 0px 0px 0px;"> 
-								    <input type="hidden" name="EncryptTrans" value="<%=request.getAttribute("EncryptTrans")%>">
-									<input type="hidden" name="merchIdVal" value="1000420" />
-									<input type="hidden" id="encRequest" name="encRequest" value="<%= request.getAttribute("encRequest") %>">
-		<input type="hidden" name="access_code" id="access_code" value="<%= request.getAttribute("accessCode") %>">
-		
-								                         <!-- <input type="button" class="nextbutton appFormBtmleft" value="Print Acknowledgemnent" onClick="acknoweledgementView()" style="margin:0px 0px  0px 20px;width:250px;"> -->
-								                        <!-- <input name="formBack0" type="button" class="nextbutton appFormBtmRight" value="Pay Online (Option-1)" alt="Next step" style="width:200px; margin:0px 20px 0px 0px;"  onClick="hdfcPayment()"> -->
-								                        <input name="formBack0" type="button" class="nextbutton appFormBtmRight" value="Pay Online" alt="Next step" style="width:211px; margin:0px 20px 0px 0px;" onClick="sbiPayment()" >
-								                        
-								                        
-								                      </div></td>
-								  </tr> 
-								  
-								   
-   							<%} %>
-					          
-							   <%}  else if(applicationFormBean.getApplication_status()!=null && applicationFormBean.getApplication_status().equalsIgnoreCase("COMPLETED")) {%>
-							   <tr>
-					            <td colspan="2" height="100"  align="left" valign="middle" class="bdr"><div align="center" class="transpagestyle3">  Your application has been submitted successfully and payment has been received.</div></td>
-					          </tr>
-					          <tr>
-							    <td><div class="buttonWrapper" style="margin:20px 0px 0px 0px;"> 
-							            <input type="button" class="nextbutton appFormBtmRight" value="Print Acknowledgemnent" onClick="acknoweledgementView()" style="margin:0px 0px  0px 20px;width:270px;">
-							                        
-							          </div></td>
-							  </tr>
-					          
-							   <%} %>
-                            </table>
-                            </td>
-                            </tr>
-					
-						</table>
-					</td>
-			</tr>  --%>
-			
-			<%
+<%
 	boolean editEnabled=applicationFormBean.isEditEnabled();
 	boolean editCompleted=applicationFormBean.isEditCompleted();
- 
+
 	
 	int feeAmount=0;
 	
@@ -1207,13 +1124,13 @@
 	else{
 		paymentNeeded=!applicationFormBean.isPayExempted() && !"Success".equalsIgnoreCase(applicationFormBean.getPayment_status());
 		feeAmount=applicationFormBean.getFee_amount();
-		editEnabled=!paymentNeeded && editEnabled;
+		editEnabled=!paymentNeeded && editEnabled; ;
 	}
 	boolean editable=editEnabled&&!editCompleted;
 	boolean verifyOtp=editEnabled&&editCompleted&&!applicationFormBean.isOtpValidated();
 	
 %>
- 
+
 					 <tr>
 					 	<td colspan="2" align="left" valign="middle">
 				     		 <table width="100%" border="0" align="center" cellpadding="5" cellspacing="0">
@@ -1257,7 +1174,7 @@
 								    
 							
 									
-									<td><div class="buttonWrapper" style="margin:20px 0px 0px 0px;">
+									<td><div class="buttonWrapper" style="margin:20px 0px 0px 0px;"> 
 							            <input type="button" class="nextbutton appFormBtmRight" value="Upload Photo &amp; Signature" onClick="uploadPhoto()" style="margin:0px 0px  0px 20px;width:270px;">
 							                        
 							          </div></td>
@@ -1265,13 +1182,13 @@
 								else if(applicationFormBean.getApplication_status()!=null && applicationFormBean.getApplication_status().equalsIgnoreCase("FINISHED"))
 								{%>
 									<%if(editable){%>
-									 	<td>  <div class="buttonWrapper" style="margin:20px 0px 0px 0px;">
+									 	<td>  <div class="buttonWrapper" style="margin:20px 0px 0px 0px;"> 
 							            <input type="button" class="prevbutton appFormBtmleft" value="Edit Application" onClick="formEdit()" style="margin:0px 0px  0px 20px;width:270px;"></div></td>
 									
 									<%}%>
 									
 									<%if(verifyOtp){%>
-									<td><div class="buttonWrapper" style="margin:20px 0px 0px 0px;">
+									<td><div class="buttonWrapper" style="margin:20px 0px 0px 0px;"> 
 							            <input type="button" class="nextbutton appFormBtmRight" value="Verify Mobile" onClick="verifyMobile()" style="margin:0px 0px  0px 20px;width:270px;">
 							                        
 							          </div></td>
@@ -1281,7 +1198,7 @@
 										
 										<td>
 										
-										<div class="buttonWrapper" style="margin:20px 0px 0px 0px;">
+										<div class="buttonWrapper" style="margin:20px 0px 0px 0px;"> 
 										  <input type="hidden" name="EncryptTrans" value="<%=request.getAttribute("EncryptTrans")%>">
 									<input type="hidden" name="merchIdVal" value="1000420" />
 									<input type="hidden" id="encRequest" name="encRequest" value="<%= request.getAttribute("encRequest") %>">
@@ -1290,7 +1207,7 @@
 							                        
 							          </div></td>
 							          <%}else{%>
-										<td><div class="buttonWrapper" style="margin:20px 0px 0px 0px;">
+										<td><div class="buttonWrapper" style="margin:20px 0px 0px 0px;"> 
 							            <input type="button" class="nextbutton appFormBtmRight" value="Print Acknowledgemnent" onClick="acknoweledgementView()" style="margin:0px 0px  0px 20px;width:270px;">
 							                        
 							          </div></td>
@@ -1302,6 +1219,11 @@
 								</table>
 						</td>
 					</tr>
+				           
+					
+						</table>
+					</td>
+			</tr> 
               
        </table>
          
